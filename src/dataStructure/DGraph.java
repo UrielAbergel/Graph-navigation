@@ -7,9 +7,9 @@ import java.util.List;
 
 
 public class DGraph implements graph{
-	private HashMap<Integer,node_data> GraphMap = new HashMap<>();
-	public static List<edge_data> edgeList = new ArrayList<>();
-
+	public static HashMap<Integer,node_data> GraphMap = new HashMap<>();
+	public static HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
+	public static int MC;
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
@@ -30,14 +30,15 @@ public class DGraph implements graph{
 
 	@Override
 	public void addNode(node_data n) {
+		MC++;
 		this.GraphMap.put(n.getKey(),n);
 	}
 
 	@Override
 	public void connect(int src, int dest, double w) {
+		MC++;
 		EdgeData edge = new EdgeData(src,dest,w);
 		NodeData theNewSrc = (NodeData) this.getNode(src);
-		NodeData theNewDest = (NodeData) this.getNode(dest);
 		if(theNewSrc.HM.containsKey(dest)){
 			theNewSrc.HM.replace(dest,edge);
 		}
@@ -51,17 +52,20 @@ public class DGraph implements graph{
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		return edgeList;
+		return edgeHM.values();
 	}
 
 	@Override
 	public node_data removeNode(int key) {
+		MC++;
 		return GraphMap.remove(key);
 	}
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
 		NodeData sorce = (NodeData)GraphMap.get(src);
+		edgeHM.remove(StringToHash(src,dest));
+		MC++;
 		return sorce.removeEdge(dest);
 	}
 
@@ -72,14 +76,16 @@ public class DGraph implements graph{
 
 	@Override
 	public int edgeSize() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return edgeHM.size();
 	}
 
 	@Override
 	public int getMC() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
+		return this.MC;
+	}
+	public static String StringToHash(int src,int dest){
+		return ""+src+","+dest;
+	}
 }

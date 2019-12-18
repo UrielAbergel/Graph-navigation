@@ -13,7 +13,7 @@ public class EdgeData implements edge_data {
         this.dest = dest ;
         this.weight = weight;
         this.Tag = tag;
-        DGraph.edgeList.add(this);
+        DGraph.edgeHM.put(StringToHash(src,dest), this);
     }
     public EdgeData(int src , int dest , double weight){
         this.src = src ;
@@ -21,7 +21,7 @@ public class EdgeData implements edge_data {
         this.weight = weight;
         this.Tag = 0;
 
-        DGraph.edgeList.add(this);
+        DGraph.edgeHM.put(StringToHash(src,dest), this);;
     }
     @Override
     public int getSrc()
@@ -59,5 +59,8 @@ public class EdgeData implements edge_data {
     public void setTag(int t)
     {
     this.Tag = t ;
+    }
+    public static String StringToHash(int src,int dest){
+        return ""+src+","+dest;
     }
 }

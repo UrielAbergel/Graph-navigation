@@ -1,10 +1,7 @@
 package dataStructure;
 
-import org.w3c.dom.Node;
 import utils.Point3D;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class NodeData implements node_data {
     private int key , tag;
@@ -28,7 +25,6 @@ public class NodeData implements node_data {
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
         this.key = keyCounter++;
-
     }
     @Override
     public int getKey() {
@@ -44,6 +40,7 @@ public class NodeData implements node_data {
     public void setLocation(Point3D p) {
      Point3D s = new Point3D(p.x(),p.y(),p.z());
      this.P3D = s ;
+     if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
     }
 
     @Override
@@ -53,6 +50,7 @@ public class NodeData implements node_data {
 
     @Override
     public void setWeight(double w) {
+        if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
         this.weight = w;
     }
 
