@@ -1,44 +1,36 @@
 package dataStructure;
 
-import javax.xml.soap.Node;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class EdgeData implements edge_data {
-    NodeData src , dest;
-    private double weight ;
+    int src , dest;
+    private double weight;
     int Tag ;
-
-
-    public EdgeData(){
-        src = dest = null;
-        weight = 0 ;
-        Tag = 0 ;
-    }
-
-    public EdgeData(NodeData src , NodeData dest , int wei , int tag){
+    public EdgeData(int src , int dest , int weight , int tag){
         this.src = src ;
         this.dest = dest ;
-        this.weight = wei;
+        this.weight = weight;
         this.Tag = tag;
+        DGraph.edgeList.add(this);
     }
-
-    public EdgeData(NodeData src , NodeData dest ){
+    public EdgeData(int src , int dest , int weight){
         this.src = src ;
         this.dest = dest ;
-        this.weight = 0;
+        this.weight = weight;
         this.Tag = 0;
+        DGraph.edgeList.add(this);
     }
-
-
-
     @Override
     public int getSrc()
     {
-        return this.src.getKey();
+        return src;
     }
 
     @Override
     public int getDest() {
-        return this.dest.getKey();
+        return dest;
     }
 
     @Override

@@ -1,16 +1,25 @@
 package dataStructure;
 
+import org.w3c.dom.Node;
 import utils.Point3D;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class NodeData implements node_data {
     private int key , tag;
     private Point3D P3D;
     private double weight = Integer.MAX_VALUE;
-    private String info;
-    private int keyCounter = 1;
-    HashMap<Integer,Double> HM ;
+    private static int keyCounter = 1;
+    private HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+
+    public edge_data getDestEdge(int dest)
+    {
+      return HM.get(dest);
+    }
+    public edge_data removeEdge(int dest){
+        return this.HM.remove(dest);
+    }
     public NodeData(Point3D p){
         this.P3D = p;
         this.key = keyCounter++;
@@ -19,6 +28,7 @@ public class NodeData implements node_data {
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
         this.key = keyCounter++;
+
     }
     @Override
     public int getKey() {
@@ -64,5 +74,26 @@ public class NodeData implements node_data {
     @Override
     public void setTag(int t) {
         this.tag = t;
+    }
+
+    public static void main(String[] args) {
+        NodeData nd = new NodeData(5,5,5);
+        NodeData nd1 = new NodeData(4,4,4);
+        NodeData nd2 = new NodeData(3,3,3);
+        NodeData nd3 = new NodeData(2,2,2);
+//        EdgeData r = new EdgeData(nd ,nd1 ,5 , 0);
+//        EdgeData r1 = new EdgeData(nd ,nd2 ,7 , 0);
+//        EdgeData r2 = new EdgeData(nd ,nd3 ,6 , 0);
+
+//        nd.HM.put(nd1.getKey(), r);
+//        nd.HM.put(3, r2);
+//        nd.HM.put(5, r1);
+//        nd.HM.forEach((k,v) -> System.out.println("the Key :" + k + "The Value: " + v));
+//        for(Integer key : nd.HM.keySet())
+//        {
+//            System.out.println(key);
+//            System.out.println(nd.HM.get(key));
+//        }
+
     }
 }
