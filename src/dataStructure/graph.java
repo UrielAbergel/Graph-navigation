@@ -12,6 +12,8 @@ public interface graph {
 	 * return the node_data by the node_id,
 	 * @param key - the node_id
 	 * @return the node_data by the node_id, null if none.
+	 *
+	 * erwerwe
 	 */
 	public node_data getNode(int key);
 	/**
