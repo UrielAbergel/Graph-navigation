@@ -8,18 +8,19 @@ public class EdgeData implements edge_data {
     int src , dest;
     private double weight;
     int Tag ;
-    public EdgeData(int src , int dest , int weight , int tag){
+    public EdgeData(int src , int dest , double weight , int tag){
         this.src = src ;
         this.dest = dest ;
         this.weight = weight;
         this.Tag = tag;
         DGraph.edgeList.add(this);
     }
-    public EdgeData(int src , int dest , int weight){
+    public EdgeData(int src , int dest , double weight){
         this.src = src ;
         this.dest = dest ;
         this.weight = weight;
         this.Tag = 0;
+
         DGraph.edgeList.add(this);
     }
     @Override

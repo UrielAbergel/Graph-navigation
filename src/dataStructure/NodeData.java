@@ -11,7 +11,7 @@ public class NodeData implements node_data {
     private Point3D P3D;
     private double weight = Integer.MAX_VALUE;
     private static int keyCounter = 1;
-    private HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    public static HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
 
     public edge_data getDestEdge(int dest)
     {

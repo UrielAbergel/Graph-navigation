@@ -35,7 +35,13 @@ public class DGraph implements graph{
 
 	@Override
 	public void connect(int src, int dest, double w) {
-		EdgeData edge = new EdgeData(src,dest,2,0);
+		EdgeData edge = new EdgeData(src,dest,w);
+		NodeData theNewSrc = (NodeData) this.getNode(src);
+		NodeData theNewDest = (NodeData) this.getNode(dest);
+		if(theNewSrc.HM.containsKey(dest)){
+			theNewSrc.HM.replace(dest,edge);
+		}
+		else theNewSrc.HM.put(dest,edge);
 	}
 
 	@Override
