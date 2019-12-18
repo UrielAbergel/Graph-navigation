@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public class NodeData implements node_data {
     private int key , tag;
-    private Point3D P3D;
+    public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
     private static int keyCounter = 1;
-    public static HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    public  HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
 
     public edge_data getDestEdge(int dest)
     {
@@ -40,7 +40,7 @@ public class NodeData implements node_data {
     public void setLocation(Point3D p) {
      Point3D s = new Point3D(p.x(),p.y(),p.z());
      this.P3D = s ;
-     if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
+     //if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NodeData implements node_data {
 
     @Override
     public void setWeight(double w) {
-        if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
+       // if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
         this.weight = w;
     }
 

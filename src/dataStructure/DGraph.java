@@ -7,8 +7,8 @@ import java.util.List;
 
 
 public class DGraph implements graph{
-	public static HashMap<Integer,node_data> GraphMap = new HashMap<>();
-	public static HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
+	public  HashMap<Integer,node_data> GraphMap = new HashMap<>();
+	public  HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
 	public static int MC;
 	@Override
 	public node_data getNode(int key) {
