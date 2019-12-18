@@ -2,11 +2,24 @@ package dataStructure;
 
 import utils.Point3D;
 
+import java.util.HashMap;
+
 public class NodeData implements node_data {
     private int key , tag;
     private Point3D P3D;
     private double weight = Integer.MAX_VALUE;
     private String info;
+    private int keyCounter = 1;
+    HashMap<Integer,Double> HM ;
+    public NodeData(Point3D p){
+        this.P3D = p;
+        this.key = keyCounter++;
+    }
+    public NodeData(double x, double y, double z){
+        Point3D s = new Point3D(x,y,z);
+        this.P3D = s;
+        this.key = keyCounter++;
+    }
     @Override
     public int getKey() {
         return this.key;
