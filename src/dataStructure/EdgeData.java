@@ -1,10 +1,11 @@
 package dataStructure;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class EdgeData implements edge_data {
+public class EdgeData implements edge_data, Serializable {
     int src , dest;
     private double weight;
     int Tag ;
