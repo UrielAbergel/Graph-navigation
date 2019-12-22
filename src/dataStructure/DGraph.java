@@ -7,8 +7,9 @@ import java.util.List;
 
 
 public class DGraph implements graph{
-	public  HashMap<Integer,node_data> GraphMap = new HashMap<>();
-	public  HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
+	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
+	public HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
+	//public HashMap<Integer,HashMap<Integer,node_data>> vectorsHM = new HashMap<Integer, HashMap<Integer,node_data>>();
 	public static int MC;
 	@Override
 	public node_data getNode(int key) {
@@ -17,15 +18,11 @@ public class DGraph implements graph{
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
-		node_data _src = GraphMap.get(src);
-		NodeData src_node = (NodeData) _src;
-		return  src_node.getDestEdge(dest);
+		return edgeHM.get(""+src+","+dest);
 	}
 
 	private int getWieght(int src, int dest) {
-		node_data _src = GraphMap.get(src);
-		NodeData src_node = (NodeData) _src;
-		return (int)src_node.getDestEdge(dest).getWeight();
+		return (int)edgeHM.get(""+src+","+dest).getWeight();
 	}
 
 	@Override
@@ -36,14 +33,18 @@ public class DGraph implements graph{
 
 	@Override
 	public void connect(int src, int dest, double w) {
-		MC++;
-		EdgeData edge = new EdgeData(src,dest,w);
-		NodeData theNewSrc = (NodeData) this.getNode(src);
-		if(theNewSrc.HM.containsKey(dest)){
-			theNewSrc.HM.replace(dest,edge);
+		if(GraphMap.get(src) != null && GraphMap.get(dest) != null) {
+			EdgeData edge = new EdgeData(src, dest, w);
+			NodeData theNewSrc = (NodeData) this.getNode(src);
+			if (theNewSrc.HM.containsKey(dest)) {
+				theNewSrc.HM.replace(dest, edge);
+			} else theNewSrc.HM.put(dest, edge);
+			this.edgeHM.put("" + src + "," + dest, edge);
+			MC++;
 		}
-		else theNewSrc.HM.put(dest,edge);
-		this.edgeHM.put(""+src+","+dest,edge);
+		else{
+			System.out.println("src or dest is null");
+		}
 	}
 
 	@Override
@@ -77,13 +78,11 @@ public class DGraph implements graph{
 
 	@Override
 	public int edgeSize() {
-
 		return edgeHM.size();
 	}
 
 	@Override
 	public int getMC() {
-
 		return this.MC;
 	}
 	public static String StringToHash(int src,int dest){

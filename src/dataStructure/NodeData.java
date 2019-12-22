@@ -8,7 +8,8 @@ public class NodeData implements node_data {
     public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
     private static int keyCounter = 1;
-    public  HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    public static HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    private String info;
 
     public edge_data getDestEdge(int dest)
     {
@@ -56,12 +57,12 @@ public class NodeData implements node_data {
 
     @Override
     public String getInfo() {
-        return null;
+        return this.info;
     }
 
     @Override
     public void setInfo(String s) {
-
+        this.info = s;
     }
 
     @Override
