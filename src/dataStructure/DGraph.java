@@ -7,10 +7,16 @@ import java.util.List;
 
 
 public class DGraph implements graph{
+<<<<<<< HEAD
 	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
 	public HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
 	//public HashMap<Integer,HashMap<Integer,node_data>> vectorsHM = new HashMap<Integer, HashMap<Integer,node_data>>();
 	public static int MC;
+=======
+	public  HashMap<Integer,node_data> GraphMap = new HashMap<>();
+	public  HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
+    public static int MC;
+>>>>>>> 0300fc5f0c2d044bd0d96b1fb26b65a6ba16bbd8
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
