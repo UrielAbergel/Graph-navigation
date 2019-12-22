@@ -1,14 +1,16 @@
 package dataStructure;
 
 import utils.Point3D;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class NodeData implements node_data {
+public class NodeData implements node_data, Serializable {
     private int key , tag;
     public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
     private static int keyCounter = 1;
-    public static HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    public HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
     private String info;
 
     public edge_data getDestEdge(int dest)
