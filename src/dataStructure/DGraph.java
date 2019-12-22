@@ -43,6 +43,7 @@ public class DGraph implements graph{
 			theNewSrc.HM.replace(dest,edge);
 		}
 		else theNewSrc.HM.put(dest,edge);
+		this.edgeHM.put(""+src+","+dest,edge);
 	}
 
 	@Override
