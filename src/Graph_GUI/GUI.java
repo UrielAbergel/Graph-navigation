@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 public class GUI extends JFrame implements ActionListener, MouseListener
 {
     LinkedList<Point3D> points = new LinkedList<Point3D>();
-    DGraph p ;
+    DGraph p  ;
 
     public GUI()
     {
@@ -51,19 +51,15 @@ public class GUI extends JFrame implements ActionListener, MouseListener
         this.addMouseListener(this);
 
     }
-
+    @Override
     public void paint(Graphics g)
     {
-
-        super.paint(g);
-        g.drawString("666",4,4);
-        repaint();
+        //super.paint(g);
         Point3D prev = null;
         for(Integer key : p.GraphMap.keySet()) {
             NodeData NData = (NodeData) p.GraphMap.get(key);
             g.drawString(""+NData.getKey() ,(int) NData.P3D.x(),(int)NData.P3D.y());
-            for (Integer KeyNode : NData.HM.keySet()) {
-                repaint();
+                        for (Integer KeyNode : NData.HM.keySet()) {
                 EdgeData DestEdge =  NData.HM.get(KeyNode);
                 g.setColor(Color.BLACK);
                 NodeData src = (NodeData)p.GraphMap.get(DestEdge.getSrc());
@@ -72,7 +68,9 @@ public class GUI extends JFrame implements ActionListener, MouseListener
                 g.fillOval((int)dest.P3D.x(), (int)dest.P3D.y(), 5, 5);
                 g.setColor(Color.red);
                 g.drawLine((int) src.P3D.ix(), (int) src.P3D.y(), (int) dest.P3D.x(), (int) dest.P3D.y());
+              //  g.drawString("55",(int)((src.P3D.ix()+prev.x())/2),(int)((src.P3D.iy()+prev.y())/2));
             }
+                        //prev = p.GraphMap.get(key);
 
         }
 
@@ -135,18 +133,21 @@ public class GUI extends JFrame implements ActionListener, MouseListener
 
     public static void main(String[] args) {
         DGraph q = new DGraph();
-        NodeData p1 = new NodeData(1,2,4);
-        NodeData p2 = new NodeData(3,4,5);
-        NodeData p3 = new NodeData(5,6,7);
-        NodeData p4 = new NodeData(7,8,4);
+        NodeData p1 = new NodeData(100,200,4);
+        NodeData p2 = new NodeData(300,400,5);
+        NodeData p3 = new NodeData(150,300,7);
+        NodeData p4 = new NodeData(200,450,4);
+        NodeData p5 = new NodeData(5,5,4);
         q.addNode(p1);
         q.addNode(p2);
         q.addNode(p3);
         q.addNode(p4);
+        q.addNode(p5);
         q.connect(1,2,10);
         q.connect(1,3,4);
         q.connect(1,4,2);
         q.connect(4,3,5);
+        q.connect(5,2,10);
         GUI r = new GUI();
         r.p = q;
         r.repaint();
