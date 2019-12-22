@@ -9,7 +9,7 @@ import java.util.List;
 public class DGraph implements graph{
 	public  HashMap<Integer,node_data> GraphMap = new HashMap<>();
 	public  HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
-	public static int MC;
+    public static int MC;
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
