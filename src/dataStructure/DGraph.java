@@ -7,21 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 
-<<<<<<< HEAD
-public class DGraph implements graph{
-=======
 public class DGraph implements graph, Serializable {
->>>>>>> f79a0cde9dd9070da16b37b77fadac15fa32f8de
 
 	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
 	public HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
 	//public HashMap<Integer,HashMap<Integer,node_data>> vectorsHM = new HashMap<Integer, HashMap<Integer,node_data>>();
 	public static int MC;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f79a0cde9dd9070da16b37b77fadac15fa32f8de
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
