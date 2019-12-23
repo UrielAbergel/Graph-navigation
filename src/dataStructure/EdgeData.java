@@ -9,6 +9,7 @@ public class EdgeData implements edge_data, Serializable {
     int src , dest;
     private double weight;
     int Tag ;
+    String Info = "";
     public EdgeData(int src , int dest , double weight , int tag){
         this.src = src ;
         this.dest = dest ;
@@ -48,12 +49,12 @@ public class EdgeData implements edge_data, Serializable {
 
     @Override
     public String getInfo() {
-        return null;
+        return this.Info;
     }
 
     @Override
     public void setInfo(String s) {
-
+        this.Info=s;
     }
 
     @Override

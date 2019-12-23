@@ -1,10 +1,8 @@
 package algorithms;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 import dataStructure.*;
 import dataStructure.DGraph;
 import dataStructure.NodeData;
@@ -72,7 +70,7 @@ public class Graph_Algo implements graph_algorithms{
 	@Override
 	public boolean isConnected() {
 		Iterator iter = graph.getV().iterator();
-//		while(iter.hasNext()){
+		while(iter.hasNext()){
 			node_data thenewOne = (node_data)iter.next();
 			isConnectedRec(thenewOne);
 			Iterator <node_data> iter2 = graph.getV().iterator();
@@ -81,38 +79,9 @@ public class Graph_Algo implements graph_algorithms{
 				if(corrent.getTag()!=1) return false;
 				corrent.setTag(0);
 			}
-<<<<<<< HEAD
-//		}
+		}
 
-		graph tempGraph = this.copy();
-		Iterator <node_data> iter3 = tempGraph.getV().iterator();
-		while(iter3.hasNext()){
-			node_data corrent = iter3.next();
-			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
-		}
-		isConnectedRec(thenewOne);
-		while(iter2.hasNext()){
-			node_data corrent = iter2.next();
-			if(corrent.getTag()!=1) return false;
-			corrent.setTag(0);
-=======
->>>>>>> 2772998b22d577ab8b078ba2082cf9f0081bb058
-		}
 		return true;
-	}
-
-	private void changeDirectory(Collection<edge_data> e, graph tempGraph) {
-		Iterator <edge_data> iter4 = e.iterator();
-		while(iter4.hasNext()){
-			edge_data ED = iter4.next();
-			tempGraph.connect(ED.getDest(),ED.getSrc(),ED.getWeight());
-			tempGraph.removeEdge(ED.getSrc(),ED.getDest());
-			iter4 = tempGraph.getE(ED.getSrc()).iterator();
-		}
-//		for (edge_data edge: e) {
-//			tempGraph.connect(edge.getDest(),edge.getSrc(),edge.getWeight());
-//			tempGraph.removeEdge(edge.getSrc(),edge.getDest());
-//		}
 	}
 
 	private void isConnectedRec(node_data thenewOne) {
@@ -127,15 +96,86 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public double shortestPathDist(int src, int dest) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(src==dest) return 0;
+		this.graph.getNode(src).setWeight(0);
+		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
+		SPDrec(dest,srcDataNode);
+
+		return this.graph.getNode(dest).getWeight();
 	}
+
+	public void SPDrec(int dest,NodeData current){
+		if(current.getKey() == dest) return;
+		if(current.getTag()==1) return;
+		current.setTag(1);
+		Iterator<EdgeData> ite = current.HM.values().iterator();
+		while (ite.hasNext()){
+			EdgeData toCheckedge = ite.next();
+			int tempdest = toCheckedge.getDest();
+			node_data p = this.graph.getNode(tempdest);
+			if(current.getWeight()+toCheckedge.getWeight()<p.getWeight())
+			{
+				p.setWeight(toCheckedge.getWeight()+current.getWeight());
+			}
+			SPDrec(dest,(NodeData)p);
+		}
+	}
+
+
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<node_data> SPArrays = new ArrayList<>();
+		shortestPathDist(src,dest);
+		graph CopyGraph = this.copy();
+		CopyGraph = changeDir(CopyGraph);
+		SPArrays = ReturnTheSPway(dest,src,CopyGraph);
+		return SPArrays;
 	}
+
+	private ArrayList<node_data> ReturnTheSPway(int src, int dest, graph copyGraph) {
+		ArrayList<node_data> SaveTheWay = new ArrayList<>();
+		node_data source = copyGraph.getNode(src);
+		while(src!=dest){
+			 source = copyGraph.getNode(src);
+			SaveTheWay.add(source);
+			 double weight = Double.MAX_VALUE;
+			 Iterator<edge_data> iteEd = copyGraph.getE(src).iterator();
+			 while (iteEd.hasNext()){
+			 	edge_data tempEdge = iteEd.next();
+			 	if(source.getWeight()+tempEdge.getWeight()< weight)
+				{
+					weight = source.getWeight()+tempEdge.getWeight();
+					src = tempEdge.getDest();
+				}
+			 }
+
+		}
+		source = copyGraph.getNode(dest);
+		SaveTheWay.add(source);
+		return SaveTheWay;
+	}
+
+	private graph changeDir(graph copy) {
+		Graph_Algo addCopy = new Graph_Algo();
+		addCopy.graph = copy;
+		graph CopyToCopy = addCopy.copy();
+		Iterator<node_data> iter = copy.getV().iterator();
+		while (iter.hasNext()){
+			node_data tempOne = iter.next();
+			if(copy.getE(tempOne.getKey())!=null) {
+				Iterator<edge_data> iterEdge = copy.getE(tempOne.getKey()).iterator();
+				while (iterEdge.hasNext()) {
+					edge_data tempEdge = iterEdge.next();
+					CopyToCopy.connect(tempEdge.getDest(), tempEdge.getSrc(), tempEdge.getWeight());
+					CopyToCopy.removeEdge(tempEdge.getSrc(), tempEdge.getDest());
+
+				}
+			}
+		}
+		return CopyToCopy;
+	}
+
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
@@ -155,13 +195,14 @@ public class Graph_Algo implements graph_algorithms{
 		}
 		while(iter2.hasNext()){
 			node_data theNewOne = iter2.next();
-			Iterator <edge_data> iterE = this.graph.getE(theNewOne.getKey()).iterator();
-			while(iterE.hasNext()){
-				EdgeData theNewEdge = (EdgeData) iterE.next();
-				edge_data pp = theNewEdge.copy();
-
-				p.connect(theNewEdge.getSrc(),theNewEdge.getDest(),theNewEdge.getWeight());
-				p.getEdge(theNewEdge.getSrc(),theNewEdge.getDest()).setTag(theNewEdge.getTag());
+			if(this.graph.getE(theNewOne.getKey())!=null) {
+				Iterator<edge_data> iterE = this.graph.getE(theNewOne.getKey()).iterator();
+				while (iterE.hasNext()) {
+					EdgeData theNewEdge = (EdgeData) iterE.next();
+					edge_data pp = theNewEdge.copy();
+					p.connect(pp.getSrc(), pp.getDest(), pp.getWeight());
+					p.getEdge(pp.getSrc(), pp.getDest()).setTag(pp.getTag());
+				}
 			}
 		}
 
@@ -173,19 +214,35 @@ public class Graph_Algo implements graph_algorithms{
 		NodeData test1 = new NodeData(1, 2, 3);
 		NodeData test2 = new NodeData(1, 2, 3);
 		NodeData test3 = new NodeData(1, 2, 3);
+		NodeData test4 = new NodeData(1, 2, 3);
+		NodeData test5 = new NodeData(1, 2, 3);
+		NodeData test6 = new NodeData(1, 2, 3);
 		p.addNode(test1);
 		p.addNode(test2);
 		p.addNode(test3);
-		p.connect(1, 2, 10);
-		p.connect(2, 3, 10);
-		p.connect(3, 1, 10);
+		p.addNode(test4);
+		p.addNode(test5);
+		p.addNode(test6);
+		p.connect(1, 2, 1);
+		p.connect(4, 5, 1);
+		p.connect(2, 4, 1);
+		p.connect(5, 6, 1);
+		p.connect(1, 6, 5);
+		//p.connect(3, 4, 10);
 		Graph_Algo e = new Graph_Algo();
 		e.init(p);
-		e.save("tt");
-		Graph_Algo q = new Graph_Algo();
-		q.graph = e.copy();
+		//e.save("tt");
+//		Graph_Algo q = new Graph_Algo();
+//		q.graph = e.copy();
 		//q.init("tt");
-		System.out.println();
-		e.isConnected();
+//		System.out.println();
+//		e.isConnected();
+//		System.out.println(e.shortestPathDist(1,6));
+		List<node_data> g = e.shortestPath(1,6);
+		System.out.println(g.toString());
+//		e.graph.getEdge(1,2).setInfo("111");
+//		edge_data ee = e.graph.getEdge(1,2);
+//		String s = e.graph.getEdge(1,2).getInfo();
+//		System.out.println(s);
 	}
 }

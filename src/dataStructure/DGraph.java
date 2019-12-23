@@ -10,28 +10,34 @@ import java.util.List;
 public class DGraph implements graph, Serializable {
 
 	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
-	public HashMap<String,edge_data> edgeHM = new HashMap<String,edge_data>();
-	//public HashMap<Integer,HashMap<Integer,node_data>> vectorsHM = new HashMap<Integer, HashMap<Integer,node_data>>();
-	public static int MC;
+	public HashMap<Integer,HashMap<Integer,edge_data>> edgeHM = new HashMap<Integer, HashMap<Integer, edge_data>>();
+	public int keyCounter = 1 ;
+	public int MC;
 
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
+
 	}
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
-		return edgeHM.get(""+src+","+dest);
+
+		return this.edgeHM.get(src).get(dest);
 	}
 
 	private int getWieght(int src, int dest) {
-		return (int)edgeHM.get(""+src+","+dest).getWeight();
+		HashMap<Integer,edge_data> s = this.edgeHM.get(src);
+		return (int)s.get(dest).getWeight();
 	}
 
 	@Override
 	public void addNode(node_data n) {
 		MC++;
-		this.GraphMap.put(n.getKey(),n);
+		this.GraphMap.put(keyCounter,n);
+		n = (NodeData)n;
+		((NodeData) n).setKey(keyCounter++);
+
 	}
 
 	@Override
@@ -41,8 +47,14 @@ public class DGraph implements graph, Serializable {
 			NodeData theNewSrc = (NodeData) this.getNode(src);
 			if (theNewSrc.HM.containsKey(dest)) {
 				theNewSrc.HM.replace(dest, edge);
-			} else theNewSrc.HM.put(dest, edge);
-			this.edgeHM.put("" + src + "," + dest, edge);
+			}
+			else theNewSrc.HM.put(dest, edge);
+			HashMap<Integer,edge_data> s = this.edgeHM.get(src);
+			if(s==null){
+				s = new HashMap<Integer,edge_data>();
+				this.edgeHM.put(src,s);
+			}
+			this.edgeHM.get(src).put(dest,edge);
 			MC++;
 		}
 		else{
@@ -57,7 +69,8 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
-		return edgeHM.values();
+		if(this.edgeHM.get(node_id) == null) return null;
+		return this.edgeHM.get(node_id).values();
 	}
 
 	@Override
@@ -68,10 +81,8 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
-		NodeData sorce = (NodeData)GraphMap.get(src);
-		edgeHM.remove(StringToHash(src,dest));
 		MC++;
-		return sorce.removeEdge(dest);
+		return this.edgeHM.get(src).remove(dest) ;
 	}
 
 	@Override

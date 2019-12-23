@@ -10,7 +10,6 @@ public class NodeData implements node_data, Serializable {
     private int key , tag;
     public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
-    private static int keyCounter = 1;
     public HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
     private String info;
 
@@ -23,13 +22,19 @@ public class NodeData implements node_data, Serializable {
     }
     public NodeData(Point3D p){
         this.P3D = p;
-        this.key = keyCounter++;
+
     }
+
 
     public NodeData(double x, double y, double z){
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
-        this.key = keyCounter++;
+
+
+    }
+
+    public void setKey(int key){
+        this.key = key;
     }
     public node_data copy(){
         NodeData n = new NodeData(this.getLocation().ix(),this.getLocation().iy(),this.getLocation().iz());

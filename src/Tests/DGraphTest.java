@@ -351,6 +351,4 @@ public class DGraphTest {
         p.removeNode(3);
         assertEquals(18,p.getMC());
     }
-
-
 }
