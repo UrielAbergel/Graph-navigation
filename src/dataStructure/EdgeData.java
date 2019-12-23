@@ -24,6 +24,12 @@ public class EdgeData implements edge_data, Serializable {
 
     //    DGraph.edgeHM.put(StringToHash(src,dest), this);;
     }
+    public edge_data copy(){
+        edge_data p = new EdgeData(this.src,this.dest,this.weight);
+        p.setTag(this.Tag);
+        p.setInfo(this.getInfo());
+        return p ;
+    }
     @Override
     public int getSrc()
     {

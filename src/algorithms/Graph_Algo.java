@@ -72,7 +72,7 @@ public class Graph_Algo implements graph_algorithms{
 	@Override
 	public boolean isConnected() {
 		Iterator iter = graph.getV().iterator();
-		while(iter.hasNext()){
+//		while(iter.hasNext()){
 			node_data thenewOne = (node_data)iter.next();
 			isConnectedRec(thenewOne);
 			Iterator <node_data> iter2 = graph.getV().iterator();
@@ -81,20 +81,20 @@ public class Graph_Algo implements graph_algorithms{
 				if(corrent.getTag()!=1) return false;
 				corrent.setTag(0);
 			}
-		}
+//		}
 
-//		graph tempGraph = this.copy();
-//		Iterator <node_data> iter3 = tempGraph.getV().iterator();
-//		while(iter3.hasNext()){
-//			node_data corrent = iter3.next();
-//			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
-//		}
-//		isConnectedRec(thenewOne);
-//		while(iter2.hasNext()){
-//			node_data corrent = iter2.next();
-//			if(corrent.getTag()!=1) return false;
-//			corrent.setTag(0);
-//		}
+		graph tempGraph = this.copy();
+		Iterator <node_data> iter3 = tempGraph.getV().iterator();
+		while(iter3.hasNext()){
+			node_data corrent = iter3.next();
+			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
+		}
+		isConnectedRec(thenewOne);
+		while(iter2.hasNext()){
+			node_data corrent = iter2.next();
+			if(corrent.getTag()!=1) return false;
+			corrent.setTag(0);
+		}
 		return true;
 	}
 
@@ -104,7 +104,12 @@ public class Graph_Algo implements graph_algorithms{
 			edge_data ED = iter4.next();
 			tempGraph.connect(ED.getDest(),ED.getSrc(),ED.getWeight());
 			tempGraph.removeEdge(ED.getSrc(),ED.getDest());
+			iter4 = tempGraph.getE(ED.getSrc()).iterator();
 		}
+//		for (edge_data edge: e) {
+//			tempGraph.connect(edge.getDest(),edge.getSrc(),edge.getWeight());
+//			tempGraph.removeEdge(edge.getSrc(),edge.getDest());
+//		}
 	}
 
 	private void isConnectedRec(node_data thenewOne) {
@@ -148,7 +153,9 @@ public class Graph_Algo implements graph_algorithms{
 			node_data theNewOne = iter2.next();
 			Iterator <edge_data> iterE = this.graph.getE(theNewOne.getKey()).iterator();
 			while(iterE.hasNext()){
-				edge_data theNewEdge = iterE.next();
+				EdgeData theNewEdge = (EdgeData) iterE.next();
+				edge_data pp = theNewEdge.copy();
+
 				p.connect(theNewEdge.getSrc(),theNewEdge.getDest(),theNewEdge.getWeight());
 				p.getEdge(theNewEdge.getSrc(),theNewEdge.getDest()).setTag(theNewEdge.getTag());
 			}
@@ -174,6 +181,6 @@ public class Graph_Algo implements graph_algorithms{
 		Graph_Algo q = new Graph_Algo();
 		q.init("tt");
 		System.out.println();
-		System.out.println(e.isConnected());
+		e.isConnected();
 	}
 }
