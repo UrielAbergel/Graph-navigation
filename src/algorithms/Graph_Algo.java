@@ -72,32 +72,29 @@ public class Graph_Algo implements graph_algorithms{
 	@Override
 	public boolean isConnected() {
 		Iterator iter = graph.getV().iterator();
-		node_data thenewOne = (node_data)iter.next();
-//		int AmountOfV = 0 ;
-//		Iterator iter2 = graph.getV().iterator();
-//		while(iter2.hasNext()) {
-//			AmountOfV++;
-//			iter2.next();
+		while(iter.hasNext()){
+			node_data thenewOne = (node_data)iter.next();
+			isConnectedRec(thenewOne);
+			Iterator <node_data> iter2 = graph.getV().iterator();
+			while(iter2.hasNext()){
+				node_data corrent = iter2.next();
+				if(corrent.getTag()!=1) return false;
+				corrent.setTag(0);
+			}
+		}
+
+//		graph tempGraph = this.copy();
+//		Iterator <node_data> iter3 = tempGraph.getV().iterator();
+//		while(iter3.hasNext()){
+//			node_data corrent = iter3.next();
+//			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
 //		}
-		isConnectedRec(thenewOne);
-		Iterator <node_data> iter2 = graph.getV().iterator();
-		while(iter2.hasNext()){
-			node_data corrent = iter2.next();
-			if(corrent.getTag()!=1) return false;
-			corrent.setTag(0);
-		}
-		graph tempGraph = this.copy();
-		Iterator <node_data> iter3 = tempGraph.getV().iterator();
-		while(iter3.hasNext()){
-			node_data corrent = iter3.next();
-			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
-		}
-		isConnectedRec(thenewOne);
-		while(iter2.hasNext()){
-			node_data corrent = iter2.next();
-			if(corrent.getTag()!=1) return false;
-			corrent.setTag(0);
-		}
+//		isConnectedRec(thenewOne);
+//		while(iter2.hasNext()){
+//			node_data corrent = iter2.next();
+//			if(corrent.getTag()!=1) return false;
+//			corrent.setTag(0);
+//		}
 		return true;
 	}
 
