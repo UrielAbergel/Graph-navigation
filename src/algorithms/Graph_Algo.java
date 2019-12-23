@@ -8,6 +8,8 @@ import dataStructure.DGraph;
 import dataStructure.NodeData;
 import dataStructure.graph;
 import dataStructure.node_data;
+import utils.Point3D;
+
 /**
  * This empty class represents the set of graph-theory algorithms
  * which should be implemented as part of Ex2 - Do edit this class.
@@ -100,7 +102,6 @@ public class Graph_Algo implements graph_algorithms{
 		this.graph.getNode(src).setWeight(0);
 		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
 		SPDrec(dest,srcDataNode);
-
 		return this.graph.getNode(dest).getWeight();
 	}
 
@@ -130,7 +131,16 @@ public class Graph_Algo implements graph_algorithms{
 		graph CopyGraph = this.copy();
 		CopyGraph = changeDir(CopyGraph);
 		SPArrays = ReturnTheSPway(dest,src,CopyGraph);
+		SPArrays =  ReverseArrays(SPArrays);
 		return SPArrays;
+	}
+
+	private ArrayList<node_data> ReverseArrays(ArrayList<node_data> spArrays) {
+		ArrayList<node_data> theGoodCopy = new ArrayList<>();
+		for (int i = spArrays.size()-1; i >= 0; i--) {
+			theGoodCopy.add(spArrays.get(i));
+		}
+		return theGoodCopy;
 	}
 
 	private ArrayList<node_data> ReturnTheSPway(int src, int dest, graph copyGraph) {
@@ -176,13 +186,40 @@ public class Graph_Algo implements graph_algorithms{
 		return CopyToCopy;
 	}
 
-
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<node_data> saveThisNodes = new LinkedList<node_data>();
+		int theINow = targets.get(0) ;
+		int theOnetoThanos = 0 ;
+		for (int i = 0 ; i < targets.size() ; i++ ) {
+			node_data current = this.graph.getNode(theINow);
+			double min = Double.MAX_VALUE;
+			for (Integer j :targets) {
+					if(min >shortestPathDist(theINow,j) && j !=theINow)
+					{
+						min = shortestPathDist(theINow,j);
+						theOnetoThanos = j;
+					}
+			}
+			targets.remove(theINow);
+			List<node_data> tempArrays = this.shortestPath(theINow,theOnetoThanos);
+			AddToTheArrays(saveThisNodes,tempArrays);
+			theINow = theOnetoThanos ;
+
+		}
+
+		return saveThisNodes;
 	}
-//------------------------ NEED TO FIX!! NOT DOING TO DEEP COPY TO NodeData
+
+	private void AddToTheArrays(List<node_data> saveThisNodes, List<node_data> tempArrays) {
+		Iterator<node_data> iter = tempArrays.iterator();
+		while (iter.hasNext())
+		{
+		saveThisNodes.add(iter.next());
+		}
+	}
+
 	@Override
 	public graph copy() {
 		graph p = new DGraph();
@@ -223,26 +260,55 @@ public class Graph_Algo implements graph_algorithms{
 		p.addNode(test4);
 		p.addNode(test5);
 		p.addNode(test6);
-		p.connect(1, 2, 1);
+		p.connect(1, 2, 3);
+		p.connect(2, 3, 5);
+		p.connect(3, 4, 2);
 		p.connect(4, 5, 1);
-		p.connect(2, 4, 1);
-		p.connect(5, 6, 1);
-		p.connect(1, 6, 5);
+		p.connect(5, 6, 6);
+		p.connect(6, 1, 2);
 		//p.connect(3, 4, 10);
 		Graph_Algo e = new Graph_Algo();
 		e.init(p);
 		//e.save("tt");
-//		Graph_Algo q = new Graph_Algo();
-//		q.graph = e.copy();
+		Graph_Algo q = new Graph_Algo();
+		q.graph = e.copy();
 		//q.init("tt");
 //		System.out.println();
 //		e.isConnected();
-//		System.out.println(e.shortestPathDist(1,6));
-		List<node_data> g = e.shortestPath(1,6);
-		System.out.println(g.toString());
-//		e.graph.getEdge(1,2).setInfo("111");
-//		edge_data ee = e.graph.getEdge(1,2);
-//		String s = e.graph.getEdge(1,2).getInfo();
-//		System.out.println(s);
+		//System.out.println(e.shortestPathDist(1,6));
+	//	List<node_data> g = e.shortestPath(1,6);
+	//	System.out.println(g.toString());
+		//e.graph.getEdge(1,2).setInfo("111");
+	//	edge_data ee = e.graph.getEdge(1,2);
+		//String s = e.graph.getEdge(1,2).getInfo();
+		//System.out.println(e.isConnected());
+		List<Integer> ppp = new ArrayList<>();
+		ppp.add(1);
+		ppp.add(2);
+		ppp.add(3);
+		ppp.add(4);
+		ppp.add(6);
+
+		List<node_data> rrrrr = e.TSP(ppp);
+		System.out.println("ll");
+//
+//		Graph_Algo g = new Graph_Algo();
+//		Point3D x = new Point3D(1,4,0);
+//		Point3D y = new Point3D(2,5,0);
+//		Point3D q = new Point3D(4,3,0);
+//		node_data a = new NodeData(1,2,3);
+//		node_data b =new NodeData(3,4,6);
+//		node_data c = new NodeData(5,50,50);
+//		DGraph d =new DGraph();
+//		d.addNode(a);
+//		d.addNode(b);
+//		d.addNode(c);
+//		d.connect(a.getKey(),b.getKey(),4);
+//		d.connect(b.getKey(),c.getKey(),50);
+//		d.connect(b.getKey(),a.getKey(),4);
+//		d.connect(c.getKey(),b.getKey(),4);
+//		g.init(d);
+//		boolean f =g.isConnected();
+//		System.out.println(f);
 	}
 }

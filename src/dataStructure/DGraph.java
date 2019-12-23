@@ -11,6 +11,7 @@ public class DGraph implements graph, Serializable {
 
 	public HashMap<Integer,node_data> GraphMap = new HashMap<>();
 	public HashMap<Integer,HashMap<Integer,edge_data>> edgeHM = new HashMap<Integer, HashMap<Integer, edge_data>>();
+	public int EdgeSize = 0;
 	public int keyCounter = 1 ;
 	public int MC;
 
@@ -56,6 +57,7 @@ public class DGraph implements graph, Serializable {
 			}
 			this.edgeHM.get(src).put(dest,edge);
 			MC++;
+			EdgeSize++;
 		}
 		else{
 			System.out.println("src or dest is null");
@@ -81,8 +83,12 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public edge_data removeEdge(int src, int dest) {
-		MC++;
-		return this.edgeHM.get(src).remove(dest) ;
+		if(this.edgeHM.get(src).get(dest)!=null) {
+			MC++;
+			EdgeSize--;
+			return this.edgeHM.get(src).remove(dest);
+		}
+		else return null;
 	}
 
 	@Override
@@ -92,7 +98,7 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public int edgeSize() {
-		return edgeHM.size();
+		return EdgeSize;
 	}
 
 	@Override

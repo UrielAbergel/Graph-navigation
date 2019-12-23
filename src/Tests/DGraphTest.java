@@ -59,11 +59,11 @@ public class DGraphTest {
         p.connect(4, 9, 10);
         p.connect(5, 10, 10);
         assertEquals(0, 0);
-        boolean flag1 = p.edgeHM.containsKey("1,6");
-        boolean flag2 = p.edgeHM.containsKey("2,7");
-        boolean flag3 = p.edgeHM.containsKey("3,8");
-        boolean flag4 = p.edgeHM.containsKey("4,9");
-        boolean flag5 = p.edgeHM.containsKey("5,10");
+        boolean flag1 = p.edgeHM.get(1).containsKey(6);
+        boolean flag2 = p.edgeHM.get(2).containsKey(7);
+        boolean flag3 = p.edgeHM.get(3).containsKey(8);
+        boolean flag4 = p.edgeHM.get(4).containsKey(9);
+        boolean flag5 = p.edgeHM.get(5).containsKey(10);
         assertEquals(true, flag1);
         assertEquals(true, flag2);
         assertEquals(true, flag3);
@@ -134,11 +134,11 @@ public class DGraphTest {
         p.connect(3, 8, 10);
         p.connect(4, 9, 10);
         p.connect(5, 10, 10);
-        boolean flag1 = p.edgeHM.containsKey("1,6");
-        boolean flag2 = p.edgeHM.containsKey("2,7");
-        boolean flag3 = p.edgeHM.containsKey("3,8");
-        boolean flag4 = p.edgeHM.containsKey("4,9");
-        boolean flag5 = p.edgeHM.containsKey("5,10");
+        boolean flag1 = p.edgeHM.get(1).containsKey(6);
+        boolean flag2 = p.edgeHM.get(2).containsKey(7);
+        boolean flag3 = p.edgeHM.get(3).containsKey(8);
+        boolean flag4 = p.edgeHM.get(4).containsKey(9);
+        boolean flag5 = p.edgeHM.get(5).containsKey(10);
         assertEquals(true, flag1);
         assertEquals(true, flag2);
         assertEquals(true, flag3);
@@ -247,10 +247,10 @@ public class DGraphTest {
         p.connect(3, 8, 10);
         p.connect(4, 9, 10);
         p.connect(5, 10, 10);
-        assertEquals(p.getEdge(1,6),p.edgeHM.get("1,6"));
+        assertEquals(p.getEdge(1,6),p.edgeHM.get(1).get(6));
         p.removeEdge(1,6);
         assertEquals(p.getEdge(1,6),null);
-        assertEquals(p.getEdge(2,7),p.edgeHM.get("2,7"));
+        assertEquals(p.getEdge(2,7),p.edgeHM.get(2).get(7));
         p.removeEdge(2,7);
         assertEquals(p.getEdge(2,7),null);
     }
