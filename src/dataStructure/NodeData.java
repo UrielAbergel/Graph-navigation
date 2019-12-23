@@ -25,6 +25,7 @@ public class NodeData implements node_data, Serializable {
         this.P3D = p;
         this.key = keyCounter++;
     }
+
     public NodeData(double x, double y, double z){
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;

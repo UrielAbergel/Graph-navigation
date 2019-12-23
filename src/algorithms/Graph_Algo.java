@@ -82,19 +82,6 @@ public class Graph_Algo implements graph_algorithms{
 				corrent.setTag(0);
 			}
 		}
-
-//		graph tempGraph = this.copy();
-//		Iterator <node_data> iter3 = tempGraph.getV().iterator();
-//		while(iter3.hasNext()){
-//			node_data corrent = iter3.next();
-//			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
-//		}
-//		isConnectedRec(thenewOne);
-//		while(iter2.hasNext()){
-//			node_data corrent = iter2.next();
-//			if(corrent.getTag()!=1) return false;
-//			corrent.setTag(0);
-//		}
 		return true;
 	}
 
@@ -141,8 +128,9 @@ public class Graph_Algo implements graph_algorithms{
 		Iterator <node_data> iter = this.graph.getV().iterator();
 		Iterator <node_data> iter2 = this.graph.getV().iterator();
 		while(iter.hasNext()){
-			node_data theNewOne = iter.next();
-			p.addNode(theNewOne);
+			NodeData theNewOne = (NodeData) iter.next();
+			node_data theCopy = theNewOne.copy();
+			p.addNode(theCopy);
 		}
 		while(iter2.hasNext()){
 			node_data theNewOne = iter2.next();
@@ -172,7 +160,8 @@ public class Graph_Algo implements graph_algorithms{
 		e.init(p);
 		e.save("tt");
 		Graph_Algo q = new Graph_Algo();
-		q.init("tt");
+		q.graph = e.copy();
+		//q.init("tt");
 		System.out.println();
 		System.out.println(e.isConnected());
 	}
