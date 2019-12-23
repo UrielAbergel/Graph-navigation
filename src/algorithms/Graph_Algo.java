@@ -1,6 +1,8 @@
 package algorithms;
 
 import java.io.*;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import dataStructure.*;
@@ -79,18 +81,38 @@ public class Graph_Algo implements graph_algorithms{
 //		}
 		isConnectedRec(thenewOne);
 		Iterator <node_data> iter2 = graph.getV().iterator();
-		boolean flag = true;
 		while(iter2.hasNext()){
 			node_data corrent = iter2.next();
-			if(corrent.getTag()!=1) flag = false;
+			if(corrent.getTag()!=1) return false;
+			corrent.setTag(0);
 		}
+		graph tempGraph = this.copy();
+		Iterator <node_data> iter3 = tempGraph.getV().iterator();
+		while(iter3.hasNext()){
+			node_data corrent = iter3.next();
+			changeDirectory(tempGraph.getE(corrent.getKey()),tempGraph);
+		}
+		isConnectedRec(thenewOne);
+		while(iter2.hasNext()){
+			node_data corrent = iter2.next();
+			if(corrent.getTag()!=1) return false;
+			corrent.setTag(0);
+		}
+		return true;
+	}
 
-
-		return false;
+	private void changeDirectory(Collection<edge_data> e, graph tempGraph) {
+		Iterator <edge_data> iter4 = e.iterator();
+		while(iter4.hasNext()){
+			edge_data ED = iter4.next();
+			tempGraph.connect(ED.getDest(),ED.getSrc(),ED.getWeight());
+			tempGraph.removeEdge(ED.getSrc(),ED.getDest());
+		}
 	}
 
 	private void isConnectedRec(node_data thenewOne) {
 		thenewOne = (NodeData)thenewOne;
+		if(thenewOne.getTag()==1) return;
 		thenewOne.setTag(1);
 		for(Integer key : ((NodeData) thenewOne).HM.keySet()) {
 			int dest = ((NodeData) thenewOne).HM.get(key).getDest();
@@ -115,15 +137,18 @@ public class Graph_Algo implements graph_algorithms{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+//------------------------ NEED TO FIX!! NOT DOING TO DEEP COPY TO NodeData
 	@Override
 	public graph copy() {
 		graph p = new DGraph();
 		Iterator <node_data> iter = this.graph.getV().iterator();
-
+		Iterator <node_data> iter2 = this.graph.getV().iterator();
 		while(iter.hasNext()){
 			node_data theNewOne = iter.next();
 			p.addNode(theNewOne);
+		}
+		while(iter2.hasNext()){
+			node_data theNewOne = iter2.next();
 			Iterator <edge_data> iterE = this.graph.getE(theNewOne.getKey()).iterator();
 			while(iterE.hasNext()){
 				edge_data theNewEdge = iterE.next();
@@ -132,7 +157,7 @@ public class Graph_Algo implements graph_algorithms{
 			}
 		}
 
-		return null;
+		return p;
 	}
 
 	public static void main(String[] args) {
@@ -140,33 +165,18 @@ public class Graph_Algo implements graph_algorithms{
 		NodeData test1 = new NodeData(1, 2, 3);
 		NodeData test2 = new NodeData(1, 2, 3);
 		NodeData test3 = new NodeData(1, 2, 3);
-		NodeData test4 = new NodeData(1, 2, 3);
-		NodeData test5 = new NodeData(1, 2, 3);
-		NodeData test11 = new NodeData(1, 2, 3);
-		NodeData test22 = new NodeData(1, 2, 3);
-		NodeData test33 = new NodeData(1, 2, 3);
-		NodeData test44 = new NodeData(1, 2, 3);
-		NodeData test55 = new NodeData(1, 2, 3);
 		p.addNode(test1);
 		p.addNode(test2);
 		p.addNode(test3);
-		p.addNode(test4);
-		p.addNode(test5);
-		p.addNode(test11);
-		p.addNode(test22);
-		p.addNode(test33);
-		p.addNode(test44);
-		p.addNode(test55);
-		p.connect(1, 6, 10);
-		p.connect(2, 7, 10);
-		p.connect(3, 8, 10);
-		p.connect(4, 9, 10);
-		p.connect(5, 10, 10);
+		p.connect(1, 2, 10);
+		p.connect(2, 3, 10);
+		p.connect(3, 1, 10);
 		Graph_Algo e = new Graph_Algo();
 		e.init(p);
 		e.save("tt");
 		Graph_Algo q = new Graph_Algo();
 		q.init("tt");
 		System.out.println();
+		System.out.println(e.isConnected());
 	}
 }

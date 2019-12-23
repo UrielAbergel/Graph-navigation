@@ -1,5 +1,6 @@
 package dataStructure;
 
+import org.w3c.dom.Node;
 import utils.Point3D;
 
 import java.io.Serializable;
@@ -28,6 +29,16 @@ public class NodeData implements node_data, Serializable {
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
         this.key = keyCounter++;
+    }
+    public node_data copy(){
+        NodeData n = new NodeData(this.getLocation().ix(),this.getLocation().iy(),this.getLocation().iz());
+        n.setTag(this.getTag());
+        n.setInfo(this.getInfo());
+        n.setWeight(this.getWeight());
+        for (Integer KeyNode : this.HM.keySet()){
+            n.HM.put(KeyNode,this.HM.get(KeyNode));
+        }
+        return n;
     }
     @Override
     public int getKey() {

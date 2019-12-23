@@ -14,7 +14,6 @@ public class DGraph implements graph, Serializable {
 	//public HashMap<Integer,HashMap<Integer,node_data>> vectorsHM = new HashMap<Integer, HashMap<Integer,node_data>>();
 	public static int MC;
 
-
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
