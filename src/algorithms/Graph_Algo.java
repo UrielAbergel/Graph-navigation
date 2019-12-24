@@ -82,7 +82,7 @@ public class Graph_Algo implements graph_algorithms{
 				corrent.setTag(0);
 			}
 		}
-
+		ChangeTheTag();
 		return true;
 	}
 
@@ -102,7 +102,9 @@ public class Graph_Algo implements graph_algorithms{
 		this.graph.getNode(src).setWeight(0);
 		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
 		SPDrec(dest,srcDataNode);
+		ChangeTheTag();
 		return this.graph.getNode(dest).getWeight();
+
 	}
 
 	public void SPDrec(int dest,NodeData current){
@@ -132,6 +134,7 @@ public class Graph_Algo implements graph_algorithms{
 		CopyGraph = changeDir(CopyGraph);
 		SPArrays = ReturnTheSPway(dest,src,CopyGraph);
 		SPArrays =  ReverseArrays(SPArrays);
+		ChangeTheTag();
 		return SPArrays;
 	}
 
@@ -153,7 +156,8 @@ public class Graph_Algo implements graph_algorithms{
 			 Iterator<edge_data> iteEd = copyGraph.getE(src).iterator();
 			 while (iteEd.hasNext()){
 			 	edge_data tempEdge = iteEd.next();
-			 	if(source.getWeight()+tempEdge.getWeight()< weight)
+			 	node_data tempNode = this.graph.getNode(tempEdge.getDest());
+			 	if(source.getWeight()+tempEdge.getWeight()< weight && source.getWeight()-tempEdge.getWeight()==tempNode.getWeight())
 				{
 					weight = source.getWeight()+tempEdge.getWeight();
 					src = tempEdge.getDest();
@@ -188,27 +192,29 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
 		int theINow = targets.get(0) ;
+		int indexToDelete = 0 ;
 		int theOnetoThanos = 0 ;
-		for (int i = 0 ; i < targets.size() ; i++ ) {
-			node_data current = this.graph.getNode(theINow);
+
+		while(!targets.isEmpty()) {
 			double min = Double.MAX_VALUE;
-			for (Integer j :targets) {
-					if(min >shortestPathDist(theINow,j) && j !=theINow)
+			for (int j = 0 ; j < targets.size() ; j++ ) {
+					if(min >shortestPathDist(theINow,targets.get(j)) && targets.get(j) !=theINow)
 					{
-						min = shortestPathDist(theINow,j);
-						theOnetoThanos = j;
+						min = shortestPathDist(theINow,targets.get(j));
+						theOnetoThanos = targets.get(j);
+						indexToDelete = targets.indexOf(theINow) ;
 					}
 			}
-			targets.remove(theINow);
+			targets.remove(indexToDelete);
 			List<node_data> tempArrays = this.shortestPath(theINow,theOnetoThanos);
 			AddToTheArrays(saveThisNodes,tempArrays);
 			theINow = theOnetoThanos ;
 
 		}
-
+		saveThisNodes.add(this.graph.getNode(theOnetoThanos));
+		ChangeTheTag();
 		return saveThisNodes;
 	}
 
@@ -218,6 +224,7 @@ public class Graph_Algo implements graph_algorithms{
 		{
 		saveThisNodes.add(iter.next());
 		}
+		saveThisNodes.remove(saveThisNodes.get(saveThisNodes.size()-1));
 	}
 
 	@Override
@@ -246,6 +253,13 @@ public class Graph_Algo implements graph_algorithms{
 		return p;
 	}
 
+	public void ChangeTheTag(){
+		Iterator<node_data> iter = this.graph.getV().iterator();
+		while (iter.hasNext()){
+			iter.next().setTag(0);
+		}
+	}
+
 	public static void main(String[] args) {
 		DGraph p = new DGraph();
 		NodeData test1 = new NodeData(1, 2, 3);
@@ -260,12 +274,12 @@ public class Graph_Algo implements graph_algorithms{
 		p.addNode(test4);
 		p.addNode(test5);
 		p.addNode(test6);
-		p.connect(1, 2, 3);
-		p.connect(2, 3, 5);
+		p.connect(1, 2, 2);
+		p.connect(2, 3, 2);
 		p.connect(3, 4, 2);
 		p.connect(4, 5, 1);
-		p.connect(5, 6, 6);
-		p.connect(6, 1, 2);
+		p.connect(1, 4, 3);
+		p.connect(5, 1, 2);
 		//p.connect(3, 4, 10);
 		Graph_Algo e = new Graph_Algo();
 		e.init(p);
@@ -284,14 +298,14 @@ public class Graph_Algo implements graph_algorithms{
 		//System.out.println(e.isConnected());
 		List<Integer> ppp = new ArrayList<>();
 		ppp.add(1);
-		ppp.add(2);
-		ppp.add(3);
 		ppp.add(4);
-		ppp.add(6);
+		ppp.add(5);
+		//ppp.add(4);
+		//ppp.add(6);
 
 		List<node_data> rrrrr = e.TSP(ppp);
 		System.out.println("ll");
-//
+// need to done function that cancel the tag
 //		Graph_Algo g = new Graph_Algo();
 //		Point3D x = new Point3D(1,4,0);
 //		Point3D y = new Point3D(2,5,0);
