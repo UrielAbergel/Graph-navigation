@@ -15,6 +15,17 @@ public class DGraph implements graph, Serializable {
 	public int keyCounter = 1 ;
 	public int MC;
 
+	/**
+	 * reset use only for test!!!
+	 */
+	public void reset(){
+		this.EdgeSize = 0;
+		this.GraphMap.clear();
+		this.edgeHM.clear();
+		this.MC = 0;
+		this.keyCounter = 1;
+	}
+
 	@Override
 	public node_data getNode(int key) {
 		return GraphMap.get(key);
@@ -55,7 +66,11 @@ public class DGraph implements graph, Serializable {
 				s = new HashMap<Integer,edge_data>();
 				this.edgeHM.put(src,s);
 			}
-			this.edgeHM.get(src).put(dest,edge);
+			if(this.edgeHM.get(src).containsKey(dest)){
+				this.removeEdge(src,dest);
+				this.edgeHM.get(src).put(dest,edge);
+			}
+			else this.edgeHM.get(src).put(dest,edge);
 			MC++;
 			EdgeSize++;
 		}

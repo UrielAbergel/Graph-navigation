@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import algorithms.Graph_Algo;
 import dataStructure.* ;
 import dataStructure.EdgeData;
 import dataStructure.NodeData;
@@ -36,6 +37,7 @@ public class GUI {
                 Point3D tempP = theCurrent.getLocation();
                 StdDraw.setPenColor(Color.black);
                 StdDraw.filledCircle(tempP.x(),tempP.y(),9);
+                StdDraw.text(tempP.x(),tempP.y()+20,""+theCurrent.getKey());
                 Iterator<edge_data> iterEdge = this.theArrays.get(i).getE(theCurrent.getKey()).iterator();
                 while (iterEdge.hasNext()){
                     edge_data tempEdge = iterEdge.next();
@@ -48,7 +50,9 @@ public class GUI {
                     StdDraw.line(srcP.x(),srcP.y(),destP.x(),destP.y());
                     StdDraw.setPenColor(Color.black);
                     StdDraw.filledCircle(srcP.x(), srcP.y(),9);
+                    StdDraw.text(srcP.x(),srcP.y()+20,""+src.getKey());
                     StdDraw.filledCircle(destP.x(), destP.y(),9);
+                    StdDraw.text(destP.x(),destP.y()+20,""+dest.getKey());
                 }
             }
         }
@@ -57,26 +61,30 @@ public class GUI {
 
 
     public static void main(String[] args) {
-        DGraph q = new DGraph();
-        NodeData p1 = new NodeData(100,200,4);
-        NodeData p2 = new NodeData(300,400,5);
-        NodeData p3 = new NodeData(150,300,7);
-        NodeData p4 = new NodeData(200,450,4);
-        q.addNode(p1);
-        q.addNode(p2);
-        q.addNode(p3);
-        q.addNode(p4);
-        q.connect(1,2,60);
-        q.connect(1,3,50);
-        q.connect(1,4,40);
-        q.connect(4,3,30);
+        Graph_Algo g = new Graph_Algo();
+        DGraph DG = new DGraph();
+        NodeData n1 = new NodeData(200,200,3);
+        NodeData n2 = new NodeData(150,200,3);
+        NodeData n3 = new NodeData(300,40,3);
+        NodeData n4 = new NodeData(450,400,3);
+        NodeData n5 = new NodeData(320,400,3);
+        NodeData n6 = new NodeData(226,260,3);
+        DG.addNode(n1);
+        DG.addNode(n2);
+        DG.addNode(n3);
+        DG.addNode(n4);
+        DG.addNode(n5);
+        DG.addNode(n6);
+        DG.connect(1,2,5);
+        DG.connect(1,3,5);
+        DG.connect(1,4,5);
+        DG.connect(6,2,5);
+        DG.connect(6,5,5);
+        DG.connect(6,4,5);
+        g.init(DG);
 
         GUI r = new GUI();
-        r.theArrays.add(q);
+        r.theArrays.add(DG);
         r.MainDraw();
-
-
-
-
     }
 }

@@ -19,6 +19,10 @@ import utils.Point3D;
 public class Graph_Algo implements graph_algorithms{
 	private graph graph = new DGraph();
 
+	public graph getGraph(){
+		return this.graph;
+	}
+
 	@Override
 	public void init(graph g) {
 		this.graph =  g;
