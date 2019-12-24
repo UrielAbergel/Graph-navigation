@@ -9,138 +9,52 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-import dataStructure.DGraph;
+import dataStructure.* ;
 import dataStructure.EdgeData;
 import dataStructure.NodeData;
 import dataStructure.node_data;
 import utils.Point3D;
 import utils.StdDraw;
 
-import javax.swing.JFrame;
 
-public class GUI extends JFrame implements ActionListener, MouseListener
-{
-    LinkedList<Point3D> points = new LinkedList<Point3D>();
-    DGraph p  ;
 
-    public GUI()
-    {
-        initGUI();
-    }
+public class GUI {
+    ArrayList<graph> theArrays = new ArrayList<>();
 
-    private void initGUI()
-    {
-        this.setSize(500, 500);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("Menu");
-        menuBar.add(menu);
-        this.setMenuBar(menuBar);
-
-        MenuItem item1 = new MenuItem("Item 1");
-        item1.addActionListener(this);
-
-        MenuItem item2 = new MenuItem("Item 2");
-        item2.addActionListener(this);
-
-        menu.add(item1);
-        menu.add(item2);
-
-        this.addMouseListener(this);
-
-    }
-    @Override
-    public void paint(Graphics g)
-    {
-        //super.paint(g);
-        NodeData prev = null;
-        for(Integer key : p.GraphMap.keySet()) {
-            NodeData NData = (NodeData) p.GraphMap.get(key);
-            g.drawString(""+NData.getKey() ,(int) NData.P3D.x(),(int)NData.P3D.y());
-            boolean flag = true;
-            for (Integer KeyNode : NData.HM.keySet()) {
-                EdgeData DestEdge = NData.HM.get(KeyNode);
-                g.setColor(Color.BLACK);
-                NodeData src = (NodeData) p.GraphMap.get(DestEdge.getSrc());
-                NodeData dest = (NodeData) p.GraphMap.get(DestEdge.getDest());
-                g.fillOval((int) src.P3D.x(), (int) src.P3D.y(), 5, 5);
-                g.fillOval((int) dest.P3D.x(), (int) dest.P3D.y(), 5, 5);
-                if(prev!=null) {
-
-                    g.setColor(Color.red);
-                    g.drawLine((int) src.P3D.ix(), (int) src.P3D.y(), (int) dest.P3D.x(), (int) dest.P3D.y());
-
-                    if(src.getDestEdge(dest.getKey())!= null && flag) {
-                        flag= false;
-                        g.setColor(Color.blue);
-                        g.drawString("" + src.getDestEdge(dest.getKey()).getWeight(), (int) (((src.P3D.ix() + prev.P3D.ix()) / 2)), (int) ((src.P3D.iy() + prev.P3D.iy()) / 2));
-                    }
+    public void MainDraw(){
+        StdDraw.setCanvasSize(800,800);
+        StdDraw.setXscale(-600,600);
+        StdDraw.setYscale(-600,600);
+        for (int i = 0; i < this.theArrays.size(); i++) {
+            Iterator<node_data> iterNodes = this.theArrays.get(i).getV().iterator();
+            while (iterNodes.hasNext()){
+                node_data theCurrent = iterNodes.next();
+                Point3D tempP = theCurrent.getLocation();
+                StdDraw.setPenColor(Color.black);
+                StdDraw.filledCircle(tempP.x(),tempP.y(),9);
+                Iterator<edge_data> iterEdge = this.theArrays.get(i).getE(theCurrent.getKey()).iterator();
+                while (iterEdge.hasNext()){
+                    edge_data tempEdge = iterEdge.next();
+                    node_data src = this.theArrays.get(i).getNode(tempEdge.getSrc());
+                    Point3D srcP = src.getLocation();
+                    node_data dest = this.theArrays.get(i).getNode(tempEdge.getDest());
+                    Point3D destP  = dest.getLocation();
+                    StdDraw.setPenColor(Color.red);
+                    StdDraw.setPenRadius(0.007);
+                    StdDraw.line(srcP.x(),srcP.y(),destP.x(),destP.y());
+                    StdDraw.setPenColor(Color.black);
+                    StdDraw.filledCircle(srcP.x(), srcP.y(),9);
+                    StdDraw.filledCircle(destP.x(), destP.y(),9);
                 }
-
-                prev = (NodeData)p.GraphMap.get(key);
             }
-            flag = true;
         }
-
-
-    }
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        DGraph q = new DGraph();
-        NodeData p1 = new NodeData(1,2,4);
-        NodeData p2 = new NodeData(3,4,5);
-        NodeData p3 = new NodeData(5,6,7);
-        NodeData p4 = new NodeData(7,8,4);
-        q.addNode(p1);
-        q.addNode(p2);
-        q.addNode(p3);
-        q.addNode(p4);
-        q.connect(1,2,10);
-        q.connect(1,3,4);
-        q.connect(1,4,2);
-        q.connect(4,3,5);
-        repaint();
-
-
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("mouseClicked");
 
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        Point3D p = new Point3D(x,y);
-        points.add(p);
-        repaint();
-        System.out.println("mousePressed");
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        System.out.println("mouseReleased");
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        System.out.println("mouseEntered");
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        System.out.println("mouseExited");
-    }
 
     public static void main(String[] args) {
         DGraph q = new DGraph();
@@ -158,9 +72,9 @@ public class GUI extends JFrame implements ActionListener, MouseListener
         q.connect(4,3,30);
 
         GUI r = new GUI();
-        r.p = q;
-        r.repaint();
-        r.setVisible(true);
+        r.theArrays.add(q);
+        r.MainDraw();
+
 
 
 
