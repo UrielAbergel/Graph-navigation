@@ -26,6 +26,8 @@ import utils.StdDraw;
 public class GUI {
     ArrayList<graph> theArrays = new ArrayList<>();
     GUI gui;
+    Graph_Algo AlgoGraph = new Graph_Algo();
+    DGraph dGraph = new DGraph();
 
     public GUI(){
         StdDraw.setCanvasSize(700,700);
@@ -70,8 +72,50 @@ public class GUI {
         }
         StdDraw.createMenuBar();
     }
-
-
+    public void update(){
+        StdDraw.clear();
+        StdDraw.setCanvasSize(700,700);
+        StdDraw.setXscale(-600,600);
+        StdDraw.setYscale(-600,600);
+        for (int i = 0; i < this.theArrays.size(); i++) {
+            Iterator<node_data> iterNodes = this.theArrays.get(i).getV().iterator();
+            while (iterNodes.hasNext()) {
+                node_data theCurrent = iterNodes.next();
+                Point3D tempP = theCurrent.getLocation();
+                StdDraw.setPenColor(Color.black);
+                StdDraw.filledCircle(tempP.x(), tempP.y(), 9);
+                StdDraw.text(tempP.x(), tempP.y() + 20, "" + theCurrent.getKey());
+                if (this.theArrays.get(i).getE(theCurrent.getKey()) != null) {
+                    Iterator<edge_data> iterEdge = this.theArrays.get(i).getE(theCurrent.getKey()).iterator();
+                    while (iterEdge.hasNext()) {
+                        edge_data tempEdge = iterEdge.next();
+                        node_data src = this.theArrays.get(i).getNode(tempEdge.getSrc());
+                        Point3D srcP = src.getLocation();
+                        node_data dest = this.theArrays.get(i).getNode(tempEdge.getDest());
+                        Point3D destP = dest.getLocation();
+                        StdDraw.setPenColor(Color.red);
+                        StdDraw.setPenRadius(0.007);
+                        StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
+                        StdDraw.setPenColor(Color.black);
+                        StdDraw.filledCircle(srcP.x(), srcP.y(), 9);
+                        StdDraw.text(srcP.x(), srcP.y() + 20, "" + src.getKey());
+                        StdDraw.filledCircle(destP.x(), destP.y(), 9);
+                        StdDraw.text(destP.x(), destP.y() + 20, "" + dest.getKey());
+                        StdDraw.setPenColor(Color.BLUE);
+                        StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+10, "" + tempEdge.getWeight());
+                        StdDraw.setPenColor(Color.GREEN);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),5);
+                    }
+                }
+            }
+        }
+        StdDraw.createMenuBar();
+    }
+//    public void initGraph(String filename){
+//        AlgoGraph.init(filename);
+//        dGraph=new DGraph( AlgoGraph._G_);
+//
+//    }
 
     public static void main(String[] args) {
         Graph_Algo g = new Graph_Algo();

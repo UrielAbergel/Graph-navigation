@@ -18,6 +18,7 @@ import utils.Point3D;
  */
 public class Graph_Algo implements graph_algorithms{
 	private graph graph = new DGraph();
+	public Graph_Algo _G_ = new Graph_Algo();
 
 	public graph getGraph(){
 		return this.graph;

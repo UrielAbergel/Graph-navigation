@@ -483,7 +483,8 @@ import javax.swing.KeyStroke;
  *  @author Kevin Wayne
  */
 public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-
+	public static Graph_Algo graph = new Graph_Algo();
+	GUI gui = new GUI();
 	/**
 	 *  The color black.
 	 */
@@ -717,7 +718,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	// create the menu bar (changed to private)
-	public Graph_Algo graph = new Graph_Algo();
 	public void initGraph (Graph_Algo algoG){
 		this.graph = algoG;
 	}
@@ -1634,7 +1634,9 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * @param  filename the name of the file with one of the required suffixes
 	 */
 	public static void load(String filename) {
+		System.out.println(filename);
 		if (filename == null) throw new IllegalArgumentException();
+		graph.init(filename);
 	}
 	public static void save(String filename) {
 		if (filename == null) throw new IllegalArgumentException();
@@ -1701,11 +1703,12 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 			}
 		}
 		if(e.getActionCommand().equals("Load...")) {
-			FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.LOAD);
+			FileDialog chooser = new FileDialog(StdDraw.frame, "Load the graph", FileDialog.LOAD);
 			chooser.setVisible(true);
 			String filename = chooser.getFile();
 			if (filename != null) {
 				StdDraw.load(chooser.getDirectory() + File.separator + chooser.getFile());
+				gui.update();
 			}
 		}
 	}
