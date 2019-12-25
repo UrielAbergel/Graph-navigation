@@ -214,6 +214,7 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
+		System.out.println("AAAAAAAAAAAAAAAAAAAA");
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
 		int theINow = targets.get(0) ;
 		int indexToDelete = 0 ;

@@ -22,7 +22,6 @@ public class NodeData implements node_data, Serializable {
     }
     public NodeData(Point3D p){
         this.P3D = p;
-
     }
 
 

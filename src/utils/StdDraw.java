@@ -27,6 +27,9 @@ package utils;
  *
  ******************************************************************************/
 
+import Graph_GUI.GUI;
+import algorithms.Graph_Algo;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -63,6 +66,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
@@ -713,20 +717,22 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	// create the menu bar (changed to private)
+	public Graph_Algo graph = new Graph_Algo();
+	public void initGraph (Graph_Algo algoG){
+		this.graph = algoG;
+	}
 	public static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		JMenu menu2 = new JMenu("Algo");
 		menuBar.add(menu);
 		menuBar.add(menu2);
-		JMenuItem menuItem1 = new JMenuItem(" Save...");
-		JMenuItem menuItem6 = new JMenuItem(" Load...");
+		JMenuItem menuItem1 = new JMenuItem("Save...");
+		JMenuItem menuItem6 = new JMenuItem("Load...");
 		menuItem1.addActionListener(std);
+		menuItem6.addActionListener(std);
 		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-//		menuItem6.addActionListener(std);
-//		menuItem6.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-//				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		menu.add(menuItem1);
 		menu.add(menuItem6);
 		JMenuItem menuItem2 = new JMenuItem("isConnected");
@@ -737,6 +743,10 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 		menu2.add(menuItem3);
 		menu2.add(menuItem4);
 		menu2.add(menuItem5);
+		menuItem2.addActionListener(std);
+		menuItem3.addActionListener(std);
+		menuItem4.addActionListener(std);
+		menuItem5.addActionListener(std);
 		return menuBar;
 	}
 
@@ -1623,6 +1633,9 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 *
 	 * @param  filename the name of the file with one of the required suffixes
 	 */
+	public static void load(String filename) {
+		if (filename == null) throw new IllegalArgumentException();
+	}
 	public static void save(String filename) {
 		if (filename == null) throw new IllegalArgumentException();
 		File file = new File(filename);
@@ -1668,12 +1681,32 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 * This method cannot be called directly.
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
-		chooser.setVisible(true);
-		String filename = chooser.getFile();
-		if (filename != null) {
-			StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
+	public void actionPerformed(ActionEvent e) {//menu bar
+		if (e.getActionCommand().equals("isConnected")){
+			System.out.println(graph.isConnected());
+		}
+		if (e.getActionCommand().equals("TSP")){
+			List<Integer> l = new LinkedList<Integer>();
+			l.add(1);
+			l.add(2);
+			graph.TSP(l);
+		}
+
+		if(e.getActionCommand().equals("Save...")) {
+			FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
+			chooser.setVisible(true);
+			String filename = chooser.getFile();
+			if (filename != null) {
+				StdDraw.save(chooser.getDirectory() + File.separator + chooser.getFile());
+			}
+		}
+		if(e.getActionCommand().equals("Load...")) {
+			FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.LOAD);
+			chooser.setVisible(true);
+			String filename = chooser.getFile();
+			if (filename != null) {
+				StdDraw.load(chooser.getDirectory() + File.separator + chooser.getFile());
+			}
 		}
 	}
 

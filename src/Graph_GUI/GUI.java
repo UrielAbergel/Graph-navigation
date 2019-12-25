@@ -25,7 +25,13 @@ import utils.StdDraw;
 
 public class GUI {
     ArrayList<graph> theArrays = new ArrayList<>();
+    GUI gui;
 
+    public GUI(){
+        StdDraw.setCanvasSize(700,700);
+        StdDraw.setXscale(-600,600);
+        StdDraw.setYscale(-600,600);
+    }
     public void MainDraw(){
         StdDraw.setCanvasSize(700,700);
         StdDraw.setXscale(-600,600);
@@ -91,6 +97,7 @@ public class GUI {
         g.init(DG);
 
         GUI r = new GUI();
+
         r.theArrays.add(DG);
         r.MainDraw();
     }
