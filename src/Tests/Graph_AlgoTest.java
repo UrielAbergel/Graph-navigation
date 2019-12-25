@@ -3,7 +3,14 @@ package Tests;
 import algorithms.Graph_Algo;
 import dataStructure.DGraph;
 import dataStructure.NodeData;
+import dataStructure.graph;
+import dataStructure.node_data;
 import org.junit.Test;
+import utils.Point3D;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -192,7 +199,20 @@ public class Graph_AlgoTest {
         DG.connect(1,6,10);
         g.init(DG);
         flag = 10 == g.shortestPathDist(1,6);
+        DG.reset();
         assertEquals(true,flag);
+        NodeData b1 = new NodeData(100,200,3);
+        NodeData b2 = new NodeData(150,200,3);
+        NodeData b3 = new NodeData(300,450,3);
+        NodeData b4 = new NodeData(450,500,3);
+        NodeData b5 = new NodeData(320,600,3);
+        NodeData b6 = new NodeData(226,260,3);
+        DG.addNode(b1);
+        DG.addNode(b2);
+        DG.addNode(b3);
+        DG.addNode(b4);
+        DG.addNode(b5);
+        DG.addNode(b6);
         DG.connect(1,2,1);
         DG.connect(2,3,2);
         DG.connect(3,4,3);
@@ -202,18 +222,103 @@ public class Graph_AlgoTest {
         g.init(DG);
         flag = 15 == g.shortestPathDist(1,6);
         assertEquals(true,flag);
-
     }
 
     @Test
     public void shortestPath() {
+        Point3D x = new Point3D(14,4,0);
+        Point3D x2 = new Point3D(-75,14,0);
+        Point3D x3 = new Point3D(80,5,0);
+        Point3D x4 = new Point3D(1,4,0);
+        Point3D x5 = new Point3D(-5,1,0);
+        Point3D x6 = new Point3D(8,3,0);
+        Point3D x7 = new Point3D(4,1,0);
+        Point3D x8 = new Point3D(75,14,0);
+        node_data a1 = new NodeData(x);
+        node_data a2 = new NodeData(x2);
+        node_data a3 = new NodeData(x3);
+        node_data a4 = new NodeData(x4);
+        node_data a5 = new NodeData(x5);
+        node_data a6 = new NodeData(x6);
+        node_data a7 = new NodeData(x7);
+        node_data a8 = new NodeData(x8);
+        DGraph d = new DGraph();
+        d.addNode(a1);
+        d.addNode(a2);
+        d.addNode(a3);
+        d.addNode(a4);
+        d.addNode(a5);
+        d.addNode(a6);
+        d.addNode(a7);
+        d.addNode(a8);
+        d.connect(a1.getKey(),a2.getKey(),5);
+        d.connect(a1.getKey(),a5.getKey(),2);
+        d.connect(a1.getKey(),a3.getKey(),6);
+        d.connect(a3.getKey(),a4.getKey(),7);
+        d.connect(a2.getKey(),a8.getKey(),8);
+        d.connect(a2.getKey(),a7.getKey(),3);
+        d.connect(a5.getKey(),a6.getKey(),2);
+        d.connect(a6.getKey(),a7.getKey(),3);
+        d.connect(a7.getKey(),a6.getKey(),3);
+        Graph_Algo p = new Graph_Algo();
+        p.init(d);
+        List<node_data> ans = new LinkedList<node_data>();
+        ans = p.shortestPath(1,7);
+        List<node_data> test = new LinkedList<node_data>();
+        test.add(a1);
+        test.add(a5);
+        test.add(a6);
+        test.add(a7);
+        assertEquals(test.get(0).getKey(),ans.get(0).getKey());
+        assertEquals(test.get(1).getKey(),ans.get(1).getKey());
+        assertEquals(test.get(2).getKey(),ans.get(2).getKey());
+        assertEquals(test.get(3).getKey(),ans.get(3).getKey());
     }
 
     @Test
     public void TSP() {
+
     }
 
     @Test
-    public void copy() {
+    public void copy() {Point3D x = new Point3D(14,4,0);
+        Point3D x2 = new Point3D(-75,14,0);
+        Point3D x3 = new Point3D(80,5,0);
+        Point3D x4 = new Point3D(1,4,0);
+        Point3D x5 = new Point3D(-5,1,0);
+        Point3D x6 = new Point3D(8,3,0);
+        Point3D x7 = new Point3D(4,1,0);
+        Point3D x8 = new Point3D(75,14,0);
+        node_data a1 = new NodeData(x);
+        node_data a2 = new NodeData(x2);
+        node_data a3 = new NodeData(x3);
+        node_data a4 = new NodeData(x4);
+        node_data a5 = new NodeData(x5);
+        node_data a6 = new NodeData(x6);
+        node_data a7 = new NodeData(x7);
+        node_data a8 = new NodeData(x8);
+        DGraph d = new DGraph();
+        d.addNode(a1);
+        d.addNode(a2);
+        d.addNode(a3);
+        d.addNode(a4);
+        d.addNode(a5);
+        d.addNode(a6);
+        d.addNode(a7);
+        d.addNode(a8);
+        d.connect(a1.getKey(),a2.getKey(),5);
+        d.connect(a1.getKey(),a5.getKey(),2);
+        d.connect(a1.getKey(),a3.getKey(),6);
+        d.connect(a3.getKey(),a4.getKey(),7);
+        d.connect(a2.getKey(),a8.getKey(),8);
+        d.connect(a2.getKey(),a7.getKey(),3);
+        d.connect(a5.getKey(),a6.getKey(),2);
+        d.connect(a6.getKey(),a7.getKey(),3);
+        d.connect(a7.getKey(),a6.getKey(),3);
+        Graph_Algo p = new Graph_Algo();
+        p.init(d);
+        graph g = new DGraph();
+        g = p.copy();
+        assertNotEquals(g,p.getGraph());
     }
 }

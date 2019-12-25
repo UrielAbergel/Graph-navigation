@@ -35,7 +35,10 @@ public class DGraph implements graph, Serializable {
 	@Override
 	public edge_data getEdge(int src, int dest) {
 
-		return this.edgeHM.get(src).get(dest);
+		if(this.edgeHM.get(src)!=null && this.edgeHM.get(src).get(dest)!=null){
+			return this.edgeHM.get(src).get(dest);
+		}
+		return null;
 	}
 
 	private int getWieght(int src, int dest) {
@@ -67,7 +70,7 @@ public class DGraph implements graph, Serializable {
 				this.edgeHM.put(src,s);
 			}
 			if(this.edgeHM.get(src).containsKey(dest)){
-				this.removeEdge(src,dest);
+				this.edgeHM.get(src).remove(dest);
 				this.edgeHM.get(src).put(dest,edge);
 			}
 			else this.edgeHM.get(src).put(dest,edge);

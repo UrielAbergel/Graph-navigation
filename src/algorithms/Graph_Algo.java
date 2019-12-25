@@ -107,8 +107,17 @@ public class Graph_Algo implements graph_algorithms{
 		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
 		SPDrec(dest,srcDataNode);
 		ChangeTheTag();
+		//ChangeTheTagToEdge();
+		//resetWeightToDones();
 		return this.graph.getNode(dest).getWeight();
 
+	}
+
+	private void resetWeightToDones() {
+		Iterator<node_data> iter = this.graph.getV().iterator();
+		while(iter.hasNext()){
+			iter.next().setWeight(0);
+		}
 	}
 
 	public void SPDrec(int dest,NodeData current){
@@ -139,6 +148,7 @@ public class Graph_Algo implements graph_algorithms{
 		SPArrays = ReturnTheSPway(dest,src,CopyGraph);
 		SPArrays =  ReverseArrays(SPArrays);
 		ChangeTheTag();
+		ChangeTheTagToEdge();
 		return SPArrays;
 	}
 
@@ -185,9 +195,17 @@ public class Graph_Algo implements graph_algorithms{
 				Iterator<edge_data> iterEdge = copy.getE(tempOne.getKey()).iterator();
 				while (iterEdge.hasNext()) {
 					edge_data tempEdge = iterEdge.next();
-					CopyToCopy.connect(tempEdge.getDest(), tempEdge.getSrc(), tempEdge.getWeight());
-					CopyToCopy.removeEdge(tempEdge.getSrc(), tempEdge.getDest());
-
+					if (CopyToCopy.getEdge(tempEdge.getSrc(), tempEdge.getDest()).getTag() == 0) {
+						if (CopyToCopy.getEdge(tempEdge.getDest(), tempEdge.getSrc()) == null) {
+							CopyToCopy.connect(tempEdge.getDest(), tempEdge.getSrc(), tempEdge.getWeight());
+							CopyToCopy.removeEdge(tempEdge.getSrc(), tempEdge.getDest());
+						} else {
+							edge_data tEdge = CopyToCopy.getEdge(tempEdge.getDest(), tempEdge.getSrc());
+							CopyToCopy.connect(tempEdge.getDest(), tempEdge.getSrc(), tempEdge.getWeight());
+							CopyToCopy.connect(tempEdge.getSrc(), tempEdge.getDest(), tEdge.getWeight());
+							CopyToCopy.getEdge(tempEdge.getDest(), tempEdge.getSrc()).setTag(1);
+						}
+					}
 				}
 			}
 		}
@@ -261,6 +279,17 @@ public class Graph_Algo implements graph_algorithms{
 		Iterator<node_data> iter = this.graph.getV().iterator();
 		while (iter.hasNext()){
 			iter.next().setTag(0);
+		}
+	}public void ChangeTheTagToEdge(){
+		Iterator<node_data> iter = this.graph.getV().iterator();
+		while (iter.hasNext()){
+			node_data n = iter.next();
+			if(this.graph.getE(n.getKey())!=null) {
+				Iterator<edge_data> iter2 = this.graph.getE(n.getKey()).iterator();
+				while (iter2.hasNext()) {
+					iter2.next().setTag(0);
+				}
+			}
 		}
 	}
 
