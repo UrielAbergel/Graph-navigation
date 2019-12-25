@@ -35,10 +35,13 @@ public class DGraph implements graph, Serializable {
 	@Override
 	public edge_data getEdge(int src, int dest) {
 
-		if(this.edgeHM.get(src)!=null && this.edgeHM.get(src).get(dest)!=null){
-			return this.edgeHM.get(src).get(dest);
+		if(this.edgeHM.get(src)==null){
+			return null;
 		}
-		return null;
+		if(this.edgeHM.get(src).get(dest)==null){
+			return null;
+		}
+		return this.edgeHM.get(src).get(dest);
 	}
 
 	private int getWieght(int src, int dest) {

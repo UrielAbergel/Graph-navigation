@@ -7,7 +7,7 @@ import dataStructure.graph;
 import dataStructure.node_data;
 import org.junit.Test;
 import utils.Point3D;
-
+import algorithms.graph_algorithms;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class Graph_AlgoTest {
 
     @Test
     public void init() {
-        Graph_Algo g = new Graph_Algo();
+        Graph_Algo g1 = new Graph_Algo();
         DGraph DG = new DGraph();
         NodeData n1 = new NodeData(1,2,3);
         NodeData n2 = new NodeData(1,2,3);
@@ -38,8 +38,8 @@ public class Graph_AlgoTest {
         DG.connect(6,2,5);
         DG.connect(6,5,5);
         DG.connect(6,4,5);
-        g.init(DG);
-        assertEquals(DG,g.getGraph());
+        g1.init(DG);
+        assertEquals(DG,g1.getGraph());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class Graph_AlgoTest {
         assertEquals(true,g3.isConnected());
 
     }
-//------------------- NEED TO LOOKOUT AT CONNECT!! DO NOT CHANGE ID THERE IS CONNECTION!
+    //------------------- NEED TO LOOKOUT AT CONNECT!! DO NOT CHANGE ID THERE IS CONNECTION!
     @Test
     public void shortestPathDist() {
         Graph_Algo g = new Graph_Algo();
