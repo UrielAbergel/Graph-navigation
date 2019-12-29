@@ -28,8 +28,8 @@ package utils;
  ******************************************************************************/
 
 import Graph_GUI.GUI;
-import algorithms.Graph_Algo;
-
+import algorithms.*;
+import dataStructure.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -62,6 +62,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -71,13 +72,7 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -482,9 +477,8 @@ import javax.swing.KeyStroke;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public final class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
-	public static Graph_Algo graph = new Graph_Algo();
-	GUI gui = new GUI();
+public class StdDraw implements ActionListener, MouseListener, MouseMotionListener, KeyListener {
+	public static GUI thisGui = new GUI();
 	/**
 	 *  The color black.
 	 */
@@ -636,7 +630,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	private static TreeSet<Integer> keysDown = new TreeSet<Integer>();
 
 	// singleton pattern: client can't instantiate
-	private StdDraw() { }
+	public StdDraw() { }
 
 
 	// static initializer
@@ -718,9 +712,6 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	}
 
 	// create the menu bar (changed to private)
-	public void initGraph (Graph_Algo algoG){
-		this.graph = algoG;
-	}
 	public static JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
@@ -1636,46 +1627,11 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	public static void load(String filename) {
 		System.out.println(filename);
 		if (filename == null) throw new IllegalArgumentException();
-		graph.init(filename);
+		thisGui.AlgoGraph.init(filename);
+		thisGui.MainDraw();
 	}
 	public static void save(String filename) {
-		if (filename == null) throw new IllegalArgumentException();
-		File file = new File(filename);
-		String suffix = filename.substring(filename.lastIndexOf('.') + 1);
-
-		// png files
-		if ("png".equalsIgnoreCase(suffix)) {
-			try {
-				ImageIO.write(onscreenImage, suffix, file);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		// need to change from ARGB to RGB for JPEG
-		// reference: http://archives.java.sun.com/cgi-bin/wa?A2=ind0404&L=java2d-interest&D=0&P=2727
-		else if ("jpg".equalsIgnoreCase(suffix)) {
-			WritableRaster raster = onscreenImage.getRaster();
-			WritableRaster newRaster;
-			newRaster = raster.createWritableChild(0, 0, width, height, 0, 0, new int[] {0, 1, 2});
-			DirectColorModel cm = (DirectColorModel) onscreenImage.getColorModel();
-			DirectColorModel newCM = new DirectColorModel(cm.getPixelSize(),
-					cm.getRedMask(),
-					cm.getGreenMask(),
-					cm.getBlueMask());
-			BufferedImage rgbBuffer = new BufferedImage(newCM, newRaster, false,  null);
-			try {
-				ImageIO.write(rgbBuffer, suffix, file);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		else {
-			System.out.println("Invalid image file type: " + suffix);
-		}
+		StdDraw.thisGui.AlgoGraph.save(filename);
 	}
 
 
@@ -1684,18 +1640,40 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
+
 		if (e.getActionCommand().equals("isConnected")){
-			System.out.println(graph.isConnected());
+			JFrame f = new JFrame();
+			System.out.println(thisGui.AlgoGraph.isConnected());
+			JOptionPane.showMessageDialog(f,""+thisGui.AlgoGraph.isConnected());
+		}
+		if(e.getActionCommand().equals("shortestPathDist")){
+			JFrame f = new JFrame();
+			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
+			String dest = JOptionPane.showInputDialog("please enter a the dest");
+			double ans = thisGui.AlgoGraph.shortestPathDist(Integer.parseInt(src),Integer.parseInt(dest));
+			JOptionPane.showMessageDialog(f,"the shortestPath is: "+ans);
+		}
+		if(e.getActionCommand().equals("shortestPath")){
+			JFrame f = new JFrame();
+			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
+			String dest = JOptionPane.showInputDialog("please enter a the dest");
+			List<node_data> ans = thisGui.AlgoGraph.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
+			thisGui.update(ans);
 		}
 		if (e.getActionCommand().equals("TSP")){
-			List<Integer> l = new LinkedList<Integer>();
-			l.add(1);
-			l.add(2);
-			graph.TSP(l);
+			JFrame f = new JFrame();
+			String point  = JOptionPane.showInputDialog(f,"please enter a the points for sales man travels <int,int,int..>");
+			String[] points = point.split(",");
+			List<Integer> IntList = new LinkedList<>();
+			for (int i = 0; i < points.length; i++) {
+				IntList.add(Integer.parseInt(points[i]));
+			}
+			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
+			thisGui.update(ans);
 		}
 
 		if(e.getActionCommand().equals("Save...")) {
-			FileDialog chooser = new FileDialog(StdDraw.frame, "Use a .png or .jpg extension", FileDialog.SAVE);
+			FileDialog chooser = new FileDialog(StdDraw.frame, "Name", FileDialog.SAVE);
 			chooser.setVisible(true);
 			String filename = chooser.getFile();
 			if (filename != null) {
@@ -1708,7 +1686,7 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 			String filename = chooser.getFile();
 			if (filename != null) {
 				StdDraw.load(chooser.getDirectory() + File.separator + chooser.getFile());
-				gui.update();
+				//thisGui.update();
 			}
 		}
 	}
