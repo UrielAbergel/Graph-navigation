@@ -215,31 +215,34 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		System.out.println("AAAAAAAAAAAAAAAAAAAA");
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
 		int theINow = targets.get(0) ;
 		int indexToDelete = 0 ;
-		int theOnetoThanos = 0 ;
+		int theCurrenOne = 0 ;
+		try {
+			while (!targets.isEmpty()) {
 
-		while(!targets.isEmpty()) {
-			double min = Double.MAX_VALUE;
-			for (int j = 0 ; j < targets.size() ; j++ ) {
-					if(min >shortestPathDist(theINow,targets.get(j)) && targets.get(j) !=theINow)
-					{
-						min = shortestPathDist(theINow,targets.get(j));
-						theOnetoThanos = targets.get(j);
-						indexToDelete = targets.indexOf(theINow) ;
+				double min = Double.MAX_VALUE;
+				for (int j = 0; j < targets.size(); j++) {
+					if (min > shortestPathDist(theINow, targets.get(j)) && targets.get(j) != theINow) {
+						min = shortestPathDist(theINow, targets.get(j));
+						theCurrenOne = targets.get(j);
+						indexToDelete = targets.indexOf(theINow);
 					}
-			}
-			targets.remove(indexToDelete);
-			List<node_data> tempArrays = this.shortestPath(theINow,theOnetoThanos);
-			AddToTheArrays(saveThisNodes,tempArrays);
-			theINow = theOnetoThanos ;
+				}
+				targets.remove(indexToDelete);
+				List<node_data> tempArrays = this.shortestPath(theINow, theCurrenOne);
+				AddToTheArrays(saveThisNodes, tempArrays);
+				theINow = theCurrenOne;
 
+			}
+			saveThisNodes.add(this.graph.getNode(theCurrenOne));
+			ChangeTheTag();
+			return saveThisNodes;
 		}
-		saveThisNodes.add(this.graph.getNode(theOnetoThanos));
-		ChangeTheTag();
-		return saveThisNodes;
+		catch (Exception e){
+			return null;
+		}
 	}
 
 	private void AddToTheArrays(List<node_data> saveThisNodes, List<node_data> tempArrays) {
