@@ -18,7 +18,7 @@ import utils.Point3D;
  */
 public class Graph_Algo implements graph_algorithms{
 	private graph graph = new DGraph();
-	public Graph_Algo _G_ = new Graph_Algo();
+	//public Graph_Algo _G_ = new Graph_Algo();
 
 	public graph getGraph(){
 		return this.graph;
@@ -109,7 +109,6 @@ public class Graph_Algo implements graph_algorithms{
 		SPDrec(dest,srcDataNode);
 		ChangeTheTag();
 		//ChangeTheTagToEdge();
-		//resetWeightToDones();
 		return this.graph.getNode(dest).getWeight();
 
 	}
@@ -117,7 +116,8 @@ public class Graph_Algo implements graph_algorithms{
 	private void resetWeightToDones() {
 		Iterator<node_data> iter = this.graph.getV().iterator();
 		while(iter.hasNext()){
-			iter.next().setWeight(0);
+			node_data n = iter.next();
+			n.setWeight(Integer.MAX_VALUE);
 		}
 	}
 
@@ -125,9 +125,9 @@ public class Graph_Algo implements graph_algorithms{
 		if(current.getKey() == dest) return;
 		if(current.getTag()==1) return;
 		current.setTag(1);
-		Iterator<EdgeData> ite = current.HM.values().iterator();
+		Iterator<edge_data> ite = this.graph.getE(current.getKey()).iterator();
 		while (ite.hasNext()){
-			EdgeData toCheckedge = ite.next();
+			edge_data toCheckedge = ite.next();
 			int tempdest = toCheckedge.getDest();
 			node_data p = this.graph.getNode(tempdest);
 			if(current.getWeight()+toCheckedge.getWeight()<p.getWeight())
@@ -215,31 +215,35 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
-		System.out.println("AAAAAAAAAAAAAAAAAAAA");
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
 		int theINow = targets.get(0) ;
 		int indexToDelete = 0 ;
 		int theOnetoThanos = 0 ;
-
-		while(!targets.isEmpty()) {
-			double min = Double.MAX_VALUE;
-			for (int j = 0 ; j < targets.size() ; j++ ) {
-					if(min >shortestPathDist(theINow,targets.get(j)) && targets.get(j) !=theINow)
-					{
-						min = shortestPathDist(theINow,targets.get(j));
+		try {
+			while (!targets.isEmpty()) {
+				double min = Double.MAX_VALUE;
+				for (int j = 0; j < targets.size(); j++) {
+					if (min > shortestPathDist(theINow, targets.get(j)) && targets.get(j) != theINow) {
+						min = shortestPathDist(theINow, targets.get(j));
+						resetWeightToDones();
 						theOnetoThanos = targets.get(j);
-						indexToDelete = targets.indexOf(theINow) ;
+						indexToDelete = targets.indexOf(theINow);
 					}
-			}
-			targets.remove(indexToDelete);
-			List<node_data> tempArrays = this.shortestPath(theINow,theOnetoThanos);
-			AddToTheArrays(saveThisNodes,tempArrays);
-			theINow = theOnetoThanos ;
+				}
+				targets.remove(indexToDelete);
+				List<node_data> tempArrays = this.shortestPath(theINow, theOnetoThanos);
+				AddToTheArrays(saveThisNodes, tempArrays);
+				theINow = theOnetoThanos;
 
+			}
+			saveThisNodes.add(this.graph.getNode(theOnetoThanos));
+			ChangeTheTag();
+			return saveThisNodes;
 		}
-		saveThisNodes.add(this.graph.getNode(theOnetoThanos));
-		ChangeTheTag();
-		return saveThisNodes;
+		catch (Exception e){
+			System.out.println("Not Exist");
+			return null;
+		}
 	}
 
 	private void AddToTheArrays(List<node_data> saveThisNodes, List<node_data> tempArrays) {
@@ -282,7 +286,8 @@ public class Graph_Algo implements graph_algorithms{
 		while (iter.hasNext()){
 			iter.next().setTag(0);
 		}
-	}public void ChangeTheTagToEdge(){
+	}
+	public void ChangeTheTagToEdge(){
 		Iterator<node_data> iter = this.graph.getV().iterator();
 		while (iter.hasNext()){
 			node_data n = iter.next();

@@ -129,4 +129,8 @@ public class DGraph implements graph, Serializable {
 	public static String StringToHash(int src,int dest){
 		return ""+src+","+dest;
 	}
+	public String toString(){
+		return GraphMap.toString();
+		//return GraphMap.toString();
+	}
 }
