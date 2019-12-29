@@ -13,7 +13,7 @@ import utils.Point3D;
 /**
  * This empty class represents the set of graph-theory algorithms
  * which should be implemented as part of Ex2 - Do edit this class.
- * @author 
+ * @author
  *
  */
 public class Graph_Algo implements graph_algorithms{
@@ -165,19 +165,19 @@ public class Graph_Algo implements graph_algorithms{
 		ArrayList<node_data> SaveTheWay = new ArrayList<>();
 		node_data source = copyGraph.getNode(src);
 		while(src!=dest){
-			 source = copyGraph.getNode(src);
+			source = copyGraph.getNode(src);
 			SaveTheWay.add(source);
-			 double weight = Double.MAX_VALUE;
-			 Iterator<edge_data> iteEd = copyGraph.getE(src).iterator();
-			 while (iteEd.hasNext()){
-			 	edge_data tempEdge = iteEd.next();
-			 	node_data tempNode = this.graph.getNode(tempEdge.getDest());
-			 	if(source.getWeight()+tempEdge.getWeight()< weight && source.getWeight()-tempEdge.getWeight()==tempNode.getWeight())
+			double weight = Double.MAX_VALUE;
+			Iterator<edge_data> iteEd = copyGraph.getE(src).iterator();
+			while (iteEd.hasNext()){
+				edge_data tempEdge = iteEd.next();
+				node_data tempNode = this.graph.getNode(tempEdge.getDest());
+				if(source.getWeight()+tempEdge.getWeight()< weight && source.getWeight()-tempEdge.getWeight()==tempNode.getWeight())
 				{
 					weight = source.getWeight()+tempEdge.getWeight();
 					src = tempEdge.getDest();
 				}
-			 }
+			}
 
 		}
 		source = copyGraph.getNode(dest);
@@ -218,53 +218,30 @@ public class Graph_Algo implements graph_algorithms{
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
 		int theINow = targets.get(0) ;
 		int indexToDelete = 0 ;
-<<<<<<< HEAD
-		int theCurrenOne = 0 ;
-		try {
-			while (!targets.isEmpty()) {
-
-=======
 		int theOnetoThanos = 0 ;
 		try {
 			while (!targets.isEmpty()) {
->>>>>>> d724b83ed4a8caceb505af9ac07f1ba000c92456
 				double min = Double.MAX_VALUE;
 				for (int j = 0; j < targets.size(); j++) {
 					if (min > shortestPathDist(theINow, targets.get(j)) && targets.get(j) != theINow) {
 						min = shortestPathDist(theINow, targets.get(j));
-<<<<<<< HEAD
-						theCurrenOne = targets.get(j);
-=======
 						resetWeightToDones();
 						theOnetoThanos = targets.get(j);
->>>>>>> d724b83ed4a8caceb505af9ac07f1ba000c92456
 						indexToDelete = targets.indexOf(theINow);
 					}
 				}
 				targets.remove(indexToDelete);
-<<<<<<< HEAD
-				List<node_data> tempArrays = this.shortestPath(theINow, theCurrenOne);
-				AddToTheArrays(saveThisNodes, tempArrays);
-				theINow = theCurrenOne;
-
-			}
-			saveThisNodes.add(this.graph.getNode(theCurrenOne));
-=======
 				List<node_data> tempArrays = this.shortestPath(theINow, theOnetoThanos);
 				AddToTheArrays(saveThisNodes, tempArrays);
 				theINow = theOnetoThanos;
 
 			}
 			saveThisNodes.add(this.graph.getNode(theOnetoThanos));
->>>>>>> d724b83ed4a8caceb505af9ac07f1ba000c92456
 			ChangeTheTag();
 			return saveThisNodes;
 		}
 		catch (Exception e){
-<<<<<<< HEAD
-=======
 			System.out.println("Not Exist");
->>>>>>> d724b83ed4a8caceb505af9ac07f1ba000c92456
 			return null;
 		}
 	}
@@ -273,7 +250,7 @@ public class Graph_Algo implements graph_algorithms{
 		Iterator<node_data> iter = tempArrays.iterator();
 		while (iter.hasNext())
 		{
-		saveThisNodes.add(iter.next());
+			saveThisNodes.add(iter.next());
 		}
 		saveThisNodes.remove(saveThisNodes.get(saveThisNodes.size()-1));
 	}
@@ -353,10 +330,10 @@ public class Graph_Algo implements graph_algorithms{
 //		System.out.println();
 //		e.isConnected();
 		//System.out.println(e.shortestPathDist(1,6));
-	//	List<node_data> g = e.shortestPath(1,6);
-	//	System.out.println(g.toString());
+		//	List<node_data> g = e.shortestPath(1,6);
+		//	System.out.println(g.toString());
 		//e.graph.getEdge(1,2).setInfo("111");
-	//	edge_data ee = e.graph.getEdge(1,2);
+		//	edge_data ee = e.graph.getEdge(1,2);
 		//String s = e.graph.getEdge(1,2).getInfo();
 		//System.out.println(e.isConnected());
 //		List<Integer> ppp = new ArrayList<>();
@@ -388,42 +365,42 @@ public class Graph_Algo implements graph_algorithms{
 //		boolean f =g.isConnected();
 //		System.out.println(f);
 		Point3D x = new Point3D(14,4,0);
-        Point3D x2 = new Point3D(-75,14,0);
-        Point3D x3 = new Point3D(80,5,0);
-        Point3D x4 = new Point3D(1,4,0);
-        Point3D x5 = new Point3D(-5,1,0);
-        Point3D x6 = new Point3D(8,3,0);
-        Point3D x7 = new Point3D(4,1,0);
-        Point3D x8 = new Point3D(75,14,0);
-        node_data a1 = new NodeData(x);
-        node_data a2 = new NodeData(x2);
-        node_data a3 = new NodeData(x3);
-        node_data a4 = new NodeData(x4);
-        node_data a5 = new NodeData(x5);
-        node_data a6 = new NodeData(x6);
-        node_data a7 = new NodeData(x7);
-        node_data a8 = new NodeData(x8);
-        DGraph d = new DGraph();
-        d.addNode(a1);
-        d.addNode(a2);
-        d.addNode(a3);
-        d.addNode(a4);
-        d.addNode(a5);
-        d.addNode(a6);
-        d.addNode(a7);
-        d.addNode(a8);
-        d.connect(a1.getKey(),a2.getKey(),5);
-        d.connect(a1.getKey(),a5.getKey(),2);
-        d.connect(a1.getKey(),a3.getKey(),6);
-        d.connect(a3.getKey(),a4.getKey(),7);
-        d.connect(a2.getKey(),a8.getKey(),8);
-        d.connect(a2.getKey(),a7.getKey(),3);
-        d.connect(a5.getKey(),a6.getKey(),2);
-        d.connect(a6.getKey(),a7.getKey(),3);
-        d.connect(a7.getKey(),a6.getKey(),3);
-        Graph_Algo p = new Graph_Algo();
-        p.init(d);
-        List<node_data> ans = new LinkedList<node_data>();
-        ans = p.shortestPath(1,7);
+		Point3D x2 = new Point3D(-75,14,0);
+		Point3D x3 = new Point3D(80,5,0);
+		Point3D x4 = new Point3D(1,4,0);
+		Point3D x5 = new Point3D(-5,1,0);
+		Point3D x6 = new Point3D(8,3,0);
+		Point3D x7 = new Point3D(4,1,0);
+		Point3D x8 = new Point3D(75,14,0);
+		node_data a1 = new NodeData(x);
+		node_data a2 = new NodeData(x2);
+		node_data a3 = new NodeData(x3);
+		node_data a4 = new NodeData(x4);
+		node_data a5 = new NodeData(x5);
+		node_data a6 = new NodeData(x6);
+		node_data a7 = new NodeData(x7);
+		node_data a8 = new NodeData(x8);
+		DGraph d = new DGraph();
+		d.addNode(a1);
+		d.addNode(a2);
+		d.addNode(a3);
+		d.addNode(a4);
+		d.addNode(a5);
+		d.addNode(a6);
+		d.addNode(a7);
+		d.addNode(a8);
+		d.connect(a1.getKey(),a2.getKey(),5);
+		d.connect(a1.getKey(),a5.getKey(),2);
+		d.connect(a1.getKey(),a3.getKey(),6);
+		d.connect(a3.getKey(),a4.getKey(),7);
+		d.connect(a2.getKey(),a8.getKey(),8);
+		d.connect(a2.getKey(),a7.getKey(),3);
+		d.connect(a5.getKey(),a6.getKey(),2);
+		d.connect(a6.getKey(),a7.getKey(),3);
+		d.connect(a7.getKey(),a6.getKey(),3);
+		Graph_Algo p = new Graph_Algo();
+		p.init(d);
+		List<node_data> ans = new LinkedList<node_data>();
+		ans = p.shortestPath(1,7);
 	}
 }
