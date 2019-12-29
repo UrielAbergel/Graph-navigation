@@ -155,9 +155,9 @@ public class GUI {
 
         g.init(DG);
         List<Integer> t = new LinkedList<Integer>();
-        t.add(3);
         t.add(4);
-        t.add(2);
+        t.add(3);
+        t.add(5);
         GUI r = new GUI();
         r.init(g);
         r.MainDraw();

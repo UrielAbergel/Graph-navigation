@@ -1669,7 +1669,8 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				IntList.add(Integer.parseInt(points[i]));
 			}
 			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
-			thisGui.update(ans);
+			if(ans!=null) thisGui.update(ans);
+			
 		}
 
 		if(e.getActionCommand().equals("Save...")) {

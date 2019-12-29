@@ -150,6 +150,7 @@ public class Graph_Algo implements graph_algorithms{
 		SPArrays =  ReverseArrays(SPArrays);
 		ChangeTheTag();
 		ChangeTheTagToEdge();
+		resetWeightToDones();
 		return SPArrays;
 	}
 
@@ -223,7 +224,10 @@ public class Graph_Algo implements graph_algorithms{
 			while (!targets.isEmpty()) {
 				double min = Double.MAX_VALUE;
 				for (int j = 0; j < targets.size(); j++) {
-					if (min > shortestPathDist(theINow, targets.get(j)) && targets.get(j) != theINow) {
+					double ans = shortestPathDist(theINow, targets.get(j));
+					resetWeightToDones();
+					if ( targets.get(j) != theINow && min > ans) {
+						resetWeightToDones();
 						min = shortestPathDist(theINow, targets.get(j));
 						resetWeightToDones();
 						theOnetoThanos = targets.get(j);
