@@ -10,6 +10,8 @@ import dataStructure.graph;
 import dataStructure.node_data;
 import utils.Point3D;
 
+import javax.swing.*;
+
 /**
  * This empty class represents the set of graph-theory algorithms
  * which should be implemented as part of Ex2 - Do edit this class.
@@ -101,16 +103,52 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-	@Override
-	public double shortestPathDist(int src, int dest) {
-		if(src==dest) return 0;
-		this.graph.getNode(src).setWeight(0);
-		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
-		SPDrec(dest,srcDataNode);
-		ChangeTheTag();
-		//ChangeTheTagToEdge();
-		return this.graph.getNode(dest).getWeight();
 
+
+	public double shortestPathDist(int src, int dest) {
+		if(src == dest) return 0 ;
+		node_data theCurrenSrc = this.graph.getNode(src);
+
+		while (theCurrenSrc.getKey() != dest){
+			int min  = CheckWhatMin();
+			Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
+			while (iterEdges.hasNext()){
+				edge_data theCurrentEdge = iterEdges.next();
+				node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
+				node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
+				if(CurrentSrc.getWeight()+theCurrentEdge.getWeight() < CurrentDest.getWeight())
+				{
+					CurrentDest.setWeight(CurrentSrc.getWeight()+theCurrentEdge.getWeight());
+				}
+			}
+		}
+
+
+
+//		if(src==dest) return 0;
+//		this.graph.getNode(src).setWeight(0);
+//		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
+//		SPDrec(dest,srcDataNode);
+//		double ans = this.graph.getNode(dest).getWeight();
+//		ChangeTheTag();
+//		ChangeTheTagToEdge();
+//		return ans;
+return 0 ;
+	}
+
+	private int CheckWhatMin() {
+		Iterator<node_data> iter = this.graph.getV().iterator();
+		double min = Integer.MAX_VALUE;
+		int theGoodKey = -1;
+		while (iter.hasNext()){
+			node_data current = iter.next();
+			if( current.getTag() == 0 && current.getWeight() < min)
+			{
+				min = current.getWeight();
+				theGoodKey = current.getKey();
+			}
+		}
+		return theGoodKey;
 	}
 
 	private void resetWeightToDones() {
@@ -121,22 +159,22 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-	public void SPDrec(int dest,NodeData current){
-		if(current.getKey() == dest) return;
-		if(current.getTag()==1) return;
-		current.setTag(1);
-		Iterator<edge_data> ite = this.graph.getE(current.getKey()).iterator();
-		while (ite.hasNext()){
-			edge_data toCheckedge = ite.next();
-			int tempdest = toCheckedge.getDest();
-			node_data p = this.graph.getNode(tempdest);
-			if(current.getWeight()+toCheckedge.getWeight()<p.getWeight())
-			{
-				p.setWeight(toCheckedge.getWeight()+current.getWeight());
-			}
-			SPDrec(dest,(NodeData)p);
-		}
-	}
+//	public void SPDrec(int dest,NodeData current){
+//		if(current.getKey() == dest) return;
+//		if(current.getTag()==1) return;
+//		current.setTag(1);
+//		Iterator<edge_data> ite = this.graph.getE(current.getKey()).iterator();
+//		while (ite.hasNext()){
+//			edge_data toCheckedge = ite.next();
+//			int tempdest = toCheckedge.getDest();
+//			node_data p = this.graph.getNode(tempdest);
+//			if(current.getWeight()+toCheckedge.getWeight()<p.getWeight())
+//			{
+//				p.setWeight(toCheckedge.getWeight()+current.getWeight());
+//			}
+//			SPDrec(dest,(NodeData)p);
+//		}
+//	}
 
 
 
@@ -221,15 +259,15 @@ public class Graph_Algo implements graph_algorithms{
 		int indexToDelete = 0 ;
 		int theOnetoThanos = 0 ;
 		try {
-			while (!targets.isEmpty()) {
+			while (targets.size() != 1) {
 				double min = Double.MAX_VALUE;
 				for (int j = 0; j < targets.size(); j++) {
 					double ans = shortestPathDist(theINow, targets.get(j));
-					resetWeightToDones();
+
 					if ( targets.get(j) != theINow && min > ans) {
-						resetWeightToDones();
+
 						min = shortestPathDist(theINow, targets.get(j));
-						resetWeightToDones();
+
 						theOnetoThanos = targets.get(j);
 						indexToDelete = targets.indexOf(theINow);
 					}
