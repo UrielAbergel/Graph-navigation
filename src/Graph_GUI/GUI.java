@@ -27,9 +27,11 @@ import utils.StdDraw;
 public class GUI {
 
     public Graph_Algo AlgoGraph = new Graph_Algo();
-
-    public void MainDraw(){
+    public GUI(){
+        StdDraw.thisGui = this;
         StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
+    }
+    public void MainDraw(){
         StdDraw.setCanvasSize(700,700);
         StdDraw.setXscale(-600,600);
         StdDraw.setYscale(-600,600);
@@ -74,49 +76,39 @@ public class GUI {
         return  ans;
     }
 
-    public void update(List<node_data> theList){
+    public void update(){
         StdDraw.clear();
-        StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
         StdDraw.setCanvasSize(700,700);
         StdDraw.setXscale(-600,600);
         StdDraw.setYscale(-600,600);
 
-        Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
+        Iterator<node_data> iterNodes = StdDraw.thisGui.AlgoGraph.getGraph().getV().iterator();
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",45,45);
+            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",40,40);
             Point3D tempP = theCurrent.getLocation();
-            StdDraw.setPenColor(Color.black);
+            StdDraw.setPenColor(Color.BLACK);
             StdDraw.text(tempP.x(), tempP.y() + 30, "" + theCurrent.getKey());
-            if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
-                Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
+            if (StdDraw.thisGui.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
+                Iterator<edge_data> iterEdge = StdDraw.thisGui.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
                 while (iterEdge.hasNext()) {
                     edge_data tempEdge = iterEdge.next();
-                    node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
+                    node_data src = StdDraw.thisGui.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
                     Point3D srcP = src.getLocation();
-                    node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
+                    node_data dest = StdDraw.thisGui.AlgoGraph.getGraph().getNode(tempEdge.getDest());
                     Point3D destP = dest.getLocation();
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenRadius(0.003);
                     StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
+                    StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+10, "" + tempEdge.getWeight());
                     StdDraw.setPenColor(Color.magenta);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),5);
                 }
             }
-
-        ArrayList<Integer> save = this.MakeListInt(theList);
-            for (int i = 0; i < save.size()-1; i++) {
-                int src = save.get(i);
-                int dest = save.get(i+1);
-                StdDraw.setPenColor(Color.GREEN);
-                StdDraw.line(this.AlgoGraph.getGraph().getNode(src).getLocation().x(),this.AlgoGraph.getGraph().getNode(src).getLocation().y(),this.AlgoGraph.getGraph().getNode(dest).getLocation().x(),this.AlgoGraph.getGraph().getNode(dest).getLocation().y());
-            }
-
         }
         StdDraw.createMenuBar();
-        StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
 
     }
 
@@ -174,9 +166,9 @@ public class GUI {
         Point3D x3 = new Point3D(380,-300,0);
         Point3D x4 = new Point3D(150,-400,0);
         Point3D x5 = new Point3D(0,-450,0);
-        Point3D x6 = new Point3D(100,-500,0);
+        Point3D x6 = new Point3D(200,-300,0);
         Point3D x7 = new Point3D(-400,-150,0);
-        Point3D x8 = new Point3D(-300,120,0);
+        Point3D x8 = new Point3D(-400,120,0);
         NodeData a1 = new NodeData(x);
         NodeData a2 = new NodeData(x2);
         NodeData a3 = new NodeData(x3);
@@ -213,10 +205,10 @@ public class GUI {
         r.add(1);
         r.add(6);
         r.add(5);
-    //    List<node_data> ans = p.TSP(r);
-//         GUI q = new GUI();
-//        q.init(p);
-//        q.MainDraw();
+        List<node_data> ans = p.TSP(r);
+        GUI q = new GUI();
+        q.init(p);
+        q.MainDraw();
         double bbbb = p.shortestPathDist(1,6);
         double eeeee = p.shortestPathDist(1,6);
         List<node_data> qqqq =  p.TSP(r);

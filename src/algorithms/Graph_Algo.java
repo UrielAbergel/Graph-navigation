@@ -106,43 +106,45 @@ public class Graph_Algo implements graph_algorithms{
 
 
 	public double shortestPathDist(int src, int dest) {
-		if(src == dest) return 0 ;
-		node_data theCurrenSrc = this.graph.getNode(src);
-
-		while (theCurrenSrc.getKey() != dest){
-			int min  = CheckWhatMin();
-			Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
-			while (iterEdges.hasNext()){
-				edge_data theCurrentEdge = iterEdges.next();
-				node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
-				node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
-				if(CurrentSrc.getWeight()+theCurrentEdge.getWeight() < CurrentDest.getWeight())
-				{
-					CurrentDest.setWeight(CurrentSrc.getWeight()+theCurrentEdge.getWeight());
+		if(src == dest) return 0;
+		for (node_data nodes : this.graph.getV()){
+			nodes.setWeight(Integer.MAX_VALUE);
+			nodes.setTag(0);
+		}
+		try {
+			node_data theCurrenSrc = this.graph.getNode(src);
+			theCurrenSrc.setWeight(0);
+			int min = theCurrenSrc.getKey();
+			while (min != dest) {
+				min = CheckWhatMin();
+				this.graph.getNode(min).setTag(1);
+				if (this.graph.getE(min).iterator() != null) {
+					Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
+					while (iterEdges.hasNext()) {
+						edge_data theCurrentEdge = iterEdges.next();
+						node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
+						node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
+						if (CurrentSrc.getWeight() + theCurrentEdge.getWeight() < CurrentDest.getWeight()) {
+							CurrentDest.setWeight(CurrentSrc.getWeight() + theCurrentEdge.getWeight());
+						}
+					}
 				}
 			}
+			double ans = this.graph.getNode(dest).getWeight();
+			return ans;
+		}catch (Exception e){
+			System.out.println("Cannot get to dest");
+			return -1;
 		}
-
-
-
-//		if(src==dest) return 0;
-//		this.graph.getNode(src).setWeight(0);
-//		NodeData srcDataNode = (NodeData)this.graph.getNode(src);
-//		SPDrec(dest,srcDataNode);
-//		double ans = this.graph.getNode(dest).getWeight();
-//		ChangeTheTag();
-//		ChangeTheTagToEdge();
-//		return ans;
-return 0 ;
 	}
 
 	private int CheckWhatMin() {
 		Iterator<node_data> iter = this.graph.getV().iterator();
 		double min = Integer.MAX_VALUE;
-		int theGoodKey = -1;
+		int theGoodKey = 0;
 		while (iter.hasNext()){
 			node_data current = iter.next();
-			if( current.getTag() == 0 && current.getWeight() < min)
+			if( current.getTag() == 0 && current.getWeight() <= min)
 			{
 				min = current.getWeight();
 				theGoodKey = current.getKey();
@@ -406,22 +408,61 @@ return 0 ;
 //		g.init(d);
 //		boolean f =g.isConnected();
 //		System.out.println(f);
-		Point3D x = new Point3D(14,4,0);
-		Point3D x2 = new Point3D(-75,14,0);
-		Point3D x3 = new Point3D(80,5,0);
-		Point3D x4 = new Point3D(1,4,0);
-		Point3D x5 = new Point3D(-5,1,0);
-		Point3D x6 = new Point3D(8,3,0);
-		Point3D x7 = new Point3D(4,1,0);
-		Point3D x8 = new Point3D(75,14,0);
-		node_data a1 = new NodeData(x);
-		node_data a2 = new NodeData(x2);
-		node_data a3 = new NodeData(x3);
-		node_data a4 = new NodeData(x4);
-		node_data a5 = new NodeData(x5);
-		node_data a6 = new NodeData(x6);
-		node_data a7 = new NodeData(x7);
-		node_data a8 = new NodeData(x8);
+//		Point3D x = new Point3D(14,4,0);
+//		Point3D x2 = new Point3D(-75,14,0);
+//		Point3D x3 = new Point3D(80,5,0);
+//		Point3D x4 = new Point3D(1,4,0);
+//		Point3D x5 = new Point3D(-5,1,0);
+//		Point3D x6 = new Point3D(8,3,0);
+//		Point3D x7 = new Point3D(4,1,0);
+//		Point3D x8 = new Point3D(75,14,0);
+//		node_data a1 = new NodeData(x);
+//		node_data a2 = new NodeData(x2);
+//		node_data a3 = new NodeData(x3);
+//		node_data a4 = new NodeData(x4);
+//		node_data a5 = new NodeData(x5);
+//		node_data a6 = new NodeData(x6);
+//		node_data a7 = new NodeData(x7);
+//		node_data a8 = new NodeData(x8);
+//		DGraph d = new DGraph();
+//		d.addNode(a1);
+//		d.addNode(a2);
+//		d.addNode(a3);
+//		d.addNode(a4);
+//		d.addNode(a5);
+//		d.addNode(a6);
+//		d.addNode(a7);
+//		d.addNode(a8);
+//		d.connect(a1.getKey(),a2.getKey(),1);
+//		d.connect(a1.getKey(),a5.getKey(),2);
+//		d.connect(a1.getKey(),a3.getKey(),6);
+//		d.connect(a3.getKey(),a4.getKey(),7);
+//		d.connect(a2.getKey(),a8.getKey(),8);
+//		d.connect(a2.getKey(),a7.getKey(),7);
+//		d.connect(a5.getKey(),a6.getKey(),2);
+//		d.connect(a6.getKey(),a7.getKey(),3);
+//		d.connect(a7.getKey(),a6.getKey(),3);
+//		Graph_Algo p = new Graph_Algo();
+//		p.init(d);
+//		List<node_data> ans = new LinkedList<node_data>();
+//		double ans1 = p.shortestPathDist(5,8);
+//		System.out.println(ans1);
+		Point3D x = new Point3D(-400,300,0);
+		Point3D x2 = new Point3D(300,150,0);
+		Point3D x3 = new Point3D(380,-300,0);
+		Point3D x4 = new Point3D(150,-400,0);
+		Point3D x5 = new Point3D(0,-450,0);
+		Point3D x6 = new Point3D(200,-300,0);
+		Point3D x7 = new Point3D(-400,-150,0);
+		Point3D x8 = new Point3D(-400,120,0);
+		NodeData a1 = new NodeData(x);
+		NodeData a2 = new NodeData(x2);
+		NodeData a3 = new NodeData(x3);
+		NodeData a4 = new NodeData(x4);
+		NodeData a5 = new NodeData(x5);
+		NodeData a6 = new NodeData(x6);
+		NodeData a7 = new NodeData(x7);
+		NodeData a8 = new NodeData(x8);
 		DGraph d = new DGraph();
 		d.addNode(a1);
 		d.addNode(a2);
@@ -431,18 +472,22 @@ return 0 ;
 		d.addNode(a6);
 		d.addNode(a7);
 		d.addNode(a8);
-		d.connect(a1.getKey(),a2.getKey(),5);
-		d.connect(a1.getKey(),a5.getKey(),2);
-		d.connect(a1.getKey(),a3.getKey(),6);
-		d.connect(a3.getKey(),a4.getKey(),7);
-		d.connect(a2.getKey(),a8.getKey(),8);
-		d.connect(a2.getKey(),a7.getKey(),3);
-		d.connect(a5.getKey(),a6.getKey(),2);
-		d.connect(a6.getKey(),a7.getKey(),3);
-		d.connect(a7.getKey(),a6.getKey(),3);
+		d.connect(1,2,5);
+		d.connect(1,5,2);
+		d.connect(1,3,6);
+		d.connect(1,6,5);
+		d.connect(3,4,7);
+		d.connect(2,8,8);
+		d.connect(2,7,3);
+		d.connect(5,1,5);
+		d.connect(5,6,2);
+		d.connect(6,1,3);
+		d.connect(6,5,3);
+		d.connect(6,7,3);
+		d.connect(7,6,3);
 		Graph_Algo p = new Graph_Algo();
 		p.init(d);
-		List<node_data> ans = new LinkedList<node_data>();
-		ans = p.shortestPath(1,7);
+		double e = p.shortestPathDist(1,6);
+		System.out.println(e);
 	}
 }

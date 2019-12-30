@@ -72,6 +72,7 @@ import java.util.TreeSet;
 import java.util.NoSuchElementException;
 import javax.imageio.ImageIO;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.swing.*;
 
 /**
@@ -716,8 +717,11 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		JMenu menu2 = new JMenu("Algo");
+		JMenu menu3 = new JMenu("Actions");
+
 		menuBar.add(menu);
 		menuBar.add(menu2);
+		menuBar.add(menu3);
 		JMenuItem menuItem1 = new JMenuItem("Save...");
 		JMenuItem menuItem6 = new JMenuItem("Load...");
 		menuItem1.addActionListener(std);
@@ -734,10 +738,28 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menu2.add(menuItem3);
 		menu2.add(menuItem4);
 		menu2.add(menuItem5);
+		JMenu menuItem7 = new JMenu("Add node");
+		JMenu menuItem8 = new JMenu("Add edge");
+		JMenuItem point1 = new JMenuItem("Node with mouse");
+		JMenuItem point2 = new JMenuItem("Node by write");
+		JMenuItem point3 = new JMenuItem("Edge with mouse");
+		JMenuItem point4 = new JMenuItem("Edge by write");
+		menuItem7.add(point1);
+		menuItem7.add(point2);
+		menuItem8.add(point3);
+		menuItem8.add(point4);
+		menu3.add(menuItem7);
+		menu3.add(menuItem8);
 		menuItem2.addActionListener(std);
 		menuItem3.addActionListener(std);
 		menuItem4.addActionListener(std);
 		menuItem5.addActionListener(std);
+		menuItem7.addActionListener(std);
+		menuItem8.addActionListener(std);
+		point1.addActionListener(std);
+		point2.addActionListener(std);
+		point3.addActionListener(std);
+		point4.addActionListener(std);
 		return menuBar;
 	}
 
@@ -1638,9 +1660,35 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	/**
 	 * This method cannot be called directly.
 	 */
+
+	boolean flag1 = false;
+	boolean flag2 = false;
+	boolean flag3 = false;
+	boolean flag4 = false;
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
-
+		if(e.getActionCommand().equals("Node with mouse")){
+			flag1 = true;
+			frame.addMouseListener(this);
+		}
+		if(e.getActionCommand().equals("Node by write")){
+			flag2 = true;
+			frame.addMouseListener(this);
+		}
+		if(e.getActionCommand().equals("Edge with mouse")){
+			flag3 = true;
+			frame.addMouseListener(this);
+		}
+		if(e.getActionCommand().equals("Edge by write")){
+			String Src = JOptionPane.showInputDialog("Src");
+			String Dest  = JOptionPane.showInputDialog("Dest");
+			String Weight = JOptionPane.showInputDialog("Weight");
+			int dest = Integer.parseInt(Dest);
+			int src = Integer.parseInt(Src);
+			double weight = Integer.parseInt(Weight);
+			thisGui.AlgoGraph.getGraph().connect(dest,src,weight);
+			thisGui.update();
+		}
 		if (e.getActionCommand().equals("isConnected")){
 			JFrame f = new JFrame();
 			System.out.println(thisGui.AlgoGraph.isConnected());
@@ -1658,7 +1706,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			String src  = JOptionPane.showInputDialog(f,"please enter a the src");
 			String dest = JOptionPane.showInputDialog("please enter a the dest");
 			List<node_data> ans = thisGui.AlgoGraph.shortestPath(Integer.parseInt(src),Integer.parseInt(dest));
-			thisGui.update(ans);
+			thisGui.update();
 		}
 		if (e.getActionCommand().equals("TSP")){
 			JFrame f = new JFrame();
@@ -1669,7 +1717,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				IntList.add(Integer.parseInt(points[i]));
 			}
 			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
-			if(ans!=null) thisGui.update(ans);
+			if(ans!=null) thisGui.update();
 			
 		}
 
@@ -1749,7 +1797,33 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// this body is intentionally left empty
+		if(flag1){
+			double x = mouseX;
+			double y = mouseY;
+			node_data newNode = new NodeData(x,y,0);
+			thisGui.AlgoGraph.getGraph().addNode(newNode);
+			thisGui.update();
+			flag1 = false;
+		}
+		else if(flag2){
+			String X  = JOptionPane.showInputDialog("X");
+			String Y = JOptionPane.showInputDialog("Y");
+			int x = Integer.parseInt(X);
+			int y = Integer.parseInt(Y);
+			node_data newNode = new NodeData(x,y,0);
+			thisGui.AlgoGraph.getGraph().addNode(newNode);
+			thisGui.update();
+			flag2 = false;
+		}
+		else if(flag3){
+			double x = mouseX;
+			double y = mouseY;
+			String Weight = JOptionPane.showInputDialog("Weight");
+			double weight = Integer.parseInt(Weight);
+			thisGui.AlgoGraph.getGraph().connect((int)x,(int)y,weight);
+			thisGui.update();
+			flag3 = false;
+		}
 	}
 
 	/**
