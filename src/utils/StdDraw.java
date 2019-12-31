@@ -1718,6 +1718,15 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				IntList.add(Integer.parseInt(points[i]));
 			}
 			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
+			List<Integer> intList = thisGui.AlgoGraph.MakeListInt(ans);
+			String intListString = "the Travel Sales man Travel to :||";
+			for(node_data p : ans){
+				intListString += ""+p.getKey()+"-";
+			}
+			intListString += "||";
+			JOptionPane.showMessageDialog(f,intListString);
+
+
 			if(ans!=null) thisGui.update(ans);
 			
 		}
@@ -1756,6 +1765,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			return isMousePressed;
 		}
 	}
+
 
 	/**
 	 * Returns true if the mouse is being pressed.

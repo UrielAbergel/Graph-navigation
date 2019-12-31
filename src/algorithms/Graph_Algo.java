@@ -103,7 +103,14 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-
+	public ArrayList<Integer> MakeListInt(List<node_data> p ){
+		ArrayList<Integer> ans = new ArrayList<>();
+		Iterator<node_data> iter = p.iterator();
+		while (iter.hasNext()){
+			ans.add(iter.next().getKey());
+		}
+		return  ans;
+	}
 
 	public double shortestPathDist(int src, int dest) {
 		if(src == dest) return 0;
