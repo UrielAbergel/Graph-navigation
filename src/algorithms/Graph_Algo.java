@@ -118,6 +118,7 @@ public class Graph_Algo implements graph_algorithms{
 			while (min != dest) {
 				min = CheckWhatMin();
 				this.graph.getNode(min).setTag(1);
+
 				if (this.graph.getE(min).iterator() != null) {
 					Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
 					while (iterEdges.hasNext()) {
@@ -132,6 +133,8 @@ public class Graph_Algo implements graph_algorithms{
 			}
 			double ans = this.graph.getNode(dest).getWeight();
 			return ans;
+
+
 		}catch (Exception e){
 			System.out.println("Cannot get to dest");
 			return -1;

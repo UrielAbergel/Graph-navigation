@@ -20,7 +20,7 @@ import dataStructure.EdgeData;
 import dataStructure.NodeData;
 import dataStructure.node_data;
 import utils.Point3D;
-import utils.StdDraw;
+import utils.*;
 
 
 
@@ -31,15 +31,50 @@ public class GUI {
         StdDraw.thisGui = this;
         StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
     }
-    public void MainDraw(){
-        StdDraw.setCanvasSize(700,700);
-        StdDraw.setXscale(-600,600);
-        StdDraw.setYscale(-600,600);
 
+    public Range returnTheX(){
+        graph current = StdDraw.thisGui.AlgoGraph.getGraph();
+        double MaxX = Integer.MIN_VALUE;
+        double MinX = Integer.MAX_VALUE;
+        Iterator<node_data> iter =current.getV().iterator();
+        while (iter.hasNext()){
+            node_data currentNode = iter.next();
+            Point3D p = currentNode.getLocation();
+            if(p.x() > MaxX) MaxX =  p.x();
+            if(p.x() < MinX) MinX =  p.x();
+        }
+        Range ans = new Range(MinX , MaxX);
+        return ans;
+    }
+
+    public Range returnTheY(){
+        graph current = StdDraw.thisGui.AlgoGraph.getGraph();
+        double MaxY = Integer.MIN_VALUE;
+        double MinY = Integer.MAX_VALUE;
+        Iterator<node_data> iter =current.getV().iterator();
+        while (iter.hasNext()){
+            node_data currentNode = iter.next();
+            Point3D p = currentNode.getLocation();
+            if(p.y() > MaxY) MaxY =  p.y();
+            if(p.y() < MinY) MinY =  p.y();
+        }
+        Range ans = new Range(MinY , MaxY);
+        return ans;
+    }
+
+
+    public void MainDraw(){
+        Range x = returnTheX();
+        Range y = returnTheY();
+        StdDraw.setCanvasSize(700,700);
+        StdDraw.setXscale(x.get_min()-50,x.get_max()+50);
+        StdDraw.setYscale(y.get_min()-50,y.get_max()+50);
+        int rightScaleX = (int) ((x.get_max()-x.get_min())/25);
+        int rightScaleY = (int) ((y.get_max()-y.get_min())/25);
             Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
             while (iterNodes.hasNext()) {
                 node_data theCurrent = iterNodes.next();
-                StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",40,40);
+                StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
                 Point3D tempP = theCurrent.getLocation();
                 StdDraw.setPenColor(Color.BLACK);
                 StdDraw.text(tempP.x(), tempP.y() + 30, "" + theCurrent.getKey());
@@ -76,16 +111,19 @@ public class GUI {
         return  ans;
     }
 
-    public void update(){
+    public void update(List<NodeData> p){
         StdDraw.clear();
+        Range x = returnTheX();
+        Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
-        StdDraw.setXscale(-600,600);
-        StdDraw.setYscale(-600,600);
-
+        StdDraw.setXscale(x.get_min()-50,x.get_max()+50);
+        StdDraw.setYscale(y.get_min()-50,y.get_max()+50);
+        int rightScaleX = (int) ((x.get_max()-x.get_min())/25);
+        int rightScaleY = (int) ((y.get_max()-y.get_min())/25);
         Iterator<node_data> iterNodes = StdDraw.thisGui.AlgoGraph.getGraph().getV().iterator();
         while (iterNodes.hasNext()) {
             node_data theCurrent = iterNodes.next();
-            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",40,40);
+            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
             Point3D tempP = theCurrent.getLocation();
             StdDraw.setPenColor(Color.BLACK);
             StdDraw.text(tempP.x(), tempP.y() + 30, "" + theCurrent.getKey());
@@ -209,7 +247,8 @@ public class GUI {
         GUI q = new GUI();
         q.init(p);
         q.MainDraw();
-        double bbbb = p.shortestPathDist(1,6);
+        double bbbb = p.shortestPathDist(3,4);
+        List<node_data> theList = p.shortestPath(1,7);
         double eeeee = p.shortestPathDist(1,6);
         List<node_data> qqqq =  p.TSP(r);
         System.out.println(p.isConnected());
