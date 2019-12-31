@@ -728,6 +728,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menuItem6.addActionListener(std);
 		menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
 				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		menuItem6.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		menu.add(menuItem1);
 		menu.add(menuItem6);
 		JMenuItem menuItem2 = new JMenuItem("isConnected");
@@ -1686,7 +1687,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 			int dest = Integer.parseInt(Dest);
 			int src = Integer.parseInt(Src);
 			double weight = Integer.parseInt(Weight);
-			thisGui.AlgoGraph.getGraph().connect(dest,src,weight);
+			thisGui.AlgoGraph.getGraph().connect(src,dest,weight);
 			thisGui.update();
 		}
 		if (e.getActionCommand().equals("isConnected")){
@@ -1717,7 +1718,7 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 				IntList.add(Integer.parseInt(points[i]));
 			}
 			List<node_data> ans = thisGui.AlgoGraph.TSP(IntList);
-			if(ans!=null) thisGui.update();
+			if(ans!=null) thisGui.update(ans);
 			
 		}
 

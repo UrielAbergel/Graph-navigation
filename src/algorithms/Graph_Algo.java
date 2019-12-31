@@ -118,15 +118,16 @@ public class Graph_Algo implements graph_algorithms{
 			while (min != dest) {
 				min = CheckWhatMin();
 				this.graph.getNode(min).setTag(1);
-
-				if (this.graph.getE(min).iterator() != null) {
-					Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
-					while (iterEdges.hasNext()) {
-						edge_data theCurrentEdge = iterEdges.next();
-						node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
-						node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
-						if (CurrentSrc.getWeight() + theCurrentEdge.getWeight() < CurrentDest.getWeight()) {
-							CurrentDest.setWeight(CurrentSrc.getWeight() + theCurrentEdge.getWeight());
+				if (this.graph.getE(min) != null) {
+					if (this.graph.getE(min).iterator() != null) {
+						Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
+						while (iterEdges.hasNext()) {
+							edge_data theCurrentEdge = iterEdges.next();
+							node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
+							node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
+							if (CurrentSrc.getWeight() + theCurrentEdge.getWeight() < CurrentDest.getWeight()) {
+								CurrentDest.setWeight(CurrentSrc.getWeight() + theCurrentEdge.getWeight());
+							}
 						}
 					}
 				}
@@ -164,22 +165,7 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-//	public void SPDrec(int dest,NodeData current){
-//		if(current.getKey() == dest) return;
-//		if(current.getTag()==1) return;
-//		current.setTag(1);
-//		Iterator<edge_data> ite = this.graph.getE(current.getKey()).iterator();
-//		while (ite.hasNext()){
-//			edge_data toCheckedge = ite.next();
-//			int tempdest = toCheckedge.getDest();
-//			node_data p = this.graph.getNode(tempdest);
-//			if(current.getWeight()+toCheckedge.getWeight()<p.getWeight())
-//			{
-//				p.setWeight(toCheckedge.getWeight()+current.getWeight());
-//			}
-//			SPDrec(dest,(NodeData)p);
-//		}
-//	}
+
 
 
 
