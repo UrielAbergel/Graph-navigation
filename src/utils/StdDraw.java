@@ -27,8 +27,7 @@ package utils;
  *
  ******************************************************************************/
 
-import Graph_GUI.GUI;
-import algorithms.*;
+import gui.GUI;
 import dataStructure.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -56,13 +55,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DirectColorModel;
-import java.awt.image.WritableRaster;
 
 import java.io.File;
-import java.io.IOException;
 
-import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -70,9 +65,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.NoSuchElementException;
-import javax.imageio.ImageIO;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.swing.*;
 
 /**

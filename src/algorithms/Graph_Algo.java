@@ -20,6 +20,13 @@ import javax.swing.*;
  */
 public class Graph_Algo implements graph_algorithms{
 	private graph graph = new DGraph();
+
+	public Graph_Algo(graph graph) {
+		this.init(graph);
+	}
+	public Graph_Algo() {
+
+	}
 	//public Graph_Algo _G_ = new Graph_Algo();
 
 	public graph getGraph(){

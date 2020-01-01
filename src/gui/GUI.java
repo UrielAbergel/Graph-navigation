@@ -1,4 +1,4 @@
-package Graph_GUI;
+package gui;
 
 import java.awt.Color;
 import java.util.ArrayList;
