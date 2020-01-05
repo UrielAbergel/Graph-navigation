@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import algorithms.Graph_Algo;
 import dataStructure.* ;
@@ -15,8 +16,8 @@ import utils.*;
 
 
 
-public class GUI {
-
+public class GUI extends Thread {
+    static int CurrentMc = 0 ;
     public Graph_Algo AlgoGraph = new Graph_Algo();
     public GUI(){
         StdDraw.thisGui = this;
@@ -55,6 +56,8 @@ public class GUI {
 
 
     public void MainDraw(){
+        Thread check = new Thread();
+        check.run();
         Range x = returnTheX();
         Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
@@ -86,8 +89,13 @@ public class GUI {
                         StdDraw.setPenColor(Color.black);
                         StdDraw.setPenColor(Color.BLUE);
                         StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
                         StdDraw.setPenColor(Color.RED);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+=======
+                        StdDraw.setPenColor(Color.red);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
+>>>>>>> a95832dd9623f71b3a0afb54820472fcd96025b3
                     }
                 }
             }
@@ -138,8 +146,13 @@ public class GUI {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
                         StdDraw.setPenColor(Color.magenta);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+=======
+                 StdDraw.setPenColor(Color.red);
+                 StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
+>>>>>>> a95832dd9623f71b3a0afb54820472fcd96025b3
                 }
             }
         }
@@ -189,8 +202,13 @@ public class GUI {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
                         StdDraw.setPenColor(Color.magenta);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+=======
+                    StdDraw.setPenColor(Color.red);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
+>>>>>>> a95832dd9623f71b3a0afb54820472fcd96025b3
                 }
             }
         }
@@ -198,6 +216,22 @@ public class GUI {
 
         StdDraw.createMenuBar();
 
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                TimeUnit.MINUTES.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (this.AlgoGraph.getGraph().getMC() != CurrentMc) {
+                CurrentMc = this.AlgoGraph.getGraph().getMC();
+                update();
+            }
+        }
     }
 
 
@@ -243,7 +277,7 @@ public class GUI {
 //        r.MainDraw();
 //       List<node_data> p = g.TSP(t);
 //        System.out.println("R");
-        //        NodeData n1 = new NodeData(-200,-200,3);
+//        NodeData n1 = new NodeData(-200,-200,3);
 //        NodeData n2 = new NodeData(-400   ,300,3);
 //        NodeData n3 = new NodeData(300,150,3);
 //        NodeData n4 = new NodeData(380,-300,3);
@@ -308,7 +342,7 @@ public class GUI {
         Graph_Algo G = new Graph_Algo();
         Point3D p00 = new Point3D(1, 6, 0);
         Point3D p11 = new Point3D(0, 2, 3);
-        Point3D p22 = new Point3D(1, 4, 0);
+        Point3D p22 = new Point3D(2, 4, 0);
         Point3D p33 = new Point3D(5, 2, 0);
         Point3D p44 = new Point3D(6,5, 0);
         Point3D p55 = new Point3D(4,6, 0);
@@ -383,21 +417,27 @@ public class GUI {
         System.out.println("The shortest path between 7-2 is :" + G.shortestPath(node7.getKey(),node2.getKey()));
         System.out.println("The shortest path between 1-9 is :" + G.shortestPath(node1.getKey(),node9.getKey()));
 
-        List<Integer> ans = new LinkedList<>();
-        ans.add(1);
-        ans.add(7);
-        ans.add(3);
-        ans.add(10);
-        List<Integer> ans2 = new LinkedList<>();
-        ans2.add(1);
-        ans2.add(10);
-        ans2.add(4);
-        ans2.add(5);
-        System.out.println("TSP[1,7,3,10] is: " +  G.TSP(ans));
-        System.out.println("TSP[10,1,4,5] is : " + G.TSP(ans2));
-//        GUI r = new GUI();
-//        r.init(G);
-//        r.MainDraw();
-        System.out.println("r");
+//        List<Integer> ans = new LinkedList<>();
+//        ans.add(1);
+//        ans.add(7);
+//        ans.add(3);
+//        ans.add(10);
+//        List<Integer> ans2 = new LinkedList<>();
+//        ans2.add(1);
+//        ans2.add(10);
+//        ans2.add(4);
+//        ans2.add(5);
+//        System.out.println("TSP[1,7,3,10] is: " +  G.TSP(ans));
+//        System.out.println("TSP[10,1,4,5] is : " + G.TSP(ans2));
+////        GUI r = new GUI();
+////        r.init(G);
+////        r.MainDraw();
+//        System.out.println("r");
+//        Point3D p13 = new Point3D(50,500);
+//        node_data node111 = new NodeData(p13);
+//        Dg.addNode(node111);
+//        G.init(Dg);
     }
+
+
 }

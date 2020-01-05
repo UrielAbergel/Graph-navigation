@@ -53,10 +53,39 @@ class EdgeDataTest {
 
     @org.junit.jupiter.api.Test
     void getInfo() {
+        EdgeData test1 = new EdgeData(1,1,1);
+        EdgeData test2 = new EdgeData(2,2,2);
+        EdgeData test3 = new EdgeData(3,3,3);
+        EdgeData test4 = new EdgeData(4,4,4);
+        EdgeData test5 = new EdgeData(5,5,5);
+        test1.setInfo("this is the test1");
+        test2.setInfo("this is the test2");
+        test3.setInfo("this is the test3");
+        test4.setInfo("this is the test4");
+        assertEquals(test1.getInfo(),"this is the test1");
+        assertEquals(test2.getInfo(),"this is the test2");
+        assertEquals(test3.getInfo(),"this is the test3");
+        assertEquals(test4.getInfo(),"this is the test4");
+
+
     }
 
     @org.junit.jupiter.api.Test
     void setInfo() {
+        EdgeData test1 = new EdgeData(1,1,1);
+        EdgeData test2 = new EdgeData(2,2,2);
+        EdgeData test3 = new EdgeData(3,3,3);
+        EdgeData test4 = new EdgeData(4,4,4);
+        EdgeData test5 = new EdgeData(5,5,5);
+        test1.setInfo("this is the test1");
+        test2.setInfo("this is the test2");
+        test3.setInfo("this is the test3");
+        test4.setInfo("this is the test4");
+        assertEquals(test1.getInfo(),"this is the test1");
+        assertEquals(test2.getInfo(),"this is the test2");
+        assertEquals(test3.getInfo(),"this is the test3");
+        assertEquals(test4.getInfo(),"this is the test4");
+
     }
 
     @org.junit.jupiter.api.Test
@@ -97,7 +126,5 @@ class EdgeDataTest {
         assertEquals(test5.getTag(),5);
     }
 
-    @org.junit.jupiter.api.Test
-    void stringToHash() {
-    }
+
 }
