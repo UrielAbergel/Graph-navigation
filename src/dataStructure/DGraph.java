@@ -53,7 +53,6 @@ public class DGraph implements graph, Serializable {
 	public void addNode(node_data n) {
 		MC++;
 		this.GraphMap.put(keyCounter,n);
-		n = (NodeData)n;
 		((NodeData) n).setKey(keyCounter++);
 
 	}
@@ -63,10 +62,10 @@ public class DGraph implements graph, Serializable {
 		if(GraphMap.get(src) != null && GraphMap.get(dest) != null) {
 			EdgeData edge = new EdgeData(src, dest, w);
 			NodeData theNewSrc = (NodeData) this.getNode(src);
-			if (theNewSrc.HM.containsKey(dest)) {
-				theNewSrc.HM.replace(dest, edge);
-			}
-			else theNewSrc.HM.put(dest, edge);
+//			if (theNewSrc.HM.containsKey(dest)) {
+//				theNewSrc.HM.replace(dest, edge);
+//			}
+		//	else theNewSrc.HM.put(dest, edge);
 			HashMap<Integer,edge_data> s = this.edgeHM.get(src);
 			if(s==null){
 				s = new HashMap<Integer,edge_data>();

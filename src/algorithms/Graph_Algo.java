@@ -44,8 +44,7 @@ public class Graph_Algo implements graph_algorithms{
 		{
 			FileInputStream file = new FileInputStream(file_name);
 			ObjectInputStream in = new ObjectInputStream(file);
-
-			graph = (DGraph)in.readObject();
+			this.init((graph)in.readObject());
 
 			in.close();
 			file.close();
@@ -66,8 +65,8 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public void save(String file_name) {
-		try{
-
+		try
+		{
 			FileOutputStream file = new FileOutputStream(file_name);
 			ObjectOutputStream out = new ObjectOutputStream(file);
 			out.writeObject(this.getGraph());
@@ -199,7 +198,6 @@ public class Graph_Algo implements graph_algorithms{
 			if(flag == Integer.MAX_VALUE || flag == -1) return null;
 			graph CopyGraph = this.copy();
 			CopyGraph = changeDir(CopyGraph);
-		//	SPArrays = ReverseArrays(SPArrays);
 			SPArrays = ReturnTheSPway(dest, src, CopyGraph);
 			SPArrays = ReverseArrays(SPArrays);
 			ChangeTheTag();
@@ -246,7 +244,7 @@ public class Graph_Algo implements graph_algorithms{
 
 	private graph changeDir(graph copy) {
 		Graph_Algo addCopy = new Graph_Algo();
-		addCopy.graph = copy;
+		addCopy.init(copy);
 		graph CopyToCopy = addCopy.copy();
 		Iterator<node_data> iter = copy.getV().iterator();
 		while (iter.hasNext()){

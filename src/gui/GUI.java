@@ -58,8 +58,8 @@ public class GUI {
         Range x = returnTheX();
         Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
-        double FixXscale = (x.get_max()-x.get_min())*0.05;
-        double FixYscale = (y.get_max()-y.get_min())*0.05;
+        double FixXscale = (x.get_max()-x.get_min())*0.2;
+        double FixYscale = (y.get_max()-y.get_min())*0.2;
         StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
         StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
@@ -86,8 +86,8 @@ public class GUI {
                         StdDraw.setPenColor(Color.black);
                         StdDraw.setPenColor(Color.BLUE);
                         StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-//                        StdDraw.setPenColor(Color.magenta);
-//                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),5);
+                        StdDraw.setPenColor(Color.RED);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
                     }
                 }
             }
@@ -110,8 +110,8 @@ public class GUI {
         Range x = returnTheX();
         Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
-        double FixXscale = (x.get_max()-x.get_min())*0.05;
-        double FixYscale = (y.get_max()-y.get_min())*0.05;
+        double FixXscale = (x.get_max()-x.get_min())*0.2;
+        double FixYscale = (y.get_max()-y.get_min())*0.2;
         StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
         StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
@@ -138,8 +138,8 @@ public class GUI {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-//                        StdDraw.setPenColor(Color.magenta);
-//                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),5);
+                        StdDraw.setPenColor(Color.magenta);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
                 }
             }
         }
@@ -149,7 +149,7 @@ public class GUI {
             int dest = save.get(i+1);
             StdDraw.setPenColor(Color.GREEN);
             StdDraw.line(this.AlgoGraph.getGraph().getNode(src).getLocation().x(),this.AlgoGraph.getGraph().getNode(src).getLocation().y(),this.AlgoGraph.getGraph().getNode(dest).getLocation().x(),this.AlgoGraph.getGraph().getNode(dest).getLocation().y());
-            StdDraw.picture((this.AlgoGraph.getGraph().getNode(src).getLocation().x()+this.AlgoGraph.getGraph().getNode(dest).getLocation().x())/2 ,(this.AlgoGraph.getGraph().getNode(src).getLocation().y()+this.AlgoGraph.getGraph().getNode(dest).getLocation().y())/2 , "PostmanPat.jpg" , rightScaleX+10,rightScaleY+10);
+            StdDraw.picture((this.AlgoGraph.getGraph().getNode(src).getLocation().x()+this.AlgoGraph.getGraph().getNode(dest).getLocation().x())/2 ,(this.AlgoGraph.getGraph().getNode(src).getLocation().y()+this.AlgoGraph.getGraph().getNode(dest).getLocation().y())/2 , "PostmanPat.jpg" , rightScaleX,rightScaleY);
         }
         StdDraw.createMenuBar();
 
@@ -161,8 +161,8 @@ public class GUI {
         Range x = returnTheX();
         Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
-        double FixXscale = (x.get_max()-x.get_min())*0.05;
-        double FixYscale = (y.get_max()-y.get_min())*0.05;
+        double FixXscale = (x.get_max()-x.get_min())*0.2;
+        double FixYscale = (y.get_max()-y.get_min())*0.2;
         StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
         StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
@@ -189,8 +189,8 @@ public class GUI {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-//                        StdDraw.setPenColor(Color.magenta);
-//                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),5);
+                        StdDraw.setPenColor(Color.magenta);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
                 }
             }
         }

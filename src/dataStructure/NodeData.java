@@ -10,16 +10,9 @@ public class NodeData implements node_data, Serializable {
     private int key , tag;
     public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
-    public HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
+    //public HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
     private String info;
 
-    public edge_data getDestEdge(int dest)
-    {
-      return HM.get(dest);
-    }
-    public edge_data removeEdge(int dest){
-        return this.HM.remove(dest);
-    }
     public NodeData(Point3D p){
         this.P3D = p;
     }
@@ -31,7 +24,9 @@ public class NodeData implements node_data, Serializable {
 
 
     }
+    public NodeData(node_data n){
 
+    }
     public void setKey(int key){
         this.key = key;
     }
@@ -40,9 +35,9 @@ public class NodeData implements node_data, Serializable {
         n.setTag(this.getTag());
         n.setInfo(this.getInfo());
         n.setWeight(this.getWeight());
-        for (Integer KeyNode : this.HM.keySet()){
-            n.HM.put(KeyNode,this.HM.get(KeyNode));
-        }
+//        for (Integer KeyNode : this.HM.keySet()){
+//            n.HM.put(KeyNode,this.HM.get(KeyNode));
+//        }
         return n;
     }
     @Override
