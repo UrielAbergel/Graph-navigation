@@ -100,7 +100,7 @@ public class Graph_Algo implements graph_algorithms{
 	}
 
 
-	// need fix !
+
 	private void isConnectedRec(node_data thenewOne) {
 		//thenewOne = (NodeData)thenewOne;
 		if(thenewOne.getTag()==1) return;
