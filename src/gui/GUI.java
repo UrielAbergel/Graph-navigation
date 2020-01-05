@@ -130,18 +130,10 @@ public class GUI extends Thread {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-<<<<<<< HEAD
-                        StdDraw.setPenColor(Color.magenta);
-                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
-
-                 StdDraw.setPenColor(Color.red);
-                 StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
-=======
                     StdDraw.setPenColor(Color.magenta);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
                     StdDraw.setPenColor(Color.red);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
->>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
 
                 }
             }
@@ -190,22 +182,10 @@ public class GUI extends Thread {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-<<<<<<< HEAD
-
-
-                        StdDraw.setPenColor(Color.magenta);
-                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
-
-                        StdDraw.setPenColor(Color.magenta);
-                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
-
-
-=======
                     StdDraw.setPenColor(Color.magenta);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
                     StdDraw.setPenColor(Color.magenta);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
->>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
                     StdDraw.setPenColor(Color.red);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
 
@@ -231,13 +211,4 @@ public class GUI extends Thread {
     public void init(Graph_Algo g){
         this.AlgoGraph = g;
     }
-<<<<<<< HEAD
-    public static void main(String[] args) {
-
-    }
-
-
 }
-=======
-}
->>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334

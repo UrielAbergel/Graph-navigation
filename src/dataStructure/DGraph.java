@@ -186,11 +186,10 @@ public class DGraph implements graph, Serializable {
 	public String toString(){
 		return GraphMap.toString();
 	}
-<<<<<<< HEAD
+
 
 	public static void main(String[] args) {
 
 	}
-=======
->>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
+
 }
