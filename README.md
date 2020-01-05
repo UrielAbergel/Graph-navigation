@@ -1,7 +1,7 @@
 
 ![כותרת](https://user-images.githubusercontent.com/54840897/71785482-aedfde00-3008-11ea-8666-ce053db6bc18.PNG)
 
-![tttt](https://user-images.githubusercontent.com/54840897/71785180-4cd1a980-3005-11ea-82e1-96c277ee72fd.jpg)
+
 
 # descreption :
 In this project we implemented the class graph,
@@ -12,6 +12,8 @@ In this project we realized the vertices as "Road junction" And all edges as roa
 
 
 # Class
+
+
 
 ## NodeData : 
 
