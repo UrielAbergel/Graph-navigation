@@ -148,31 +148,6 @@ public class DGraph implements graph, Serializable {
 	}
 
 	public static void main(String[] args) {
-		DGraph DG = new DGraph();
-		NodeData n1 = new NodeData(-200,-200,3);
-		NodeData n2 = new NodeData(-400   ,300,3);
-		NodeData n3 = new NodeData(300,150,3);
-		NodeData n4 = new NodeData(380,-300,3);
-		NodeData n5 = new NodeData(150,-400,3);
-		NodeData n6 = new NodeData(0,-450,3);
-		DG.addNode(n1);
-		DG.addNode(n2);
-		DG.addNode(n3);
-		DG.addNode(n4);
-		DG.addNode(n5);
-		DG.addNode(n6);
-		DG.connect(1,2,14);
-		DG.connect(2,3,2);
-		DG.connect(3,4,3);
-		DG.connect(4,5,1);
-		DG.connect(5,6,2);
-		DG.connect(6,1,3);
-		DG.connect(1,3,1);
-		DG.connect(3,2,2);
-		DG.connect(5,2,3);
-		DG.connect(1,3,1);
-		DG.connect(3,2,2);
-		DG.connect(4,2,10);
-		DG.removeNode(5);
+
 	}
 }
