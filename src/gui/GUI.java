@@ -3,18 +3,13 @@ package gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import algorithms.Graph_Algo;
 import dataStructure.* ;
-import dataStructure.NodeData;
 import dataStructure.node_data;
 import utils.Point3D;
 import utils.*;
-
-
 
 public class GUI extends Thread {
     int CurrentMc = 0;
@@ -24,7 +19,6 @@ public class GUI extends Thread {
         StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
         this.start();
     }
-
     public Range returnTheX(){
         graph current = StdDraw.thisGui.AlgoGraph.getGraph();
         double MaxX = Integer.MIN_VALUE;
@@ -39,7 +33,6 @@ public class GUI extends Thread {
         Range ans = new Range(MinX , MaxX);
         return ans;
     }
-
     public Range returnTheY(){
         graph current = StdDraw.thisGui.AlgoGraph.getGraph();
         double MaxY = Integer.MIN_VALUE;
@@ -54,8 +47,6 @@ public class GUI extends Thread {
         Range ans = new Range(MinY , MaxY);
         return ans;
     }
-
-
     public void MainDraw(){
         Range x = returnTheX();
         Range y = returnTheY();
@@ -67,40 +58,37 @@ public class GUI extends Thread {
         double TheYUp = (y.get_max()-y.get_min())*0.03;
         double rightScaleX = ((x.get_max()-x.get_min())*0.04);
         double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
-            Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
-            while (iterNodes.hasNext()) {
-                node_data theCurrent = iterNodes.next();
-                StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
-                Point3D tempP = theCurrent.getLocation();
-                StdDraw.setPenColor(Color.black);
-                StdDraw.text(tempP.x(), tempP.y()+TheYUp, "" + theCurrent.getKey());
-                if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
-                    Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
-                    while (iterEdge.hasNext()) {
-                        edge_data tempEdge = iterEdge.next();
-                        node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
-                        Point3D srcP = src.getLocation();
-                        node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
-                        Point3D destP = dest.getLocation();
-                        StdDraw.setPenColor(Color.black);
-                        StdDraw.setPenRadius(0.003);
-                        StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
-                        StdDraw.setPenColor(Color.black);
-                        StdDraw.setPenColor(Color.BLUE);
-                        StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
-                        StdDraw.setPenColor(Color.RED);
-                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
-                        StdDraw.setPenColor(Color.red);
-                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
-
-                    }
+        Iterator<node_data> iterNodes = this.AlgoGraph.getGraph().getV().iterator();
+        while (iterNodes.hasNext()) {
+            node_data theCurrent = iterNodes.next();
+            StdDraw.picture(theCurrent.getLocation().x(),theCurrent.getLocation().y(),"light.jfif",rightScaleX,rightScaleY);
+            Point3D tempP = theCurrent.getLocation();
+            StdDraw.setPenColor(Color.black);
+            StdDraw.text(tempP.x(), tempP.y()+TheYUp, "" + theCurrent.getKey());
+            if (this.AlgoGraph.getGraph().getE(theCurrent.getKey()) != null) {
+                Iterator<edge_data> iterEdge = this.AlgoGraph.getGraph().getE(theCurrent.getKey()).iterator();
+                while (iterEdge.hasNext()) {
+                    edge_data tempEdge = iterEdge.next();
+                    node_data src = this.AlgoGraph.getGraph().getNode(tempEdge.getSrc());
+                    Point3D srcP = src.getLocation();
+                    node_data dest = this.AlgoGraph.getGraph().getNode(tempEdge.getDest());
+                    Point3D destP = dest.getLocation();
+                    StdDraw.setPenColor(Color.black);
+                    StdDraw.setPenRadius(0.003);
+                    StdDraw.line(srcP.x(), srcP.y(), destP.x(), destP.y());
+                    StdDraw.setPenColor(Color.black);
+                    StdDraw.setPenColor(Color.BLUE);
+                    StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+                    StdDraw.setPenColor(Color.RED);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+                    StdDraw.setPenColor(Color.red);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
                 }
             }
-
+        }
         StdDraw.createMenuBar();
         StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
     }
-
     public ArrayList<Integer> MakeListInt(List<node_data> p ){
         ArrayList<Integer> ans = new ArrayList<>();
         Iterator<node_data> iter = p.iterator();
@@ -109,7 +97,6 @@ public class GUI extends Thread {
         }
         return  ans;
     }
-
     public void update(List<node_data> p){
         StdDraw.clear();
         Range x = returnTheX();
@@ -143,11 +130,18 @@ public class GUI extends Thread {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
                         StdDraw.setPenColor(Color.magenta);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
 
                  StdDraw.setPenColor(Color.red);
                  StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
+=======
+                    StdDraw.setPenColor(Color.magenta);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+                    StdDraw.setPenColor(Color.red);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
+>>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
 
                 }
             }
@@ -163,8 +157,6 @@ public class GUI extends Thread {
         StdDraw.createMenuBar();
 
     }
-
-
     public void update(){
         StdDraw.clear();
         Range x = returnTheX();
@@ -198,6 +190,7 @@ public class GUI extends Thread {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
 
 
                         StdDraw.setPenColor(Color.magenta);
@@ -207,18 +200,20 @@ public class GUI extends Thread {
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
 
 
+=======
+                    StdDraw.setPenColor(Color.magenta);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+                    StdDraw.setPenColor(Color.magenta);
+                    StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+>>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
                     StdDraw.setPenColor(Color.red);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
 
                 }
             }
         }
-
-
         StdDraw.createMenuBar();
-
     }
-
     @Override
     public void run() {
         while (true) {
@@ -233,14 +228,16 @@ public class GUI extends Thread {
             }
         }
     }
-
-
     public void init(Graph_Algo g){
         this.AlgoGraph = g;
     }
+<<<<<<< HEAD
     public static void main(String[] args) {
 
     }
 
 
 }
+=======
+}
+>>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334

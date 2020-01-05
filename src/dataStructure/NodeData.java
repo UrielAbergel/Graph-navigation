@@ -1,10 +1,7 @@
 package dataStructure;
 
-
 import utils.Point3D;
-
 import java.io.Serializable;
-
 
 public class NodeData implements node_data, Serializable {
     private int key , tag;
@@ -12,11 +9,20 @@ public class NodeData implements node_data, Serializable {
     private double weight = Integer.MAX_VALUE;
     private String info;
 
+    /**
+     * constructor by Point3D
+     * @param p
+     */
     public NodeData(Point3D p){
         this.P3D = p;
     }
 
-
+    /**
+     * constructor by 3 points
+     * @param x
+     * @param y
+     * @param z
+     */
     public NodeData(double x, double y, double z){
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
@@ -43,9 +49,9 @@ public class NodeData implements node_data, Serializable {
 
     @Override
     public void setLocation(Point3D p) {
-     Point3D s = new Point3D(p.x(),p.y(),p.z());
-     this.P3D = s ;
-     //DGraph.MC++;
+        Point3D s = new Point3D(p.x(),p.y(),p.z());
+        this.P3D = s ;
+        //DGraph.MC++;
     }
 
     @Override
@@ -78,24 +84,4 @@ public class NodeData implements node_data, Serializable {
         this.tag = t;
     }
 
-    public static void main(String[] args) {
-        NodeData nd = new NodeData(5,5,5);
-        NodeData nd1 = new NodeData(4,4,4);
-        NodeData nd2 = new NodeData(3,3,3);
-        NodeData nd3 = new NodeData(2,2,2);
-//        EdgeData r = new EdgeData(nd ,nd1 ,5 , 0);
-//        EdgeData r1 = new EdgeData(nd ,nd2 ,7 , 0);
-//        EdgeData r2 = new EdgeData(nd ,nd3 ,6 , 0);
-
-//        nd.HM.put(nd1.getKey(), r);
-//        nd.HM.put(3, r2);
-//        nd.HM.put(5, r1);
-//        nd.HM.forEach((k,v) -> System.out.println("the Key :" + k + "The Value: " + v));
-//        for(Integer key : nd.HM.keySet())
-//        {
-//            System.out.println(key);
-//            System.out.println(nd.HM.get(key));
-//        }
-
-    }
 }

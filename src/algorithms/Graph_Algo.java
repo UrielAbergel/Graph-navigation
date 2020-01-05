@@ -9,7 +9,6 @@ import dataStructure.NodeData;
 import dataStructure.graph;
 import dataStructure.node_data;
 import utils.Point3D;
-
 import javax.swing.*;
 
 /**
@@ -20,24 +19,29 @@ import javax.swing.*;
  */
 public class Graph_Algo implements graph_algorithms{
 	private graph graph = new DGraph();
-
 	public Graph_Algo(graph graph) {
 		this.init(graph);
 	}
 	public Graph_Algo() {
 
 	}
-	//public Graph_Algo _G_ = new Graph_Algo();
-
 	public graph getGraph(){
 		return this.graph;
 	}
 
+	/**
+	 * init by graph
+	 * @param g
+	 */
 	@Override
 	public void init(graph g) {
 		this.graph =  g;
 	}
 
+	/**
+	 * init by file name
+	 * @param file_name
+	 */
 	@Override
 	public void init(String file_name) {
 		try
@@ -63,6 +67,10 @@ public class Graph_Algo implements graph_algorithms{
 
 	}
 
+	/**
+	 * save to file
+	 * @param file_name
+	 */
 	@Override
 	public void save(String file_name) {
 		try
@@ -82,6 +90,10 @@ public class Graph_Algo implements graph_algorithms{
 
 	}
 
+	/**
+	 * check if the graph is connected
+	 * @return
+	 */
 	@Override
 	public boolean isConnected() {
 		Iterator iter = this.getGraph().getV().iterator();
@@ -99,8 +111,10 @@ public class Graph_Algo implements graph_algorithms{
 		return true;
 	}
 
-
-
+	/**
+	 * recursive function for isConnected
+	 * @param thenewOne
+	 */
 	private void isConnectedRec(node_data thenewOne) {
 		//thenewOne = (NodeData)thenewOne;
 		if(thenewOne.getTag()==1) return;
@@ -110,13 +124,13 @@ public class Graph_Algo implements graph_algorithms{
 			int dest = edge.getDest();
 			isConnectedRec(this.getGraph().getNode(dest));
 		}
-
-//		for(Integer key : ((NodeData) thenewOne).HM.keySet()) {
-//			int dest = ((NodeData) thenewOne).HM.get(key).getDest();
-//			isConnectedRec(this.graph.getNode(dest));
-//		}
 	}
 
+	/**
+	 * function that get list of nodes and return list of their keys
+	 * @param p
+	 * @return
+	 */
 	public ArrayList<Integer> MakeListInt(List<node_data> p ){
 		ArrayList<Integer> ans = new ArrayList<>();
 		Iterator<node_data> iter = p.iterator();
@@ -126,6 +140,13 @@ public class Graph_Algo implements graph_algorithms{
 		return  ans;
 	}
 
+	/**
+	 * function that return the shortest distance between 2 points.
+	 * if now exist return -1 (or infinity)
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	public double shortestPathDist(int src, int dest) {
 		if(src == dest) return 0;
 		for (node_data nodes : this.getGraph().getV()){
@@ -163,6 +184,10 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
+	/**
+	 * function that return the key who has the minimum weight
+	 * @return
+	 */
 	private int CheckWhatMin() {
 		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		double min = Integer.MAX_VALUE;
@@ -178,6 +203,9 @@ public class Graph_Algo implements graph_algorithms{
 		return theGoodKey;
 	}
 
+	/**
+	 * private function that reset all the node weight to MAX_VALUE
+	 */
 	private void resetWeightToDones() {
 		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while(iter.hasNext()){
@@ -186,10 +214,12 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
-
-
-
-
+	/**
+	 * function that return the shortest path between two nodes
+	 * @param src - start node
+	 * @param dest - end (target) node
+	 * @return
+	 */
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
 		try {
@@ -210,6 +240,11 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
+	/**
+	 * function that revers the array list
+	 * @param spArrays
+	 * @return
+	 */
 	private ArrayList<node_data> ReverseArrays(ArrayList<node_data> spArrays) {
 		ArrayList<node_data> theGoodCopy = new ArrayList<>();
 		for (int i = spArrays.size()-1; i >= 0; i--) {
@@ -218,6 +253,13 @@ public class Graph_Algo implements graph_algorithms{
 		return theGoodCopy;
 	}
 
+	/**
+	 * private function for shortestPath
+	 * @param src
+	 * @param dest
+	 * @param copyGraph
+	 * @return
+	 */
 	private ArrayList<node_data> ReturnTheSPway(int src, int dest, graph copyGraph) {
 		ArrayList<node_data> SaveTheWay = new ArrayList<>();
 		node_data source = copyGraph.getNode(src);
@@ -242,6 +284,11 @@ public class Graph_Algo implements graph_algorithms{
 		return SaveTheWay;
 	}
 
+	/**
+	 * function that change the direction on the edge
+	 * @param copy
+	 * @return
+	 */
 	private graph changeDir(graph copy) {
 		Graph_Algo addCopy = new Graph_Algo();
 		addCopy.init(copy);
@@ -270,6 +317,12 @@ public class Graph_Algo implements graph_algorithms{
 		return CopyToCopy;
 	}
 
+	/**
+	 * Travel sales man!
+	 * this function is like shortestPath, but between few nodes.
+	 * @param targets
+	 * @return
+	 */
 	@Override
 	public List<node_data> TSP(List<Integer> targets) {
 		List<node_data> saveThisNodes = new LinkedList<node_data>();
@@ -306,6 +359,11 @@ public class Graph_Algo implements graph_algorithms{
 		}
 	}
 
+	/**
+	 * function that add nodes to array if the node exist there
+	 * @param saveThisNodes
+	 * @param tempArrays
+	 */
 	private void AddToTheArrays(List<node_data> saveThisNodes, List<node_data> tempArrays) {
 		Iterator<node_data> iter = tempArrays.iterator();
 		while (iter.hasNext())
@@ -315,6 +373,10 @@ public class Graph_Algo implements graph_algorithms{
 		saveThisNodes.remove(saveThisNodes.get(saveThisNodes.size()-1));
 	}
 
+	/**
+	 * copy function
+	 * @return
+	 */
 	@Override
 	public graph copy() {
 		graph p = new DGraph();
@@ -341,12 +403,19 @@ public class Graph_Algo implements graph_algorithms{
 		return p;
 	}
 
+	/**
+	 * function that change the nodes tags to 0
+	 */
 	public void ChangeTheTag(){
 		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while (iter.hasNext()){
 			iter.next().setTag(0);
 		}
 	}
+
+	/**
+	 * function that change the edge tags to 0
+	 */
 	public void ChangeTheTagToEdge(){
 		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while (iter.hasNext()){
@@ -359,7 +428,10 @@ public class Graph_Algo implements graph_algorithms{
 			}
 		}
 	}
+<<<<<<< HEAD
 
 	public static void main(String[] args) {
 	}
+=======
+>>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
 }

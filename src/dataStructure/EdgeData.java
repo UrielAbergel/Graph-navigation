@@ -10,21 +10,37 @@ public class EdgeData implements edge_data, Serializable {
     private double weight;
     int Tag ;
     String Info = "";
+
+    /**
+     * constructor
+     * @param src
+     * @param dest
+     * @param weight
+     * @param tag
+     */
     public EdgeData(int src , int dest , double weight , int tag){
         this.src = src ;
         this.dest = dest ;
         this.weight = weight;
         this.Tag = tag;
-    //   DGraph.edgeHM.put(StringToHash(src,dest), this);
     }
+
+    /**
+     * constructor
+     * @param src
+     * @param dest
+     * @param weight
+     */
     public EdgeData(int src , int dest , double weight){
         this.src = src ;
         this.dest = dest ;
         this.weight = weight;
         this.Tag = 0;
-
-    //    DGraph.edgeHM.put(StringToHash(src,dest), this);;
     }
+    /**
+     * Copy function
+     * @return
+     */
     public edge_data copy(){
         edge_data p = new EdgeData(this.src,this.dest,this.weight);
         p.setTag(this.Tag);
@@ -66,9 +82,16 @@ public class EdgeData implements edge_data, Serializable {
     @Override
     public void setTag(int t)
     {
-    this.Tag = t ;
+        this.Tag = t ;
     }
-    public static String StringToHash(int src,int dest){
+
+    /**
+     * To String function
+     * @param src
+     * @param dest
+     * @return
+     */
+    public static String toString(int src,int dest){
         return ""+src+","+dest;
     }
 }

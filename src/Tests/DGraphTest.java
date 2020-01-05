@@ -139,11 +139,13 @@ public class DGraphTest {
         boolean flag3 = p.edgeHM.get(3).containsKey(8);
         boolean flag4 = p.edgeHM.get(4).containsKey(9);
         boolean flag5 = p.edgeHM.get(5).containsKey(10);
+        boolean flag6 = p.edgeHM.get(5).containsKey(6);
         assertEquals(true, flag1);
         assertEquals(true, flag2);
         assertEquals(true, flag3);
         assertEquals(true, flag4);
         assertEquals(true, flag5);
+        assertEquals(false, flag6);
     }
 
     @org.junit.Test

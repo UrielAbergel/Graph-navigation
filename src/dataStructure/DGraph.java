@@ -23,12 +23,23 @@ public class DGraph implements graph, Serializable {
 		this.keyCounter = 1;
 	}
 
+	/**
+	 *	func that return node my key. if not exist return null
+	 * @param key - the node_id
+	 * @return
+	 */
 	@Override
 	public node_data getNode(int key) {
-
+		if(!GraphMap.containsKey(key)) return null;
 		return GraphMap.get(key);
 	}
 
+	/**
+	 * function that return edge. if not exist return null
+	 * @param src
+	 * @param dest
+	 * @return
+	 */
 	@Override
 	public edge_data getEdge(int src, int dest) {
 
@@ -46,6 +57,10 @@ public class DGraph implements graph, Serializable {
 		return (int)s.get(dest).getWeight();
 	}
 
+	/**
+	 * function that add node
+	 * @param n
+	 */
 	@Override
 	public void addNode(node_data n) {
 		MC++;
@@ -54,11 +69,16 @@ public class DGraph implements graph, Serializable {
 
 	}
 
+	/**
+	 * function thar connect between 2 nodes
+	 * @param src - the source of the edge.
+	 * @param dest - the destination of the edge.
+	 * @param w - positive weight representing the cost (aka time, price, etc) between src-->dest.
+	 */
 	@Override
 	public void connect(int src, int dest, double w) {
 		if(GraphMap.get(src) != null && GraphMap.get(dest) != null) {
 			EdgeData edge = new EdgeData(src, dest, w);
-			NodeData theNewSrc = (NodeData) this.getNode(src);
 			HashMap<Integer,edge_data> s = this.edgeHM.get(src);
 			if(s==null){
 				s = new HashMap<Integer,edge_data>();
@@ -77,11 +97,20 @@ public class DGraph implements graph, Serializable {
 		}
 	}
 
+	/**
+	 * return all the nodes in the graph
+	 * @return
+	 */
 	@Override
 	public Collection<node_data> getV() {
 		return GraphMap.values();
 	}
 
+	/**
+	 * return add the edge how connect to node_id
+	 * @param node_id
+	 * @return
+	 */
 	@Override
 	public Collection<edge_data> getE(int node_id) {
 		if(!this.edgeHM.containsKey(node_id)) return null;
@@ -89,6 +118,11 @@ public class DGraph implements graph, Serializable {
 		return this.edgeHM.get(node_id).values();
 	}
 
+	/**
+	 * function that remove nodes
+	 * @param key
+	 * @return
+	 */
 	@Override
 	public node_data removeNode(int key) {
 		if(GraphMap.containsKey(key)) {
@@ -116,6 +150,12 @@ public class DGraph implements graph, Serializable {
 		return null;
 	}
 
+	/**
+	 * function that remove edge
+	 * @param src
+	 * @param dest
+	 * @return
+	 */
 	@Override
 	public edge_data removeEdge(int src, int dest) {
 		if(this.edgeHM.get(src).get(dest)!=null) {
@@ -146,8 +186,11 @@ public class DGraph implements graph, Serializable {
 	public String toString(){
 		return GraphMap.toString();
 	}
+<<<<<<< HEAD
 
 	public static void main(String[] args) {
 
 	}
+=======
+>>>>>>> 1b2f4c555d8a6245bc0c76c799d9e8bec720c334
 }
