@@ -17,11 +17,12 @@ import utils.*;
 
 
 public class GUI extends Thread {
-    static int CurrentMc = 0 ;
+    int CurrentMc = 0;
     public Graph_Algo AlgoGraph = new Graph_Algo();
     public GUI(){
         StdDraw.thisGui = this;
         StdDraw.thisGui.AlgoGraph = this.AlgoGraph;
+        this.start();
     }
 
     public Range returnTheX(){
@@ -56,15 +57,13 @@ public class GUI extends Thread {
 
 
     public void MainDraw(){
-        Thread check = new Thread();
-        check.run();
         Range x = returnTheX();
         Range y = returnTheY();
         StdDraw.setCanvasSize(700,700);
         double FixXscale = (x.get_max()-x.get_min())*0.2;
         double FixYscale = (y.get_max()-y.get_min())*0.2;
-        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
-        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
+        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.2);
+        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.2);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
         double rightScaleX = ((x.get_max()-x.get_min())*0.04);
         double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
@@ -118,8 +117,8 @@ public class GUI extends Thread {
         StdDraw.setCanvasSize(700,700);
         double FixXscale = (x.get_max()-x.get_min())*0.2;
         double FixYscale = (y.get_max()-y.get_min())*0.2;
-        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
-        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
+        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.2);
+        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.2);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
         double rightScaleX = ((x.get_max()-x.get_min())*0.04);
         double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
@@ -146,6 +145,10 @@ public class GUI extends Thread {
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
                         StdDraw.setPenColor(Color.magenta);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6e2fb4bcd38c08b84c1b8fb207e3cd809e3cccad
                  StdDraw.setPenColor(Color.red);
                  StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
 
@@ -172,8 +175,8 @@ public class GUI extends Thread {
         StdDraw.setCanvasSize(700,700);
         double FixXscale = (x.get_max()-x.get_min())*0.2;
         double FixYscale = (y.get_max()-y.get_min())*0.2;
-        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.1);
-        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.15);
+        StdDraw.setXscale(x.get_min()-FixXscale,x.get_max()*1.2);
+        StdDraw.setYscale(y.get_min()-FixYscale,y.get_max()*1.2);
         double TheYUp = (y.get_max()-y.get_min())*0.03;
         double rightScaleX = ((x.get_max()-x.get_min())*0.04);
         double rightScaleY =  ((y.get_max()-y.get_min())*0.04);
@@ -198,9 +201,15 @@ public class GUI extends Thread {
                     StdDraw.setPenColor(Color.black);
                     StdDraw.setPenColor(Color.BLUE);
                     StdDraw.text((srcP.x()*0.2 +destP.x()*0.8), (srcP.y()*0.2+destP.y()*0.8)+TheYUp, "" + tempEdge.getWeight());
+<<<<<<< HEAD
 
                         StdDraw.setPenColor(Color.magenta);
                         StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+=======
+                        StdDraw.setPenColor(Color.magenta);
+                        StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.25);
+
+>>>>>>> 6e2fb4bcd38c08b84c1b8fb207e3cd809e3cccad
                     StdDraw.setPenColor(Color.red);
                     StdDraw.filledCircle((srcP.x()*0.1 +destP.x()*0.9), (srcP.y()*0.1 +destP.y()*0.9),rightScaleX*0.2);
 
@@ -217,11 +226,10 @@ public class GUI extends Thread {
     public void run() {
         while (true) {
             try {
-                TimeUnit.MINUTES.sleep(1);
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             if (this.AlgoGraph.getGraph().getMC() != CurrentMc) {
                 CurrentMc = this.AlgoGraph.getGraph().getMC();
                 update();
@@ -234,6 +242,7 @@ public class GUI extends Thread {
         this.AlgoGraph = g;
     }
     public static void main(String[] args) {
+<<<<<<< HEAD
 //        Graph_Algo g = new Graph_Algo();
 //        DGraph DG = new DGraph();
 //        NodeData n1 = new NodeData(-200,-200,3);
@@ -270,6 +279,51 @@ public class GUI extends Thread {
 //        GUI r = new GUI();
 //        r.init(g);
 //        r.MainDraw();
+=======
+        Graph_Algo g = new Graph_Algo();
+        DGraph DG = new DGraph();
+        NodeData n1 = new NodeData(-200,-200,3);
+        NodeData n2 = new NodeData(-400   ,300,3);
+        NodeData n3 = new NodeData(300,150,3);
+        NodeData n4 = new NodeData(380,-300,3);
+        NodeData n5 = new NodeData(150,-400,3);
+        NodeData n6 = new NodeData(0,-450,3);
+        DG.addNode(n1);
+        DG.addNode(n2);
+        DG.addNode(n3);
+        DG.addNode(n4);
+        DG.addNode(n5);
+        DG.addNode(n6);
+        DG.connect(1,2,14);
+        DG.connect(2,3,2);
+        DG.connect(3,4,3);
+        DG.connect(4,5,1);
+        DG.connect(5,6,2);
+        DG.connect(6,1,3);
+        DG.connect(1,3,1);
+        DG.connect(3,2,2);
+        DG.connect(5,2,3);
+        DG.connect(1,3,1);
+        DG.connect(3,2,2);
+        DG.connect(4,2,10);
+
+       g.init(DG);
+        List<Integer> t = new LinkedList<Integer>();
+        t.add(4);
+        t.add(3);
+        t.add(5);
+        GUI r = new GUI();
+        r.init(g);
+        r.MainDraw();
+        NodeData n7 = new NodeData(100,-450,3);
+        NodeData n78 = new NodeData(150,-450,3);
+        NodeData n789 = new NodeData(200,-450,3);
+        DG.addNode(n7);
+        DG.addNode(n78);
+        DG.addNode(n789);
+
+
+>>>>>>> 6e2fb4bcd38c08b84c1b8fb207e3cd809e3cccad
 //       List<node_data> p = g.TSP(t);
 //        System.out.println("R");
         NodeData n1 = new NodeData(-200,-200,3);
@@ -331,7 +385,11 @@ public class GUI extends Thread {
 //        double eeeee = p.shortestPathDist(1,6);
 //   //     List<node_data> qqqq =  p.TSP(r);
 //        System.out.println(p.isConnected());
+<<<<<<< HEAD
 //        System.out.println("r");
+=======
+////        System.out.println("r");
+>>>>>>> 6e2fb4bcd38c08b84c1b8fb207e3cd809e3cccad
 
 
 //        Graph_Algo G = new Graph_Algo();

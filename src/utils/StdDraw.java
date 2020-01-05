@@ -734,16 +734,18 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menu2.add(menuItem5);
 		JMenu menuItem7 = new JMenu("Add node");
 		JMenu menuItem8 = new JMenu("Add edge");
+		JMenuItem removeNode = new JMenuItem("Remove Node");
+		JMenuItem removeEdge = new JMenuItem("Remove Edge");
 		JMenuItem point1 = new JMenuItem("Node with mouse");
 		JMenuItem point2 = new JMenuItem("Node by write");
-		JMenuItem point3 = new JMenuItem("Edge with mouse");
 		JMenuItem point4 = new JMenuItem("Edge by write");
 		menuItem7.add(point1);
 		menuItem7.add(point2);
-		menuItem8.add(point3);
 		menuItem8.add(point4);
 		menu3.add(menuItem7);
 		menu3.add(menuItem8);
+		menu3.add(removeNode);
+		menu3.add(removeEdge);
 		menuItem2.addActionListener(std);
 		menuItem3.addActionListener(std);
 		menuItem4.addActionListener(std);
@@ -752,8 +754,9 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 		menuItem8.addActionListener(std);
 		point1.addActionListener(std);
 		point2.addActionListener(std);
-		point3.addActionListener(std);
 		point4.addActionListener(std);
+		removeEdge.addActionListener(std);
+		removeNode.addActionListener(std);
 		return menuBar;
 	}
 
@@ -1658,9 +1661,17 @@ public class StdDraw implements ActionListener, MouseListener, MouseMotionListen
 	boolean flag1 = false;
 	boolean flag2 = false;
 	boolean flag3 = false;
-	boolean flag4 = false;
 	@Override
 	public void actionPerformed(ActionEvent e) {//menu bar
+		if(e.getActionCommand().equals("Remove Node")){
+			String key = JOptionPane.showInputDialog("Key");
+			thisGui.AlgoGraph.getGraph().removeNode(Integer.parseInt(key));
+		}
+		if(e.getActionCommand().equals("Remove Edge")){
+			String src = JOptionPane.showInputDialog("src");
+			String dest = JOptionPane.showInputDialog("dest");
+			thisGui.AlgoGraph.getGraph().removeEdge(Integer.parseInt(src),Integer.parseInt(dest));
+		}
 		if(e.getActionCommand().equals("Node with mouse")){
 			flag1 = true;
 			frame.addMouseListener(this);

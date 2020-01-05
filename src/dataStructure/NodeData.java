@@ -1,16 +1,15 @@
 package dataStructure;
 
-import org.w3c.dom.Node;
+
 import utils.Point3D;
 
 import java.io.Serializable;
-import java.util.HashMap;
+
 
 public class NodeData implements node_data, Serializable {
     private int key , tag;
     public Point3D P3D;
     private double weight = Integer.MAX_VALUE;
-    //public HashMap<Integer,EdgeData> HM = new HashMap<Integer, EdgeData>();
     private String info;
 
     public NodeData(Point3D p){
@@ -21,11 +20,6 @@ public class NodeData implements node_data, Serializable {
     public NodeData(double x, double y, double z){
         Point3D s = new Point3D(x,y,z);
         this.P3D = s;
-
-
-    }
-    public NodeData(node_data n){
-
     }
     public void setKey(int key){
         this.key = key;
@@ -35,9 +29,6 @@ public class NodeData implements node_data, Serializable {
         n.setTag(this.getTag());
         n.setInfo(this.getInfo());
         n.setWeight(this.getWeight());
-//        for (Integer KeyNode : this.HM.keySet()){
-//            n.HM.put(KeyNode,this.HM.get(KeyNode));
-//        }
         return n;
     }
     @Override
@@ -54,7 +45,7 @@ public class NodeData implements node_data, Serializable {
     public void setLocation(Point3D p) {
      Point3D s = new Point3D(p.x(),p.y(),p.z());
      this.P3D = s ;
-     //if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
+     //DGraph.MC++;
     }
 
     @Override
@@ -64,7 +55,6 @@ public class NodeData implements node_data, Serializable {
 
     @Override
     public void setWeight(double w) {
-       // if(DGraph.GraphMap.containsKey(this.getKey())) DGraph.MC++;
         this.weight = w;
     }
 

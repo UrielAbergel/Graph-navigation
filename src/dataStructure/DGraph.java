@@ -1,10 +1,7 @@
 package dataStructure;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class DGraph implements graph, Serializable {
@@ -28,8 +25,8 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public node_data getNode(int key) {
-		return GraphMap.get(key);
 
+		return GraphMap.get(key);
 	}
 
 	@Override
@@ -62,10 +59,6 @@ public class DGraph implements graph, Serializable {
 		if(GraphMap.get(src) != null && GraphMap.get(dest) != null) {
 			EdgeData edge = new EdgeData(src, dest, w);
 			NodeData theNewSrc = (NodeData) this.getNode(src);
-//			if (theNewSrc.HM.containsKey(dest)) {
-//				theNewSrc.HM.replace(dest, edge);
-//			}
-		//	else theNewSrc.HM.put(dest, edge);
 			HashMap<Integer,edge_data> s = this.edgeHM.get(src);
 			if(s==null){
 				s = new HashMap<Integer,edge_data>();
@@ -98,8 +91,29 @@ public class DGraph implements graph, Serializable {
 
 	@Override
 	public node_data removeNode(int key) {
-		MC++;
-		return GraphMap.remove(key);
+		if(GraphMap.containsKey(key)) {
+			MC++;
+			if (edgeHM.containsKey(key)) {
+				Iterator<edge_data> iter = edgeHM.get(key).values().iterator();
+				while (iter.hasNext()) {
+					edge_data edge = iter.next();
+					this.removeEdge(edge.getSrc(), edge.getDest());
+					iter = edgeHM.get(key).values().iterator();
+				}
+				edgeHM.remove(key);
+			}
+			Iterator<node_data> iter2 = GraphMap.values().iterator();
+			while (iter2.hasNext()) {
+				node_data n = iter2.next();
+				if (edgeHM.containsKey(n.getKey())) {
+					if (edgeHM.get(n.getKey()).containsKey(key)) {
+						edgeHM.get(n.getKey()).remove(key);
+					}
+				}
+			}
+			return GraphMap.remove(key);
+		}
+		return null;
 	}
 
 	@Override
@@ -131,6 +145,34 @@ public class DGraph implements graph, Serializable {
 	}
 	public String toString(){
 		return GraphMap.toString();
-		//return GraphMap.toString();
+	}
+
+	public static void main(String[] args) {
+		DGraph DG = new DGraph();
+		NodeData n1 = new NodeData(-200,-200,3);
+		NodeData n2 = new NodeData(-400   ,300,3);
+		NodeData n3 = new NodeData(300,150,3);
+		NodeData n4 = new NodeData(380,-300,3);
+		NodeData n5 = new NodeData(150,-400,3);
+		NodeData n6 = new NodeData(0,-450,3);
+		DG.addNode(n1);
+		DG.addNode(n2);
+		DG.addNode(n3);
+		DG.addNode(n4);
+		DG.addNode(n5);
+		DG.addNode(n6);
+		DG.connect(1,2,14);
+		DG.connect(2,3,2);
+		DG.connect(3,4,3);
+		DG.connect(4,5,1);
+		DG.connect(5,6,2);
+		DG.connect(6,1,3);
+		DG.connect(1,3,1);
+		DG.connect(3,2,2);
+		DG.connect(5,2,3);
+		DG.connect(1,3,1);
+		DG.connect(3,2,2);
+		DG.connect(4,2,10);
+		DG.removeNode(5);
 	}
 }
