@@ -70,7 +70,7 @@ public class Graph_Algo implements graph_algorithms{
 
 			FileOutputStream file = new FileOutputStream(file_name);
 			ObjectOutputStream out = new ObjectOutputStream(file);
-			out.writeObject(this.graph);
+			out.writeObject(this.getGraph());
 			out.close();
 			file.close();
 
@@ -85,11 +85,11 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public boolean isConnected() {
-		Iterator iter = graph.getV().iterator();
+		Iterator iter = this.getGraph().getV().iterator();
 		while(iter.hasNext()){
 			node_data thenewOne = (node_data)iter.next();
 			isConnectedRec(thenewOne);
-			Iterator <node_data> iter2 = graph.getV().iterator();
+			Iterator <node_data> iter2 = this.getGraph().getV().iterator();
 			while(iter2.hasNext()){
 				node_data corrent = iter2.next();
 				if(corrent.getTag()!=1) return false;
@@ -100,14 +100,22 @@ public class Graph_Algo implements graph_algorithms{
 		return true;
 	}
 
+
+	// need fix !
 	private void isConnectedRec(node_data thenewOne) {
-		thenewOne = (NodeData)thenewOne;
+		//thenewOne = (NodeData)thenewOne;
 		if(thenewOne.getTag()==1) return;
 		thenewOne.setTag(1);
-		for(Integer key : ((NodeData) thenewOne).HM.keySet()) {
-			int dest = ((NodeData) thenewOne).HM.get(key).getDest();
-			isConnectedRec(this.graph.getNode(dest));
+		if(this.getGraph().getE(thenewOne.getKey()) == null) return;
+		for(edge_data edge : this.getGraph().getE(thenewOne.getKey())){
+			int dest = edge.getDest();
+			isConnectedRec(this.getGraph().getNode(dest));
 		}
+
+//		for(Integer key : ((NodeData) thenewOne).HM.keySet()) {
+//			int dest = ((NodeData) thenewOne).HM.get(key).getDest();
+//			isConnectedRec(this.graph.getNode(dest));
+//		}
 	}
 
 	public ArrayList<Integer> MakeListInt(List<node_data> p ){
@@ -121,24 +129,24 @@ public class Graph_Algo implements graph_algorithms{
 
 	public double shortestPathDist(int src, int dest) {
 		if(src == dest) return 0;
-		for (node_data nodes : this.graph.getV()){
+		for (node_data nodes : this.getGraph().getV()){
 			nodes.setWeight(Integer.MAX_VALUE);
 			nodes.setTag(0);
 		}
 		try {
-			node_data theCurrenSrc = this.graph.getNode(src);
+			node_data theCurrenSrc = this.getGraph().getNode(src);
 			theCurrenSrc.setWeight(0);
 			int min = theCurrenSrc.getKey();
 			while (min != dest) {
 				min = CheckWhatMin();
-				this.graph.getNode(min).setTag(1);
-				if (this.graph.getE(min) != null) {
-					if (this.graph.getE(min).iterator() != null) {
-						Iterator<edge_data> iterEdges = this.graph.getE(min).iterator();
+				this.getGraph().getNode(min).setTag(1);
+				if (this.getGraph().getE(min) != null) {
+					if (this.getGraph().getE(min).iterator() != null) {
+						Iterator<edge_data> iterEdges = this.getGraph().getE(min).iterator();
 						while (iterEdges.hasNext()) {
 							edge_data theCurrentEdge = iterEdges.next();
-							node_data CurrentSrc = this.graph.getNode(theCurrentEdge.getSrc());
-							node_data CurrentDest = this.graph.getNode(theCurrentEdge.getDest());
+							node_data CurrentSrc = this.getGraph().getNode(theCurrentEdge.getSrc());
+							node_data CurrentDest = this.getGraph().getNode(theCurrentEdge.getDest());
 							if (CurrentSrc.getWeight() + theCurrentEdge.getWeight() < CurrentDest.getWeight()) {
 								CurrentDest.setWeight(CurrentSrc.getWeight() + theCurrentEdge.getWeight());
 							}
@@ -146,7 +154,7 @@ public class Graph_Algo implements graph_algorithms{
 					}
 				}
 			}
-			double ans = this.graph.getNode(dest).getWeight();
+			double ans = this.getGraph().getNode(dest).getWeight();
 			return ans;
 
 
@@ -157,7 +165,7 @@ public class Graph_Algo implements graph_algorithms{
 	}
 
 	private int CheckWhatMin() {
-		Iterator<node_data> iter = this.graph.getV().iterator();
+		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		double min = Integer.MAX_VALUE;
 		int theGoodKey = 0;
 		while (iter.hasNext()){
@@ -172,7 +180,7 @@ public class Graph_Algo implements graph_algorithms{
 	}
 
 	private void resetWeightToDones() {
-		Iterator<node_data> iter = this.graph.getV().iterator();
+		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while(iter.hasNext()){
 			node_data n = iter.next();
 			n.setWeight(Integer.MAX_VALUE);
@@ -185,16 +193,23 @@ public class Graph_Algo implements graph_algorithms{
 
 	@Override
 	public List<node_data> shortestPath(int src, int dest) {
-		ArrayList<node_data> SPArrays = new ArrayList<>();
-		shortestPathDist(src,dest);
-		graph CopyGraph = this.copy();
-		CopyGraph = changeDir(CopyGraph);
-		SPArrays = ReturnTheSPway(dest,src,CopyGraph);
-		SPArrays =  ReverseArrays(SPArrays);
-		ChangeTheTag();
-		ChangeTheTagToEdge();
-		resetWeightToDones();
-		return SPArrays;
+		try {
+			ArrayList<node_data> SPArrays = new ArrayList<>();
+			double flag = shortestPathDist(src, dest);
+			if(flag == Integer.MAX_VALUE || flag == -1) return null;
+			graph CopyGraph = this.copy();
+			CopyGraph = changeDir(CopyGraph);
+		//	SPArrays = ReverseArrays(SPArrays);
+			SPArrays = ReturnTheSPway(dest, src, CopyGraph);
+			SPArrays = ReverseArrays(SPArrays);
+			ChangeTheTag();
+			ChangeTheTagToEdge();
+			resetWeightToDones();
+			return SPArrays;
+		}
+		catch (Exception e){
+			return null;
+		}
 	}
 
 	private ArrayList<node_data> ReverseArrays(ArrayList<node_data> spArrays) {
@@ -215,7 +230,7 @@ public class Graph_Algo implements graph_algorithms{
 			Iterator<edge_data> iteEd = copyGraph.getE(src).iterator();
 			while (iteEd.hasNext()){
 				edge_data tempEdge = iteEd.next();
-				node_data tempNode = this.graph.getNode(tempEdge.getDest());
+				node_data tempNode = this.getGraph().getNode(tempEdge.getDest());
 				if(source.getWeight()+tempEdge.getWeight()< weight && source.getWeight()-tempEdge.getWeight()==tempNode.getWeight())
 				{
 					weight = source.getWeight()+tempEdge.getWeight();
@@ -283,7 +298,7 @@ public class Graph_Algo implements graph_algorithms{
 				theINow = theOnetoThanos;
 
 			}
-			saveThisNodes.add(this.graph.getNode(theOnetoThanos));
+			saveThisNodes.add(this.getGraph().getNode(theOnetoThanos));
 			ChangeTheTag();
 			return saveThisNodes;
 		}
@@ -305,8 +320,8 @@ public class Graph_Algo implements graph_algorithms{
 	@Override
 	public graph copy() {
 		graph p = new DGraph();
-		Iterator <node_data> iter = this.graph.getV().iterator();
-		Iterator <node_data> iter2 = this.graph.getV().iterator();
+		Iterator <node_data> iter = this.getGraph().getV().iterator();
+		Iterator <node_data> iter2 = this.getGraph().getV().iterator();
 		while(iter.hasNext()){
 			NodeData theNewOne = (NodeData) iter.next();
 			node_data theCopy = theNewOne.copy();
@@ -314,8 +329,8 @@ public class Graph_Algo implements graph_algorithms{
 		}
 		while(iter2.hasNext()){
 			node_data theNewOne = iter2.next();
-			if(this.graph.getE(theNewOne.getKey())!=null) {
-				Iterator<edge_data> iterE = this.graph.getE(theNewOne.getKey()).iterator();
+			if(this.getGraph().getE(theNewOne.getKey())!=null) {
+				Iterator<edge_data> iterE = this.getGraph().getE(theNewOne.getKey()).iterator();
 				while (iterE.hasNext()) {
 					EdgeData theNewEdge = (EdgeData) iterE.next();
 					edge_data pp = theNewEdge.copy();
@@ -329,17 +344,17 @@ public class Graph_Algo implements graph_algorithms{
 	}
 
 	public void ChangeTheTag(){
-		Iterator<node_data> iter = this.graph.getV().iterator();
+		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while (iter.hasNext()){
 			iter.next().setTag(0);
 		}
 	}
 	public void ChangeTheTagToEdge(){
-		Iterator<node_data> iter = this.graph.getV().iterator();
+		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while (iter.hasNext()){
 			node_data n = iter.next();
-			if(this.graph.getE(n.getKey())!=null) {
-				Iterator<edge_data> iter2 = this.graph.getE(n.getKey()).iterator();
+			if(this.getGraph().getE(n.getKey())!=null) {
+				Iterator<edge_data> iter2 = this.getGraph().getE(n.getKey()).iterator();
 				while (iter2.hasNext()) {
 					iter2.next().setTag(0);
 				}
