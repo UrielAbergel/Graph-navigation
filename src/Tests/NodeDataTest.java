@@ -14,9 +14,9 @@ public class NodeDataTest {
     public void getKey() {
         NodeData n = new NodeData(4,4,4);
         NodeData n2 = new NodeData(4,6,3);
-        DGraph ע = new DGraph();
-        ע.addNode(n);
-        ע.addNode(n2);
+        DGraph p = new DGraph();
+        p.addNode(n);
+        p.addNode(n2);
         assertEquals(1,n.getKey());
         assertEquals(2,n2.getKey());
     }
