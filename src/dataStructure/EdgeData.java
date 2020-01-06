@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class EdgeData implements edge_data, Serializable {
-    int src , dest;
+    private int src , dest;
     private double weight;
-    int Tag ;
-    String Info = "";
+    private int Tag ;
+    private String Info = "";
 
     /**
      * constructor

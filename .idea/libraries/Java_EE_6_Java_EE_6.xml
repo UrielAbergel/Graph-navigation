@@ -10,8 +10,12 @@
       <root url="jar://$PROJECT_DIR$/lib/javax.resource.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/javax.ejb.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/java-json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/GameServer_v0.21.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/java-json.jar!/" />
+    </SOURCES>
   </library>
 </component>

@@ -12,6 +12,9 @@ public class DGraph implements graph, Serializable {
 	public int keyCounter = 1 ;
 	public int MC;
 
+	public void init(String jsonFile){
+
+	}
 	/**
 	 * reset use only for test!!!
 	 */
@@ -133,6 +136,7 @@ public class DGraph implements graph, Serializable {
 					edge_data edge = iter.next();
 					this.removeEdge(edge.getSrc(), edge.getDest());
 					iter = edgeHM.get(key).values().iterator();
+					EdgeSize--;
 				}
 				edgeHM.remove(key);
 			}
@@ -142,6 +146,7 @@ public class DGraph implements graph, Serializable {
 				if (edgeHM.containsKey(n.getKey())) {
 					if (edgeHM.get(n.getKey()).containsKey(key)) {
 						edgeHM.get(n.getKey()).remove(key);
+						EdgeSize--;
 					}
 				}
 			}

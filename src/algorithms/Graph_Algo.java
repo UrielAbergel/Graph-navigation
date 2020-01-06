@@ -96,19 +96,20 @@ public class Graph_Algo implements graph_algorithms{
 	 */
 	@Override
 	public boolean isConnected() {
-		Iterator iter = this.getGraph().getV().iterator();
+		boolean flag = true;
+		Iterator<node_data> iter = this.getGraph().getV().iterator();
 		while(iter.hasNext()){
-			node_data thenewOne = (node_data)iter.next();
+			node_data thenewOne = iter.next();
 			isConnectedRec(thenewOne);
 			Iterator <node_data> iter2 = this.getGraph().getV().iterator();
 			while(iter2.hasNext()){
 				node_data corrent = iter2.next();
-				if(corrent.getTag()!=1) return false;
+				if(corrent.getTag()!=1) flag = false;
 				corrent.setTag(0);
 			}
 		}
 		ChangeTheTag();
-		return true;
+		return flag;
 	}
 
 	/**
